@@ -55,3 +55,91 @@ Expectancy (avg/trade): 0.0002
 Max Drawdown (points): 0.0348
 Max Losing Streak (trades): 4
 Sharpe (trade-level): 1.6597
+Att 20:00 svenskt tid (14:00 New York) fungerar bäst säger oss att strategin fungerar bäst när US volatilitet etablerat sig i VWAP, där vi sedan kan utnyttja tendensen att pris revertar till US equilibrium under natten/asia session. Vi låser in reset time vid 20:00 eller
+14:00 New York tid. Vi testar att expandare sessionsfösntret att börja vid New york close och sluta vid london open 23:00 till 08:00:
+Market: EURUSD
+Trades: 1111
+Total PnL (points): 0.1553
+Gross Profit: 0.9862
+Gross Loss: -0.8309
+Profit Factor: 1.1869
+Winrate: 0.7723
+Avg Win: 0.0011
+Avg Loss: -0.0033
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0445
+Max Losing Streak (trades): 4
+Sharpe (trade-level): 1.6772
+Edgen är ungefär samma med fler trades, därför behåller vi alternativet med färre trades alltså sessionsfönstret 00:00 - 07:00. Nu har vi låst in reset time för vwap 20:00 och fönstret 00:00-07:00. Nu testar vi närliggande värden av 2.5 standaravvikelser som 
+robusthetstest. 2.25:
+Market: EURUSD
+Trades: 1223
+Total PnL (points): 0.1741
+Gross Profit: 1.0448
+Gross Loss: -0.8707
+Profit Factor: 1.2000
+Winrate: 0.7711
+Avg Win: 0.0011
+Avg Loss: -0.0031
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0529
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 1.8759
+2.75:
+Market: EURUSD
+Trades: 644
+Total PnL (points): 0.0925
+Gross Profit: 0.5893
+Gross Loss: -0.4968
+Profit Factor: 1.1862
+Winrate: 0.7640
+Avg Win: 0.0012
+Avg Loss: -0.0033
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0476
+Max Losing Streak (trades): 4
+Sharpe (trade-level): 1.3108
+Närliggande värden fungerar vilket betyder att det inte är slumpmässig edge som ligger i ett slumpmässigt värde, det är själva strategi logiken som ger edge, inte värdet på standardavikelsen. 2.25 fungerade bäst så vi testar närliggande värden av 2.25 för att hitta 
+sweet spot. 2.1:
+Market: EURUSD
+Trades: 1427
+Total PnL (points): 0.1955
+Gross Profit: 1.1938
+Gross Loss: -0.9983
+Profit Factor: 1.1958
+Winrate: 0.7722
+Avg Win: 0.0011
+Avg Loss: -0.0031
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0823
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 1.9908
+2.0:
+Market: EURUSD
+Trades: 1549
+Total PnL (points): 0.1637
+Gross Profit: 1.2647
+Gross Loss: -1.1010
+Profit Factor: 1.1487
+Winrate: 0.7669
+Avg Win: 0.0011
+Avg Loss: -0.0030
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0709
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 1.5919
+2.3:
+Market: EURUSD
+Trades: 1178
+Total PnL (points): 0.1636
+Gross Profit: 1.0075
+Gross Loss: -0.8439
+Profit Factor: 1.1939
+Winrate: 0.7733
+Avg Win: 0.0011
+Avg Loss: -0.0032
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0506
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 1.7965
+Vi låser in 2.25. Den ger ett balanserat antal trades samtidigt som den ger näst högst sharpe och högst profit factor. 
