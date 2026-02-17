@@ -1,0 +1,57 @@
+In sample EURUSD 2012 - 2020 1 hour utan sessionsfönster. VWAP återställning vid 23:00 eller 17:00 New York (New York Close) och standardavvikelser på 2.5:
+Market: EURUSD
+Trades: 2843
+Total PnL (points): 0.0838
+Gross Profit: 2.9842
+Gross Loss: -2.9004
+Profit Factor: 1.0289
+Winrate: 0.6500
+Avg Win: 0.0016
+Avg Loss: -0.0029
+Expectancy (avg/trade): 0.0000
+Max Drawdown (points): 0.1995
+Max Losing Streak (trades): 9
+Sharpe (trade-level): 0.4826
+Det finns viss signal värde i strategin, men edge är väldigt tunn och existerar nästan inte. Men med rätt marknadslogik i optimering kan vi förbättra strategin. Vi börjar med sessionsfönster. Vi lägger ett fönster mellan 00:00 och 07:00:
+Market: EURUSD
+Trades: 983
+Total PnL (points): 0.0929
+Gross Profit: 0.6003
+Gross Loss: -0.5074
+Profit Factor: 1.1831
+Winrate: 0.7467
+Avg Win: 0.0008
+Avg Loss: -0.0020
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0398
+Max Losing Streak (trades): 4
+Sharpe (trade-level): 1.3957
+Detta gjorde en massiv förbättring, det vi lyckas göra med rätt regimfönster är att plocka bort new york och london trend expansioner och nyhets volatilitet. Nu kan vi testa andra återställnings tider för vwap. Just nu har vi 23:00 samtidigt som vårat handelsfönster 
+börjar 00:00. En timme kan vara för lite uppvärmningstid för vwap. Vi testar nu istället att återställa vid London Close (17:00 svensk tid, 16:00 UTC):
+Market: EURUSD
+Trades: 621
+Total PnL (points): 0.0496
+Gross Profit: 0.6935
+Gross Loss: -0.6439
+Profit Factor: 1.0770
+Winrate: 0.7230
+Avg Win: 0.0015
+Avg Loss: -0.0037
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0790
+Max Losing Streak (trades): 6
+Sharpe (trade-level): 0.6145
+Detta försörde edge, vi testar 20:00 istället:
+Market: EURUSD
+Trades: 923
+Total PnL (points): 0.1400
+Gross Profit: 0.8408
+Gross Loss: -0.7009
+Profit Factor: 1.1997
+Winrate: 0.7703
+Avg Win: 0.0012
+Avg Loss: -0.0033
+Expectancy (avg/trade): 0.0002
+Max Drawdown (points): 0.0348
+Max Losing Streak (trades): 4
+Sharpe (trade-level): 1.6597
