@@ -142,4 +142,319 @@ Expectancy (avg/trade): 0.0001
 Max Drawdown (points): 0.0506
 Max Losing Streak (trades): 5
 Sharpe (trade-level): 1.7965
-Vi låser in 2.25. Den ger ett balanserat antal trades samtidigt som den ger näst högst sharpe och högst profit factor. 
+Vi låser in 2.25. Den ger ett balanserat antal trades samtidigt som den ger näst högst sharpe och högst profit factor. EFtersom vi har en strategi som ger många små vinster och få stora förluster är det bästa nästa steg att förbättra exits för att ta så mycket vinst som
+möjligt när det presenteras, samt att möjligtvis minimera förlusterna. Vi kan göra detta genom att implementera partial exits. Vi testar att stänga 50% av positionen när pris går till 1 standardavvikelse, och stänger resten vid vwap som innan:
+Partial Taken Rate: 1.0000 (100.00%)
+Trades with partial: 1219 / 1219
+--- STATS ---
+Market: EURUSD
+Trades: 1219
+Total PnL (points): 0.1611
+Gross Profit: 0.7675
+Gross Loss: -0.6064
+Profit Factor: 1.2658
+Winrate: 0.7252
+Avg Win: 0.0009
+Avg Loss: -0.0018
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0369
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 2.5455
+här ser vi en stor förbättring i nästan allt. Förlusterna gick från att vara 3 gånger större än förlusterna till 2. Samtidigt går profit factor och sharpe upp och drawdown sjunker. Nu har vi stark edge i både entry och exit. Vi testar andra standardavvikelser för partial
+exits för att hitta sweet spot. 0.75:
+Trades: 1219
+Total PnL (points): 0.1925
+Gross Profit: 0.8290
+Gross Loss: -0.6365
+Profit Factor: 1.3025
+Winrate: 0.7342
+Avg Win: 0.0009
+Avg Loss: -0.0020
+Expectancy (avg/trade): 0.0002
+Max Drawdown (points): 0.0394
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 2.8243
+0.5:
+Market: EURUSD
+Trades: 1219
+Total PnL (points): 0.2093
+Gross Profit: 0.8991
+Gross Loss: -0.6899
+Profit Factor: 1.3033
+Winrate: 0.7498
+Avg Win: 0.0010
+Avg Loss: -0.0023
+Expectancy (avg/trade): 0.0002
+Max Drawdown (points): 0.0551
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 2.7829
+Vi går vidare med 0.75. Att partial exit vid 0.5 ger så mycket bättre resultat än utan partials helt och hållet säger oss att edgen i partials ligger i det faktum att många trades inte ger vinst vid full vwap retracement, då kan ett mindre ambisiöst target vara gynnsamt.
+Med detta i åtanke kan vi också bestämma oss för att stänga exits i slutet av sessionen och/eller sänka final exit till t.ex. 0.25 standardavvikelse istället för hela vägen till vwap eller stänga 100% vid 0.5 - 1 standardavvikelse. Vi väntar med att testa att stänga 
+alla positioner i slutet av sessionen eftersom det är en marknadslogisk insikt, vi vill först optimera tradelogiken med entry och exits. Vi testar partial exits 50% vid 0.75 och resten på 0.25:
+Market: EURUSD
+Trades: 1233
+Total PnL (points): 0.2072
+Gross Profit: 0.8009
+Gross Loss: -0.5937
+Profit Factor: 1.3491
+Winrate: 0.7275
+Avg Win: 0.0009
+Avg Loss: -0.0018
+Expectancy (avg/trade): 0.0002
+Max Drawdown (points): 0.0301
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 3.2135
+Ytterliggare en massiv förbätttring här och vi bevisar med detta att overnight mean reversion har ingen underliggande tendens att nå tillbaka till vwap, utan tendens ligger runt ett slags equilibrium. Vi testar att ta bort partials och lägga exit på 0.75:
+Market: EURUSD
+Trades: 1268
+Total PnL (points): 0.2308
+Gross Profit: 0.7387
+Gross Loss: -0.5080
+Profit Factor: 1.4543
+Winrate: 0.7224
+Avg Win: 0.0008
+Avg Loss: -0.0014
+Expectancy (avg/trade): 0.0002
+Max Drawdown (points): 0.0238
+Max Losing Streak (trades): 7
+Sharpe (trade-level): 3.9236
+Detta är ännu en förbättring, med partials hade vi onödig variance, för ambiös final target vilket gav begränsad edge, nu löser vi detta genom mindre exponeringstid, mer realistisk target. Vi testar andra targets för att gå vidare med sweet spot, 0.5:
+Market: EURUSD
+Trades: 1251
+Total PnL (points): 0.2639
+Gross Profit: 0.8518
+Gross Loss: -0.5879
+Profit Factor: 1.4489
+Winrate: 0.7450
+Avg Win: 0.0009
+Avg Loss: -0.0018
+Expectancy (avg/trade): 0.0002
+Max Drawdown (points): 0.0365
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 3.8095
+1.0:
+Market: EURUSD
+Trades: 1284
+Total PnL (points): 0.1821
+Gross Profit: 0.6393
+Gross Loss: -0.4572
+Profit Factor: 1.3984
+Winrate: 0.6986
+Avg Win: 0.0007
+Avg Loss: -0.0012
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0219
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 3.6330
+0.75 är sweet spot så det låser vi in. Nu kör vi sista optimeringstestet där vi stänger positioner vid sessionens slut vid 07:00:
+Market: EURUSD
+Trades: 1268
+Total PnL (points): 0.0385
+Gross Profit: 0.4846
+Gross Loss: -0.4461
+Profit Factor: 1.0863
+Winrate: 0.5883
+Avg Win: 0.0006
+Avg Loss: -0.0009
+Expectancy (avg/trade): 0.0000
+Max Drawdown (points): 0.0309
+Max Losing Streak (trades): 8
+Sharpe (trade-level): 1.0015
+Time exits: 643
+Detta förstörde edge. Häften av trades behövde mer tid än 07:00 för att nå target, mean reversion rörelsen som strategin utnyttjar brukar alltså ske runt/efter london open. Detta är en viktig upptäckt, det behöver inte vara ett problem men det kan betyda att 
+exponeringstiden är ganska lång vilket innebär att open drawdowns kan vara ganska höga. Men det kommer vi vänta att kolla på när vi kör simulering med cash, efter optimering, stress test, out of sample test. Vi slumpar sessions end exit och har våran färdiga strategi 
+nu. Vi har entry på 2.25 standardavvikelser från vwap och 100% exit vid 0.75. Vårat sessionsfönster är 00:00 - 07:00, och vwap reset vid 20:00. Innan out of sample test ska vi köra stress test där vi kör hårda kostnader och kollar hur strategin presterar då. Fram
+tills nu har vi testat med 0.05 slippage, 0.10 spread och 0.25 commission. Vi höjer slippage och spread men inte commission eftersom det är en fast kostnad satt av FTMO. Vi höjer till 0.30 slippage och 0.40 spread:
+Market: EURUSD
+Trades: 1268
+Total PnL (points): 0.1293
+Gross Profit: 0.6665
+Gross Loss: -0.5372
+Profit Factor: 1.2407
+Winrate: 0.7011
+Avg Win: 0.0007
+Avg Loss: -0.0014
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0311
+Max Losing Streak (trades): 7
+Sharpe (trade-level): 2.1988
+Edge försämras men överlever och är fortfarande tillräckligt bra. Out of sample test ska vara realistiskt, inte stress test. Eftersom vi tradear asia session där det är lägre likviditet blir kostnaderna också lite högre. Därför körs out of sample med slippage på 0.10 
+och spread på 0.20. Out of sample 2020-2026 EURUSD:
+Market: EURUSD
+Trades: 1057
+Total PnL (points): 0.0684
+Gross Profit: 0.5280
+Gross Loss: -0.4596
+Profit Factor: 1.1489
+Winrate: 0.7010
+Avg Win: 0.0007
+Avg Loss: -0.0015
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0419
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 1.1909
+
+--- PER-ÅR STATS ---
+EURUSD - 2020:
+Trades: 167
+Total PnL (points): 0.0315
+Gross Profit: 0.0887
+Gross Loss: -0.0571
+Profit Factor: 1.5516
+Winrate: 0.7186
+Avg Win: 0.0007
+Avg Loss: -0.0012
+Expectancy (avg/trade): 0.0002
+Max Drawdown (points): 0.0101
+Max Losing Streak (trades): 4
+Sharpe (trade-level): 1.8946
+EURUSD - 2021:
+Trades: 170
+Total PnL (points): -0.0067
+Gross Profit: 0.0716
+Gross Loss: -0.0784
+Profit Factor: 0.9139
+Winrate: 0.7118
+Avg Win: 0.0006
+Avg Loss: -0.0016
+Expectancy (avg/trade): -0.0000
+Max Drawdown (points): 0.0191
+Max Losing Streak (trades): 5
+Sharpe (trade-level): -0.3413
+EURUSD - 2022:
+Trades: 185
+Total PnL (points): 0.0178
+Gross Profit: 0.1203
+Gross Loss: -0.1026
+Profit Factor: 1.1734
+Winrate: 0.7027
+Avg Win: 0.0009
+Avg Loss: -0.0019
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0405
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 0.6125
+EURUSD - 2023:
+Trades: 181
+Total PnL (points): 0.0313
+Gross Profit: 0.0835
+Gross Loss: -0.0522
+Profit Factor: 1.5994
+Winrate: 0.7293
+Avg Win: 0.0006
+Avg Loss: -0.0011
+Expectancy (avg/trade): 0.0002
+Max Drawdown (points): 0.0068
+Max Losing Streak (trades): 3
+Sharpe (trade-level): 2.0506
+EURUSD - 2024:
+Trades: 178
+Total PnL (points): 0.0135
+Gross Profit: 0.0676
+Gross Loss: -0.0541
+Profit Factor: 1.2505
+Winrate: 0.6685
+Avg Win: 0.0006
+Avg Loss: -0.0009
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0137
+Max Losing Streak (trades): 4
+Sharpe (trade-level): 0.6865
+EURUSD - 2025:
+Trades: 176
+Total PnL (points): -0.0189
+Gross Profit: 0.0963
+Gross Loss: -0.1152
+Profit Factor: 0.8356
+Winrate: 0.6761
+Avg Win: 0.0008
+Avg Loss: -0.0020
+Expectancy (avg/trade): -0.0001
+Max Drawdown (points): 0.0419
+Max Losing Streak (trades): 3
+Sharpe (trade-level): -0.5532
+Väldigt realistisk out of sample test, helt normal degradation vilket alltid förväntas i OOS. Det viktigaste är att edge överlever. Vi ser även att vissa år är sämre än andra, 2021 och 2025 är svaga. Strategin är alltså regimberoende vilket inte är något dåligt men det 
+är viktigt att veta. Vi kan nu börja testa andra marknader och välja kandidater för portfölj. Vi testar också hela perioden 2012 - 2026 för EURUSD för att kunna jämföra rättvist: 
+Market: EURUSD
+Trades: 2325
+Total PnL (points): 0.2717
+Gross Profit: 1.2470
+Gross Loss: -0.9752
+Profit Factor: 1.2786
+Winrate: 0.7084
+Avg Win: 0.0008
+Avg Loss: -0.0014
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0419
+Max Losing Streak (trades): 7
+Sharpe (trade-level): 3.3038
+GBPUSD slippage 0.12, spread 0.25 2012 - 2026:
+Market: GBPUSD
+Trades: 2297
+Total PnL (points): 0.1642
+Gross Profit: 1.5233
+Gross Loss: -1.3591
+Profit Factor: 1.1208
+Winrate: 0.7236
+Avg Win: 0.0009
+Avg Loss: -0.0021
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0730
+Max Losing Streak (trades): 6
+Sharpe (trade-level): 1.3896
+AUDUSD med slippage 0.10 och spread 0.20:
+Market: AUDUSD
+Trades: 2737
+Total PnL (points): -0.0782
+Gross Profit: 1.6297
+Gross Loss: -1.7079
+Profit Factor: 0.9542
+Winrate: 0.6493
+Avg Win: 0.0009
+Avg Loss: -0.0018
+Expectancy (avg/trade): -0.0000
+Max Drawdown (points): 0.1500
+Max Losing Streak (trades): 8
+Sharpe (trade-level): -0.7356
+NZDUSD, slippage 0.12 och spread 0.25:
+Market: NZDUSD
+Trades: 2340
+Total PnL (points): -0.1173
+Gross Profit: 1.2639
+Gross Loss: -1.3811
+Profit Factor: 0.9151
+Winrate: 0.6419
+Avg Win: 0.0008
+Avg Loss: -0.0016
+Expectancy (avg/trade): -0.0001
+Max Drawdown (points): 0.1540
+Max Losing Streak (trades): 6
+Sharpe (trade-level): -1.3159
+USDCAD med slippage 0.12 och spread 0.25:
+Market: USDCAD
+Trades: 2122
+Total PnL (points): 0.0537
+Gross Profit: 1.1795
+Gross Loss: -1.1258
+Profit Factor: 1.0477
+Winrate: 0.6866
+Avg Win: 0.0008
+Avg Loss: -0.0017
+Expectancy (avg/trade): 0.0000
+Max Drawdown (points): 0.0688
+Max Losing Streak (trades): 6
+Sharpe (trade-level): 0.6032
+USDCHF med slippage 0.10 och spread 0.22:
+Market: USDCHF
+Trades: 2095
+Total PnL (points): 0.1297
+Gross Profit: 0.9983
+Gross Loss: -0.8686
+Profit Factor: 1.1493
+Winrate: 0.7041
+Avg Win: 0.0007
+Avg Loss: -0.0014
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0363
+Max Losing Streak (trades): 6
+Sharpe (trade-level): 1.8057
