@@ -458,3 +458,247 @@ Expectancy (avg/trade): 0.0001
 Max Drawdown (points): 0.0363
 Max Losing Streak (trades): 6
 Sharpe (trade-level): 1.8057
+Vi har två stycken solklara portfölj kandidater, EURUSD och USDCHF. GBPUSD har edge men bör agera som en sekundär marknad. USDCAD har viss edge och kan fungera som ett diversifierings verktyg. AUDUSD och NZDUSD har negativ edge och kan förklaras genom att mean reversion
+inte sker under asia session för dessa par eftersom de är valutor i asien, och därmed kommer volatilitet och trend expansion vara alldeles för förekommande. Vi bör därför testa valutapar som har liknande struktur som EURUSD, alltså amerika/europa par. Vi är medvetna
+om att detta kan leda till hög korrelation mellan marknaderna i portföljen, men att välja bort marknader som har för hög korrelation och vikta marknaderna risk bidrag är nästa steg i portfölj simulation. Vi fortsätter leta efter marknader som denna strategi kan utnyttja.
+EURGBP slippage 0.12 spread 0.25:
+Market: EURGBP
+Trades: 1963
+Total PnL (points): 0.0741
+Gross Profit: 0.6799
+Gross Loss: -0.6058
+Profit Factor: 1.1223
+Winrate: 0.7259
+Avg Win: 0.0005
+Avg Loss: -0.0011
+Expectancy (avg/trade): 0.0000
+Max Drawdown (points): 0.0461
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 1.3038
+EURCHF slippage 0.10 spread 0.22:
+Market: EURCHF
+Trades: 1782
+Total PnL (points): 0.1576
+Gross Profit: 0.6491
+Gross Loss: -0.4915
+Profit Factor: 1.3207
+Winrate: 0.7088
+Avg Win: 0.0005
+Avg Loss: -0.0009
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0389
+Max Losing Streak (trades): 8
+Sharpe (trade-level): 2.6514
+GBPCHF slippage 0.15 spread 0.30:
+Market: GBPCHF
+Trades: 1666
+Total PnL (points): 0.2144
+Gross Profit: 1.1741
+Gross Loss: -0.9597
+Profit Factor: 1.2234
+Winrate: 0.7335
+Avg Win: 0.0010
+Avg Loss: -0.0022
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0606
+Max Losing Streak (trades): 7
+Sharpe (trade-level): 2.2784
+EURCAD slippage 0.15 spread 0.30:
+Market: EURCAD
+Trades: 1894
+Total PnL (points): 0.2611
+Gross Profit: 1.3206
+Gross Loss: -1.0594
+Profit Factor: 1.2465
+Winrate: 0.7191
+Avg Win: 0.0010
+Avg Loss: -0.0020
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0998
+Max Losing Streak (trades): 6
+Sharpe (trade-level): 2.5862
+Detta är väldigt positiva resultat och bekräftar det vi tidigare hypotiserade, mean reversion under asia sessions förekommer och kan utnyttjas väl på amerikans/europeiska valutapar. EURCHF, GBPCHF och EURCAD är portfölj kandidater. Trots acceptabel helhets edge hos 
+EURGBP är prestationen för volatil från år till år, kollar vi årliga stats för EURGBP ser vi att variansen är alldeles för hög:
+EURGBP - 2012:
+Trades: 170
+Total PnL (points): 0.0142
+Gross Profit: 0.0490
+Gross Loss: -0.0348
+Profit Factor: 1.4087
+Winrate: 0.7294
+Avg Win: 0.0004
+Avg Loss: -0.0008
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0050
+Max Losing Streak (trades): 4
+Sharpe (trade-level): 1.4010
+EURGBP - 2013:
+Trades: 171
+Total PnL (points): -0.0024
+Gross Profit: 0.0612
+Gross Loss: -0.0636
+Profit Factor: 0.9615
+Winrate: 0.7895
+Avg Win: 0.0005
+Avg Loss: -0.0018
+Expectancy (avg/trade): -0.0000
+Max Drawdown (points): 0.0211
+Max Losing Streak (trades): 2
+Sharpe (trade-level): -0.1106
+EURGBP - 2014:
+Trades: 168
+Total PnL (points): 0.0116
+Gross Profit: 0.0454
+Gross Loss: -0.0338
+Profit Factor: 1.3434
+Winrate: 0.7798
+Avg Win: 0.0003
+Avg Loss: -0.0009
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0119
+Max Losing Streak (trades): 3
+Sharpe (trade-level): 0.9724
+EURGBP - 2015:
+Trades: 147
+Total PnL (points): 0.0143
+Gross Profit: 0.0618
+Gross Loss: -0.0474
+Profit Factor: 1.3023
+Winrate: 0.7483
+Avg Win: 0.0006
+Avg Loss: -0.0013
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0095
+Max Losing Streak (trades): 2
+Sharpe (trade-level): 1.0279
+EURGBP - 2016:
+Trades: 157
+Total PnL (points): -0.0219
+Gross Profit: 0.0886
+Gross Loss: -0.1105
+Profit Factor: 0.8019
+Winrate: 0.6688
+Avg Win: 0.0008
+Avg Loss: -0.0021
+Expectancy (avg/trade): -0.0001
+Max Drawdown (points): 0.0420
+Max Losing Streak (trades): 4
+Sharpe (trade-level): -0.7317
+EURGBP - 2017:
+Trades: 162
+Total PnL (points): 0.0004
+Gross Profit: 0.0555
+Gross Loss: -0.0551
+Profit Factor: 1.0066
+Winrate: 0.7593
+Avg Win: 0.0005
+Avg Loss: -0.0014
+Expectancy (avg/trade): 0.0000
+Max Drawdown (points): 0.0217
+Max Losing Streak (trades): 4
+Sharpe (trade-level): 0.0221
+EURGBP - 2018:
+Trades: 148
+Total PnL (points): 0.0054
+Gross Profit: 0.0396
+Gross Loss: -0.0342
+Profit Factor: 1.1589
+Winrate: 0.6824
+Avg Win: 0.0004
+Avg Loss: -0.0007
+Expectancy (avg/trade): 0.0000
+Max Drawdown (points): 0.0120
+Max Losing Streak (trades): 5
+Sharpe (trade-level): 0.5520
+EURGBP - 2019:
+Trades: 119
+Total PnL (points): 0.0089
+Gross Profit: 0.0405
+Gross Loss: -0.0315
+Profit Factor: 1.2840
+Winrate: 0.6807
+Avg Win: 0.0005
+Avg Loss: -0.0008
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0057
+Max Losing Streak (trades): 4
+Sharpe (trade-level): 0.9210
+EURGBP - 2020:
+Trades: 137
+Total PnL (points): -0.0049
+Gross Profit: 0.0605
+Gross Loss: -0.0654
+Profit Factor: 0.9256
+Winrate: 0.7007
+Avg Win: 0.0006
+Avg Loss: -0.0016
+Expectancy (avg/trade): -0.0000
+Max Drawdown (points): 0.0163
+Max Losing Streak (trades): 4
+Sharpe (trade-level): -0.2389
+EURGBP - 2021:
+Trades: 162
+Total PnL (points): 0.0002
+Gross Profit: 0.0423
+Gross Loss: -0.0421
+Profit Factor: 1.0050
+Winrate: 0.7160
+Avg Win: 0.0004
+Avg Loss: -0.0009
+Expectancy (avg/trade): 0.0000
+Max Drawdown (points): 0.0082
+Max Losing Streak (trades): 3
+Sharpe (trade-level): 0.0172
+EURGBP - 2022:
+Trades: 146
+Total PnL (points): 0.0410
+Gross Profit: 0.0725
+Gross Loss: -0.0315
+Profit Factor: 2.3016
+Winrate: 0.7603
+Avg Win: 0.0007
+Avg Loss: -0.0009
+Expectancy (avg/trade): 0.0003
+Max Drawdown (points): 0.0079
+Max Losing Streak (trades): 3
+Sharpe (trade-level): 3.0614
+EURGBP - 2023:
+Trades: 97
+Total PnL (points): 0.0125
+Gross Profit: 0.0302
+Gross Loss: -0.0177
+Profit Factor: 1.7080
+Winrate: 0.7938
+Avg Win: 0.0004
+Avg Loss: -0.0009
+Expectancy (avg/trade): 0.0001
+Max Drawdown (points): 0.0080
+Max Losing Streak (trades): 2
+Sharpe (trade-level): 1.2157
+EURGBP - 2024:
+Trades: 80
+Total PnL (points): -0.0025
+Gross Profit: 0.0158
+Gross Loss: -0.0183
+Profit Factor: 0.8639
+Winrate: 0.6250
+Avg Win: 0.0003
+Avg Loss: -0.0006
+Expectancy (avg/trade): -0.0000
+Max Drawdown (points): 0.0079
+Max Losing Streak (trades): 5
+Sharpe (trade-level): -0.3562
+EURGBP - 2025:
+Trades: 99
+Total PnL (points): -0.0028
+Gross Profit: 0.0171
+Gross Loss: -0.0199
+Profit Factor: 0.8579
+Winrate: 0.6566
+Avg Win: 0.0003
+Avg Loss: -0.0006
+Expectancy (avg/trade): -0.0000
+Max Drawdown (points): 0.0078
+Max Losing Streak (trades): 3
+Sharpe (trade-level): -0.4132
+Vi har nu många portfölj kandidater, EURUSD, EURCHF, GBPCHF, EURCAD samt USDCHF och GBPUSD som diversifierings/sekundära marknader. Nu är nästa steg portfölj simulation
