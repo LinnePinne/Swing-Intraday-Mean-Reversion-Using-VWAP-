@@ -701,4 +701,19 @@ Expectancy (avg/trade): -0.0000
 Max Drawdown (points): 0.0078
 Max Losing Streak (trades): 3
 Sharpe (trade-level): -0.4132
-Vi har nu många portfölj kandidater, EURUSD, EURCHF, GBPCHF, EURCAD samt USDCHF och GBPUSD som diversifierings/sekundära marknader. Nu är nästa steg portfölj simulation
+Vi har nu många portfölj kandidater, EURUSD, EURCHF, GBPCHF, EURCAD samt USDCHF och GBPUSD som diversifierings/sekundära marknader. Nu är nästa steg portfölj simulation. Vi kombinera alla marknader och simulerar portfölj utveckling
+från startkapital 50000. Vi baserar risk på exposure där total exposure ligger på 10.0, alltså att hela portföljen har tillgång till 10x kapitalet där kapitalet för varje marknad delas upp jämnt. Resultat:
+======================================================================
+PORTFOLIO RESULTS (CASH, HOURLY MTM)
+======================================================================
+Start capital: 50000.0
+End equity: 536602.484970116
+CAGR: 0.18471256116189116
+Max DD %: -19.184132693723466
+Max Intraday DD %: -12.260273050590254
+Sharpe (ann, daily): 1.4255788273567616
+Sortino (ann, daily): 0.9728768227966911
+Fin sharpe och sortino ratio. Detta är en väldigt fin portfölj simulation. Både Max DD och Max intraday drawdown är för hög för FTMOs risk parametrar, därför kommer vi troligen behöva anpassa exposure och leverage. Men detta måste
+vi vänta med till när vi är klara med denna strategi och implementerar den i våran nuvarande live portfölj med us equity trendfollowing + mean reversion. Arbetet vi kommer göra här är därför endast att bestämma vikter för forex
+marknaderna. Detta gör vi genom att ta fram erc vikter, där varje marknad ska bidra med lika mycket volatilitet till portföljen. När vi har ERC vikter simulerar vi portöfljen med de vikterna, sedan bootsrappar vi resultan för 
+erc vikter och equal weights, jämför för att avgöra vilket som är bäst och eventuellt justerar vikterna lite manuellt.
