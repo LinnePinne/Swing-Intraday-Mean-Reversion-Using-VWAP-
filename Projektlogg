@@ -716,4 +716,33 @@ Sortino (ann, daily): 0.9728768227966911
 Fin sharpe och sortino ratio. Detta är en väldigt fin portfölj simulation. Både Max DD och Max intraday drawdown är för hög för FTMOs risk parametrar, därför kommer vi troligen behöva anpassa exposure och leverage. Men detta måste
 vi vänta med till när vi är klara med denna strategi och implementerar den i våran nuvarande live portfölj med us equity trendfollowing + mean reversion. Arbetet vi kommer göra här är därför endast att bestämma vikter för forex
 marknaderna. Detta gör vi genom att ta fram erc vikter, där varje marknad ska bidra med lika mycket volatilitet till portföljen. När vi har ERC vikter simulerar vi portöfljen med de vikterna, sedan bootsrappar vi resultan för 
-erc vikter och equal weights, jämför för att avgöra vilket som är bäst och eventuellt justerar vikterna lite manuellt.
+erc vikter och equal weights, jämför för att avgöra vilket som är bäst och eventuellt justerar vikterna lite manuellt. Innan vi går in på viktoptimering vill vi analysera marknadernas korrelation och välja bort de marknader som är 
+väldigt korrelerade med en annan marknad men presterar sämre.
+Correlation matrix (daily returns):
+        EURUSD  EURCHF  GBPCHF  EURCAD  USDCHF  GBPUSD
+EURUSD   1.000   0.037   0.055   0.079   0.330   0.287
+EURCHF   0.037   1.000   0.086   0.037   0.036  -0.031
+GBPCHF   0.055   0.086   1.000   0.099   0.115   0.235
+EURCAD   0.079   0.037   0.099   1.000   0.117   0.023
+USDCHF   0.330   0.036   0.115   0.117   1.000   0.136
+GBPUSD   0.287  -0.031   0.235   0.023   0.136   1.000
+Per-market stats (daily):
+Market   Sharpe  MeanDaily  VolDaily  ObsDays
+EURUSD 1.090425   0.000075  0.001085     4499
+EURCHF 0.913181   0.000050  0.000867     4499
+EURCAD 0.882193   0.000057  0.001020     4499
+USDCHF 0.756178   0.000055  0.001155     4499
+GBPCHF 0.701273   0.000048  0.001095     4499
+GBPUSD 0.491453   0.000042  0.001358     4499
+Väldigt låg korrelation utöver alla marknader, den högsta är EURUSD - USDCHF som har en korrelation på 0.33 vilket är okej. Det finns alltså inget i korrelationsdatan som gör att vi vill välja bort marknader. Men vi kan fortfarande välja 
+bort de sämre marknaderna. GBPUSD är den marknad med lägst sharpe och högst volatilitet så vi skulle kunna plocka bort den, men eftersom den inte är korrelerad med de andra marknaderna kan den fortfarande bidra med diversifiering. Vi måste
+alltså göra någon mer kvantitativ analys, vi kan helt enkelt välja att köra portfölj simulationen utan GBPUSD och se ifall den portföljen presterar bättre än den nuvarande. Vi testar att droppa varje marknad enskilt och kollar hur sharpe
+förändras:
+Equal-weight portfolio Sharpe (all): 1.521776177461939
+Drop EURUSD -> Sharpe: 1.3823  (delta -0.1395)
+Drop EURCHF -> Sharpe: 1.3520  (delta -0.1697)
+Drop GBPCHF -> Sharpe: 1.4805  (delta -0.0413)
+Drop EURCAD -> Sharpe: 1.3710  (delta -0.1507)
+Drop USDCHF -> Sharpe: 1.4893  (delta -0.0325)
+Drop GBPUSD -> Sharpe: 1.6174  (delta +0.0956)
+Vi ser här att GBPUSD faktiskt skadar portföljen. Vi exkluderar svaga marknader även fast korrelation är låg
