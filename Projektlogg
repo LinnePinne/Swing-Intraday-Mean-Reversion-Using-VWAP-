@@ -745,4 +745,6 @@ Drop GBPCHF -> Sharpe: 1.4805  (delta -0.0413)
 Drop EURCAD -> Sharpe: 1.3710  (delta -0.1507)
 Drop USDCHF -> Sharpe: 1.4893  (delta -0.0325)
 Drop GBPUSD -> Sharpe: 1.6174  (delta +0.0956)
-Vi ser här att GBPUSD faktiskt skadar portföljen. Vi exkluderar svaga marknader även fast korrelation är låg
+Vi ser här att GBPUSD faktiskt skadar portföljen. Vi exkluderar svaga marknader även fast korrelation är låg, Våran portfölj består alltså nu av EURUSD, EURCHF, GBPCHF, EURCAD, USDCHF. Nu går vi in på viktoptimering, vi räknar ut ERC vikter
+där vi sedan block bootstrappar listan av alla stängda trades. Våran block size sätter vi på 20, där grupper av 20 trades distribueras om med andra grupper. Vi börjar simulera detta 500 gånger, vi jämför samtidigt bootstrapp av equal weights
+med samma inställningar.
