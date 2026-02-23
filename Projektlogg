@@ -748,3 +748,166 @@ Drop GBPUSD -> Sharpe: 1.6174  (delta +0.0956)
 Vi ser här att GBPUSD faktiskt skadar portföljen. Vi exkluderar svaga marknader även fast korrelation är låg, Våran portfölj består alltså nu av EURUSD, EURCHF, GBPCHF, EURCAD, USDCHF. Nu går vi in på viktoptimering, vi räknar ut ERC vikter
 där vi sedan block bootstrappar listan av alla stängda trades. Våran block size sätter vi på 20, där grupper av 20 trades distribueras om med andra grupper. Vi börjar simulera detta 500 gånger, vi jämför samtidigt bootstrapp av equal weights
 med samma inställningar.
+Sharpe:
+  N: 500
+  Mean:   1.637225
+  Median: 1.625300
+  Std:    0.287312
+  Percentiles:
+     1th: 0.945870
+     5th: 1.164691
+    10th: 1.304824
+    25th: 1.443549
+    50th: 1.625300
+    75th: 1.830569
+    90th: 1.988396
+    95th: 2.106653
+    99th: 2.296229
+
+Sortino:
+  N: 500
+  Mean:   1.215060
+  Median: 1.206015
+  Std:    0.240141
+  Percentiles:
+     1th: 0.661016
+     5th: 0.829047
+    10th: 0.938986
+    25th: 1.051729
+    50th: 1.206015
+    75th: 1.373259
+    90th: 1.523944
+    95th: 1.614946
+    99th: 1.784223
+
+CAGR:
+  N: 500
+  Mean:   0.014482
+  Median: 0.014302
+  Std:    0.002340
+  Percentiles:
+     1th: 0.009037
+     5th: 0.010661
+    10th: 0.011613
+    25th: 0.012987
+    50th: 0.014302
+    75th: 0.016032
+    90th: 0.017581
+    95th: 0.018476
+    99th: 0.020074
+
+MaxDD:
+  N: 500
+  Mean:   -0.015968
+  Median: -0.015238
+  Std:    0.004618
+  Percentiles:
+     1th: -0.029373
+     5th: -0.024422
+    10th: -0.021930
+    25th: -0.017993
+    50th: -0.015238
+    75th: -0.012876
+    90th: -0.011011
+    95th: -0.010099
+    99th: -0.008322
+
+MaxOpenDD:
+  N: 500
+  Mean:   -0.015968
+  Median: -0.015238
+  Std:    0.004618
+  Percentiles:
+     1th: -0.029373
+     5th: -0.024422
+    10th: -0.021930
+    25th: -0.017993
+    50th: -0.015238
+    75th: -0.012876
+    90th: -0.011011
+    95th: -0.010099
+    99th: -0.008322
+
+======================================================================
+ERC WEIGHTS BOOTSTRAP METRICS SUMMARY
+======================================================================
+
+Sharpe:
+  N: 500
+  Mean:   1.637225
+  Median: 1.625300
+  Std:    0.287312
+  Percentiles:
+     1th: 0.945870
+     5th: 1.164691
+    10th: 1.304824
+    25th: 1.443550
+    50th: 1.625300
+    75th: 1.830569
+    90th: 1.988397
+    95th: 2.106653
+    99th: 2.296229
+
+Sortino:
+  N: 500
+  Mean:   1.215060
+  Median: 1.206016
+  Std:    0.240141
+  Percentiles:
+     1th: 0.661016
+     5th: 0.829047
+    10th: 0.938986
+    25th: 1.051729
+    50th: 1.206016
+    75th: 1.373259
+    90th: 1.523944
+    95th: 1.614946
+    99th: 1.784223
+
+CAGR:
+  N: 500
+  Mean:   0.014482
+  Median: 0.014302
+  Std:    0.002340
+  Percentiles:
+     1th: 0.009037
+     5th: 0.010661
+    10th: 0.011613
+    25th: 0.012987
+    50th: 0.014302
+    75th: 0.016032
+    90th: 0.017581
+    95th: 0.018476
+    99th: 0.020074
+
+MaxDD:
+  N: 500
+  Mean:   -0.015968
+  Median: -0.015238
+  Std:    0.004618
+  Percentiles:
+     1th: -0.029373
+     5th: -0.024422
+    10th: -0.021930
+    25th: -0.017993
+    50th: -0.015238
+    75th: -0.012876
+    90th: -0.011011
+    95th: -0.010099
+    99th: -0.008322
+
+MaxOpenDD:
+  N: 500
+  Mean:   -0.015968
+  Median: -0.015238
+  Std:    0.004618
+  Percentiles:
+     1th: -0.029373
+     5th: -0.024422
+    10th: -0.021930
+    25th: -0.017993
+    50th: -0.015238
+    75th: -0.012876
+    90th: -0.011011
+    95th: -0.010099
+    99th: -0.008322
