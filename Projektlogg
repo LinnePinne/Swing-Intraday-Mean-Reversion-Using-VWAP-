@@ -746,168 +746,42 @@ Drop EURCAD -> Sharpe: 1.3710  (delta -0.1507)
 Drop USDCHF -> Sharpe: 1.4893  (delta -0.0325)
 Drop GBPUSD -> Sharpe: 1.6174  (delta +0.0956)
 Vi ser här att GBPUSD faktiskt skadar portföljen. Vi exkluderar svaga marknader även fast korrelation är låg, Våran portfölj består alltså nu av EURUSD, EURCHF, GBPCHF, EURCAD, USDCHF. Nu går vi in på viktoptimering, vi räknar ut ERC vikter
-där vi sedan block bootstrappar listan av alla stängda trades. Våran block size sätter vi på 20, där grupper av 20 trades distribueras om med andra grupper. Vi börjar simulera detta 500 gånger, vi jämför samtidigt bootstrapp av equal weights
-med samma inställningar.
-Sharpe:
-  N: 500
-  Mean:   1.637225
-  Median: 1.625300
-  Std:    0.287312
-  Percentiles:
-     1th: 0.945870
-     5th: 1.164691
-    10th: 1.304824
-    25th: 1.443549
-    50th: 1.625300
-    75th: 1.830569
-    90th: 1.988396
-    95th: 2.106653
-    99th: 2.296229
+där vi sedan block bootstrappar listan av alla stängda trades. Vi räknar ut erc vikt baserat på veckovis kovarians och simulerar portföljen:
+======================================================================
+ERC WEIGHTS
+======================================================================
+EURCHF    0.277453
+EURCAD    0.198721
+EURUSD    0.183541
+GBPCHF    0.176277
+USDCHF    0.164008
+Name: erc_weight, dtype: float64
+Sum weights: 1.0
 
-Sortino:
-  N: 500
-  Mean:   1.215060
-  Median: 1.206015
-  Std:    0.240141
-  Percentiles:
-     1th: 0.661016
-     5th: 0.829047
-    10th: 0.938986
-    25th: 1.051729
-    50th: 1.206015
-    75th: 1.373259
-    90th: 1.523944
-    95th: 1.614946
-    99th: 1.784223
-
-CAGR:
-  N: 500
-  Mean:   0.014482
-  Median: 0.014302
-  Std:    0.002340
-  Percentiles:
-     1th: 0.009037
-     5th: 0.010661
-    10th: 0.011613
-    25th: 0.012987
-    50th: 0.014302
-    75th: 0.016032
-    90th: 0.017581
-    95th: 0.018476
-    99th: 0.020074
-
-MaxDD:
-  N: 500
-  Mean:   -0.015968
-  Median: -0.015238
-  Std:    0.004618
-  Percentiles:
-     1th: -0.029373
-     5th: -0.024422
-    10th: -0.021930
-    25th: -0.017993
-    50th: -0.015238
-    75th: -0.012876
-    90th: -0.011011
-    95th: -0.010099
-    99th: -0.008322
-
-MaxOpenDD:
-  N: 500
-  Mean:   -0.015968
-  Median: -0.015238
-  Std:    0.004618
-  Percentiles:
-     1th: -0.029373
-     5th: -0.024422
-    10th: -0.021930
-    25th: -0.017993
-    50th: -0.015238
-    75th: -0.012876
-    90th: -0.011011
-    95th: -0.010099
-    99th: -0.008322
+Risk contributions (RC / mean(RC)) ~ 1.0 => ERC ok:
+EURUSD    1.0
+EURCHF    1.0
+GBPCHF    1.0
+EURCAD    1.0
+USDCHF    1.0
+Name: risk_contrib, dtype: float64
 
 ======================================================================
-ERC WEIGHTS BOOTSTRAP METRICS SUMMARY
+PORTFOLIO RESULTS (CASH, HOURLY MTM) - ERC WEIGHTED
 ======================================================================
-
-Sharpe:
-  N: 500
-  Mean:   1.637225
-  Median: 1.625300
-  Std:    0.287312
-  Percentiles:
-     1th: 0.945870
-     5th: 1.164691
-    10th: 1.304824
-    25th: 1.443550
-    50th: 1.625300
-    75th: 1.830569
-    90th: 1.988397
-    95th: 2.106653
-    99th: 2.296229
-
-Sortino:
-  N: 500
-  Mean:   1.215060
-  Median: 1.206016
-  Std:    0.240141
-  Percentiles:
-     1th: 0.661016
-     5th: 0.829047
-    10th: 0.938986
-    25th: 1.051729
-    50th: 1.206016
-    75th: 1.373259
-    90th: 1.523944
-    95th: 1.614946
-    99th: 1.784223
-
-CAGR:
-  N: 500
-  Mean:   0.014482
-  Median: 0.014302
-  Std:    0.002340
-  Percentiles:
-     1th: 0.009037
-     5th: 0.010661
-    10th: 0.011613
-    25th: 0.012987
-    50th: 0.014302
-    75th: 0.016032
-    90th: 0.017581
-    95th: 0.018476
-    99th: 0.020074
-
-MaxDD:
-  N: 500
-  Mean:   -0.015968
-  Median: -0.015238
-  Std:    0.004618
-  Percentiles:
-     1th: -0.029373
-     5th: -0.024422
-    10th: -0.021930
-    25th: -0.017993
-    50th: -0.015238
-    75th: -0.012876
-    90th: -0.011011
-    95th: -0.010099
-    99th: -0.008322
-
-MaxOpenDD:
-  N: 500
-  Mean:   -0.015968
-  Median: -0.015238
-  Std:    0.004618
-  Percentiles:
-     1th: -0.029373
-     5th: -0.024422
-    10th: -0.021930
-    25th: -0.017993
-    50th: -0.015238
-    75th: -0.012876
-    90th: -0.011011
-    95th: -0.010099
-    99th: -0.008322
+Start capital: 50000.0
+End equity: 589124.7757414249
+CAGR: 0.19264026526406886
+Max DD %: -18.735007764133925
+Max Intraday DD %: -9.48396678468294
+Sharpe (ann, daily): 1.5528429820916752
+Sortino (ann, daily): 1.070617602955312
+Vi kör även om portfölj simulationen utan GBPUSD så vi kan jämföra rätt:
+Start capital: 50000.0
+End equity: 601572.9446327604
+CAGR: 0.19442269766266929
+Max DD %: -19.355650634928224
+Max Intraday DD %: -9.532203115535298
+Sharpe (ann, daily): 1.5155321047534673
+Sortino (ann, daily): 1.0444296126217159
+NU testar vi att boostrappa med dessa vikter. Våran block size sätter vi på 20, där grupper av 20 trades distribueras om med andra grupper. Vi börjar simulera detta 500 gånger, vi jämför samtidigt bootstrapp av equal weights med samma inställningar.
