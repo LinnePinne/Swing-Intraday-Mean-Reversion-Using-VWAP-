@@ -750,11 +750,11 @@ där vi sedan block bootstrappar listan av alla stängda trades. Vi räknar ut e
 ======================================================================
 ERC WEIGHTS
 ======================================================================
-EURCHF    0.277453
-EURCAD    0.198721
-EURUSD    0.183541
-GBPCHF    0.176277
-USDCHF    0.164008
+EURCHF    0.229429
+EURCAD    0.205126
+GBPCHF    0.196246
+EURUSD    0.190355
+USDCHF    0.178844
 Name: erc_weight, dtype: float64
 Sum weights: 1.0
 
@@ -770,13 +770,13 @@ Name: risk_contrib, dtype: float64
 PORTFOLIO RESULTS (CASH, HOURLY MTM) - ERC WEIGHTED
 ======================================================================
 Start capital: 50000.0
-End equity: 589124.7757414249
-CAGR: 0.19264026526406886
-Max DD %: -18.735007764133925
-Max Intraday DD %: -9.48396678468294
-Sharpe (ann, daily): 1.5528429820916752
-Sortino (ann, daily): 1.070617602955312
-Vi kör även om portfölj simulationen utan GBPUSD så vi kan jämföra rätt:
+End equity: 594753.5987399026
+CAGR: 0.19345053613800234
+Max DD %: -19.349443617249694
+Max Intraday DD %: -8.844473111586348
+Sharpe (ann, daily): 1.5352591618862776
+Sortino (ann, daily): 1.0622964023538948
+Vi kör även om equal weights portfölj simulationen utan GBPUSD så vi kan jämföra rätt:
 Start capital: 50000.0
 End equity: 601572.9446327604
 CAGR: 0.19442269766266929
@@ -784,4 +784,154 @@ Max DD %: -19.355650634928224
 Max Intraday DD %: -9.532203115535298
 Sharpe (ann, daily): 1.5155321047534673
 Sortino (ann, daily): 1.0444296126217159
-NU testar vi att boostrappa med dessa vikter. Våran block size sätter vi på 20, där grupper av 20 trades distribueras om med andra grupper. Vi börjar simulera detta 500 gånger, vi jämför samtidigt bootstrapp av equal weights med samma inställningar.
+NU testar vi att boostrappa med dessa vikter. Våran block size sätter vi på 20, där grupper av 20 trades distribueras om med andra grupper. Vi börjar simulera detta 5000 gånger, vi jämför samtidigt bootstrapp av equal weights med samma inställningar.
+======================================================================
+BOOTSTRAP SUMMARY: EQUAL (block=20, n=5000)
+======================================================================
+
+cagr
+  mean   :  0.130939
+  median :  0.130511
+  p 1:  0.078361
+  p 5:  0.094558
+  p25:  0.115770
+  p50:  0.130511
+  p75:  0.145918
+  p95:  0.169559
+  p99:  0.185141
+
+sharpe
+  mean   :  1.531706
+  median :  1.523223
+  p 1:  0.919195
+  p 5:  1.096443
+  p25:  1.349358
+  p50:  1.523223
+  p75:  1.714033
+  p95:  1.986778
+  p99:  2.188499
+
+sortino
+  mean   :  1.065881
+  median :  1.054945
+  p 1:  0.611937
+  p 5:  0.728832
+  p25:  0.919020
+  p50:  1.054945
+  p75:  1.208732
+  p95:  1.431659
+  p99:  1.599021
+
+ann_vol
+  mean   :  0.082845
+  median :  0.082741
+  p 1:  0.073623
+  p 5:  0.076308
+  p25:  0.080000
+  p50:  0.082741
+  p75:  0.085537
+  p95:  0.089760
+  p99:  0.092780
+
+max_dd
+  mean   : -0.151926
+  median : -0.146355
+  p 1: -0.272786
+  p 5: -0.224045
+  p25: -0.173431
+  p50: -0.146355
+  p75: -0.124032
+  p95: -0.099615
+  p99: -0.084768
+
+end_mult
+  mean   :  13.160493
+  median :  12.054343
+  p 1:  4.622831
+  p 5:  6.256026
+  p25:  9.235623
+  p50:  12.054343
+  p75:  15.864928
+  p95:  24.011405
+  p99:  31.409463
+
+======================================================================
+BOOTSTRAP SUMMARY: ERC   (block=20, n=5000)
+======================================================================
+
+cagr
+  mean   :  0.130087
+  median :  0.129906
+  p 1:  0.079564
+  p 5:  0.094054
+  p25:  0.115280
+  p50:  0.129906
+  p75:  0.144942
+  p95:  0.166125
+  p99:  0.182379
+
+sharpe
+  mean   :  1.546977
+  median :  1.542050
+  p 1:  0.946330
+  p 5:  1.114404
+  p25:  1.369966
+  p50:  1.542050
+  p75:  1.723496
+  p95:  1.983389
+  p99:  2.189617
+
+sortino
+  mean   :  1.080896
+  median :  1.071242
+  p 1:  0.620458
+  p 5:  0.749950
+  p25:  0.933117
+  p50:  1.071242
+  p75:  1.214552
+  p95:  1.440815
+  p99:  1.609634
+
+ann_vol
+  mean   :  0.081466
+  median :  0.081353
+  p 1:  0.072172
+  p 5:  0.074743
+  p25:  0.078557
+  p50:  0.081353
+  p75:  0.084236
+  p95:  0.088367
+  p99:  0.091629
+
+max_dd
+  mean   : -0.147922
+  median : -0.142204
+  p 1: -0.260996
+  p 5: -0.218830
+  p25: -0.168897
+  p50: -0.142204
+  p75: -0.121062
+  p95: -0.097294
+  p99: -0.082394
+
+end_mult
+  mean   :  12.881869
+  median :  11.924066
+  p 1:  4.728568
+  p 5:  6.197849
+  p25:  9.153555
+  p50:  11.924066
+  p75:  15.592953
+  p95:  22.620669
+  p99:  29.956941
+
+======================================================================
+Rough P(ERC better than Equal) (NOT paired)
+======================================================================
+    cagr: 0.4894
+  sharpe: 0.5112
+ sortino: 0.5204
+ ann_vol: 0.4106
+  max_dd: 0.5378
+end_mult: 0.4894
+
