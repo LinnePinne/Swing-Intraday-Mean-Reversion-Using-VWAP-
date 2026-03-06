@@ -934,4 +934,6 @@ Rough P(ERC better than Equal) (NOT paired)
  ann_vol: 0.4106
   max_dd: 0.5378
 end_mult: 0.4894
-
+ERC ger bättre resultat i sharpe, sortino och max DD. Equal ger bättre cagr och annualiserad volatiliet. Målet med viktoptimering är inte att maximera end equity, utan att justera vitker för att kunna hantera risk så bra som möjligt så ERC är det bättre alternativet 
+här. Dessa rough percentages jämför ERC under en slumpad historik mot Equal under en annan slumpad historik B. Alltså är jämförelsen ganska grov. Vi vill egentligen se hur ERC och Equal presterar baserat på samma historik men nu blir det brusigt. Därför kör vi nu om
+simulationen och jämför ERC och Equal på paired historik
