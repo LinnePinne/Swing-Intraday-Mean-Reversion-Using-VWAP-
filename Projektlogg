@@ -1127,4 +1127,7 @@ p50: -0.148880
 p75:  0.045154
 p95:  0.304938
 p99:  0.524794
-
+Paired block bootstrap visar att ERC konsekvent förbättrar Sharpe, Sortino, vol och drawdown jämfört med Equal, medan Equal oftare ger högre CAGR och slutvärde. Resultatet är stabilt över flera blockstorlekar. För en robust portföljkonstruktion framstår ERC som det 
+bättre valet. Vi är nu klara med denna strategi, dess ingående marknader och viktning mellan marknaderna. Slutresultatet ser ut såhär: Vi har entry på 2.25 standardavvikelser från vwap och 100% exit vid 0.75. Vårat sessionsfönster är 00:00 - 07:00, och vwap reset 
+vid 20:00. Vi handlar på 1 timmes tidsram och marknaderna som ingår i portföljen och dess vikter är EURCHF = 0.229429, EURCAD = 0.205126 GBPCHF = 0.196246, EURUSD = 0.190355, USDCHF = 0.178844. Nu är nästa steg att gå över till vår stora strategi portfölj och
+kombinera denna strategi med våra två existerande US equities strategier.
