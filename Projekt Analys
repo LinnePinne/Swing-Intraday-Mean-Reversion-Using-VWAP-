@@ -1,0 +1,29 @@
+ChatGPT analys
+Min professionella bedömning: ni har byggt något seriöst, men processen är fortfarande mer “research-fit” än “production-grade validation”. Största risken är inte klassisk lookahead i entry/exit – koden använder signal på 
+bar i och execution på i+1, vilket är rätt – utan selection bias / data snooping från många beslut tagna efter att ha sett resultaten.
+Det som är bra
+Ni har gjort flera rätt: ni separerade IS/OOS, stressade kostnader, testade närliggande parametrar, kollade årsvariation, tog bort svag marknad, byggde portfölj med cash/MTM och använde paired block bootstrap för ERC vs equal. 
+Slutparametrarna är tydligt låsta i koden: ENTRY_STD=2.25, EXIT_STD=0.75, session 00:00–07:00, VWAP reset 20:00, 5 marknader och 10x total exposure . Projektloggen visar också att ni faktiskt såg degradation i OOS, särskilt 
+EURUSD 2021 och 2025, vilket är ett sunt tecken att inte allt är curve-fit-perfekt .
+
+Största varningen: överoptimering
+Ni optimerade i praktiken i flera lager: session, VWAP-reset, entry-band, exit/partial-exit, session exit, kostnader, marknadsurval och portföljvikter. Varje steg verkar rationellt, men tillsammans blir det många frihetsgrader. 
+Exempel: ni väljer 20:00 reset efter jämförelse, 2.25 efter flera bandtester, 0.75 exit efter flera exitvarianter, och väljer bort GBPUSD efter drop-test. Det är inte fel, men det betyder att den verkliga OOS-perioden inte 
+längre är helt ren när logiken senare appliceras över alla marknader.
+
+Lookahead / kodrisker
+Jag ser ingen uppenbar entry-lookahead: signalen skapas på close i aktuell bar och fylls på nästa open. Det är bra. Men två kodpunkter måste fixas:
+Dayend-exit är fel tidsmässigt. Vid ts.time() >= DAYEND sätts exit_price = row["close"], men exit_time = idx_list[i+1]. Det innebär exitpris från bar i, men timestamp från nästa bar. Antingen ska exit time vara ts, eller priset 
+vara nästa bar/open med spread/slippage. Som det är nu kan PnL och holding time bli inkonsekventa. ERC-vikterna är in-sample över hela perioden. Koden bygger returns_df över hela historiken och optimerar ERC innan den simulerar 
+hela perioden med dessa vikter . Det är portfölj-lookahead. Rätt sätt är rullande eller expanding ERC, till exempel vikter beräknade på föregående 1–3 år och applicerade framåt månadsvis/kvartalsvis.
+
+Bootstrap-kommentar
+Paired bootstrap är ett bra steg och resultaten talar för att ERC sänker risk snarare än ökar avkastning: ERC har högre sannolikhet att förbättra Sharpe, Sortino, vol och drawdown, men sämre CAGR/slutvärde . Men bootstrapen testar 
+resampling av den redan valda strategin, inte osäkerheten från hela researchprocessen. Den korrigerar alltså inte för att parametrar och marknader valts efter testning.
+
+Min objektiva slutsats
+Strategin har troligen en verklig, men tunn och regimberoende edge. Den är inte “bevisad live-ready” ännu. Jag skulle kalla den lovande men överfit-riskad.
+
+Vad jag hade krävt innan live
+Gör en walk-forward: optimera endast på 2012–2018, testa 2019–2020; optimera 2012–2020, testa 2021–2022; optimera 2012–2022, testa 2023–2024; lämna 2025–2026 helt untouched. Kör även rullande ERC. Fixera därefter reglerna utan 
+fler ändringar. Sänk exposure tills historisk max intraday DD är långt under faktisk riskgräns; 10x gav runt -19% max DD i loggen/koden, vilket är för högt för prop/risk-mandat.
