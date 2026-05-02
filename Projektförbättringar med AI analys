@@ -1,0 +1,135 @@
+Arbetsväg steg för steg:
+FAS 1 — Lås researchen (STOPPA överoptimering)
+1. Freeze hela strategin
+Entry: 2.25 STD
+Exit: 0.75 STD
+Session: 00–07
+VWAP reset: 20:00
+Markets: EURUSD, EURCHF, GBPCHF, EURCAD, USDCHF
+Logik: exakt som nu
+Inga fler tweaks. Inga “små förbättringar”.
+2. Definiera EN riktig OOS-period
+Vi har redan använt 2020–2026 → det är bra, men:
+Gör en hard split:
+IS: 2012–2019
+OOS: 2020–2026 (låst)
+Viktigt: ALLA beslut måste i efterhand vara baserade på IS.
+
+FAS 2 — Walk-forward validation (det viktigaste steget)
+Nu testar vi om edge verkligen generaliserar.
+3. Walk-forward test (måste göras)
+Exempel:
+Train: 2012–2016 → Test: 2017
+Train: 2012–2017 → Test: 2018
+Train: 2012–2018 → Test: 2019
+osv...
+Output:
+CAGR och Sharpe per period, Hitrate på “positive year” Vad vi letar efter:
+Inte perfekta resultat
+Men: ingen total kollaps
+
+FAS 3 — Parameter robustness (på riktigt, inte visuellt)
+Vi har gjort detta delvis, men gör det strikt:
+4. Grid runt parametrar (utan att välja bästa)
+Testa:
+Entry: 2.0 – 2.5
+Exit: 0.5 – 1.0
+Men:
+Analysera distribution, inte maxvärde
+Fråga:
+“Fungerar hela området eller bara exakt 2.25?”
+Red flag:
+Sharp peak → överfit
+Plateau → robust edge 
+
+FAS 4 — Market generalization
+Vi är redan nära här, men gör det strikt:
+5. Blind test på NYA marknader
+Testa utan att optimera:
+USDJPY
+EURJPY
+CADCHF
+något “random FX cross”
+Målet:
+Inte hög Sharpe
+Utan: edge ≠ negativ
+
+FAS 5 — Monte Carlo + trade-level realism
+Vi har bootstrap – bra – men lägg till detta:
+6. Trade shuffle Monte Carlo
+Shuffle trade order (utan block)
+Simulera equity 1000+ gånger
+Output:
+Worst-case DD och Variance i CAGR
+7. Slippage stress (extrem)
+Vi gjorde redan stress, men gör ännu hårdare:
+2x spread
+2x slippage
+Random slippage spikes
+Fråga:
+Överlever strategin eller dör den?
+
+FAS 6 — Kodvalidering (underskattad risk)
+Detta är viktigt — vi har nästan rätt men inte 100%.
+8. Fixa dessa innan live:
+Day-end exit mismatch (price vs timestamp)
+ERC = lookahead → gör rolling weights
+Annars får vi:
+falsk equity
+falsk riskprofil
+
+FAS 7 — Portfolio realism
+Nu går vi upp en nivå.
+9. Correlation stress
+Simulera:
+korrelation = 0.6–0.8 mellan FX pairs
+Se vad som händer med DD
+FX kan “suddenly correlate” i kris.
+10. Regime analysis
+Vi har redan sett det:
+2021 & 2025 = svaga
+Strategin = regime dependent
+Gör:
+Label:
+trending vs ranging periods
+Se performance per regime
+
+FAS 8 — Final sanity checks
+Det här är det som skiljer retail från proffs.
+11. Remove 20–30% av trades random
+Simulera execution failure
+Edge ska överleva
+12. Delay entries 1 bar
+Entry sker en bar senare
+Om edge dör → för känslig
+13. Random noise test
+Lägg små random shifts i price
+Edge ska inte försvinna helt
+
+SLUTRESULTAT — när är vi “klara”?
+
+Vi är redo först när:
+
+Walk-forward = stabilt
+Parametrar = plateau
+OOS ≈ IS (med degradation)
+Monte Carlo = acceptabel downside
+Strategy överlever:
+högre kostnader
+sämre execution
+regimskiften
+
+Fas 1 är bara att låsa strategi parametrarna så att de är konstanta hela tiden:
+Entry 2.25, Exit 0.75, VWAP reset 20:00, Session 00:00–07:00, Samma marknader, Samma kostnadsmodell. själva arbetet börjar alltså på fas 2 med walk forward, vi hur strategin presterar år för år utan att 
+ändra något. Vi följer detta upplägg:
+Train-period	Test-period	 Vad vi gör
+2012–2016	       2017	     Bekräfta att strategin fungerar framåt
+2012–2017	       2018	     Samma regler, ny forward-period
+2012–2018	       2019	     Samma regler
+2012–2019	       2020	     Samma regler
+2012–2020	       2021	     Samma regler
+2012–2021	       2022	     Samma regler
+2012–2022	       2023      Samma regler
+2012–2023	       2024	     Samma regler
+2012–2024	       2025	     Samma regler
+Men eftersom vi inte optimerar något är "train" mest en referens
