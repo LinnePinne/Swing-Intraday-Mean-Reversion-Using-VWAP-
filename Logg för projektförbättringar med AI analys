@@ -233,3 +233,14 @@ ANCHORED ERC WEIGHTS USED PER TEST YEAR
  2023  0.1967  0.2331  0.1854  0.2041  0.1806
  2024  0.1958  0.2317  0.1879  0.2048  0.1798
  2025  0.1964  0.2294  0.1877  0.2061  0.1804
+Strategin klarar walk-forward på portföljnivå men per marknad är bilden inte lika bra. Men det är ju det som är målet med portfölj, att marknadsspecifik svaghet jämnas ut. De viktigaste 
+observationerna är att EURCAD och EURUSD är kärnan, EURCAD har 8/9 positiva år och EURUSD har 7/9, de bär alltså mycket edge. USDCHF ser svag ut med 4/9 positiva år med nästan bara 
+negativa år 2020-2025. EURCHF är också tveksam, den med har 4/9 positiva år med svaghet efter 2022 vilket inte är lika katastrofalt men bör också ifrågasättas. GBPCHF har 6/9 positiva år
+men är regimkänslig, bra 2018-2023 men svagare 2021, 2024 och 2025. Den kan fortfarande vara värdefull om den diversifierar. Portföljen är robustare än marknaderna, både equal och anchored
+ERC har 7/9 positiva år, bara 2021 och 2025 negativa utan stora kollapser. Jämfört med equal förbättrar ERC worst year och DD marginellt. ERC ger liten förbättring i mean return, worst 
+year óch drawdown men inte dramatiskt bättre. Eftersom vikterna är stabila runt 18-24% är equal weights nästan lika bra. Vi testar att köra samma test utan USDCHF, EURCHF och GBPCHF för 
+se om svaga standalone marknader faktiskt hjälper portföljen eller bara drar ner den. Utan USDCHF:
+
+Utan EURCHF:
+Utan GBPCHF:
+
