@@ -426,9 +426,99 @@ DD. Exit runt 0.75-1.0 verkar bäst. Det är även viktigt att trade count falle
 genom färre men bättre trades. Nu är strategin bevias att vara en riktig marknadsineffektivitet med stabil parameterkänslighet. Vi behåller 2.25/0.75 istället för att ändra till den bästa
 kombinationen eftersom vi redan byggt hela researchkedjan kring den, gjort walkforward, gjort portfölj urval, erc och robustness med det. Om vi skulle ändra nu risker vi overfitting. Nu är
 det dags för fas 4, market generalization där vi testar nya marknader, utan ny optimering och med exakt samma parametrar. Nu ska vi sluta optimera helt, framåt handlar det endast om 
-generalisering, robustness, execution realism och portfölj interaktion.
-EURJPY
-CADCHF
-EURSEK
-CHFJPY
-EURAUD
+generalisering, robustness, execution realism och portfölj interaktion. Vi kommer testa dessa marknader 2012-2026 med följande kostnader:
+Market	Spread	Slippage	Commission
+EURJPY	0.22	  0.12	    0.25
+CADCHF	0.35	  0.18	    0.25
+EURSEK	0.80	  0.40	    0.25
+CHFJPY	0.35	  0.18	    0.25
+EURAUD	0.35	  0.18	    0.25
+Market: EURJPY
+Trades: 2405
+Total PnL (points): -11.0210
+Gross Profit: 224.6980
+Gross Loss: -235.7190
+Profit Factor: 0.9532
+Winrate: 0.6715
+Avg Win: 0.1391
+Avg Loss: -0.2984
+Expectancy (avg/trade): -0.0046
+Max Drawdown (points): 17.4438
+Max Losing Streak (trades): 6
+Sharpe (trade-level): -0.6596
+Market: CADCHF
+Trades: 1555
+Total PnL (points): 0.0435
+Gross Profit: 0.6379
+Gross Loss: -0.5944
+Profit Factor: 1.0732
+Winrate: 0.7087
+Avg Win: 0.0006
+Avg Loss: -0.0013
+Expectancy (avg/trade): 0.0000
+Max Drawdown (points): 0.0889
+Max Losing Streak (trades): 6
+Sharpe (trade-level): 0.7513
+Market: EURAUD
+Trades: 2852
+Total PnL (points): 0.0182
+Gross Profit: 3.2199
+Gross Loss: -3.2016
+Profit Factor: 1.0057
+Winrate: 0.6655
+Avg Win: 0.0017
+Avg Loss: -0.0034
+Expectancy (avg/trade): 0.0000
+Max Drawdown (points): 0.3130
+Max Losing Streak (trades): 9
+Sharpe (trade-level): 0.0943
+Market: CHFJPY
+Trades: 2066
+Total PnL (points): -27.9436
+Gross Profit: 155.3030
+Gross Loss: -183.2466
+Profit Factor: 0.8475
+Winrate: 0.6776
+Avg Win: 0.1109
+Avg Loss: -0.2751
+Expectancy (avg/trade): -0.0135
+Max Drawdown (points): 27.8679
+Max Losing Streak (trades): 5
+Sharpe (trade-level): -2.1213
+Market: EURSEK
+Trades: 1026
+Total PnL (points): 3.7870
+Gross Profit: 6.2779
+Gross Loss: -2.4909
+Profit Factor: 2.5203
+Winrate: 0.8109
+Avg Win: 0.0075
+Avg Loss: -0.0128
+Expectancy (avg/trade): 0.0037
+Max Drawdown (points): 0.1281
+Max Losing Streak (trades): 3
+Sharpe (trade-level): 8.1452
+Strategin verkar inte generalisera till JPY-marknader, både EURJPY och CHFJPY är hårda fails. Den är istället US/Europa eqilibrium reversion under asia. JPY-marknader
+beter sig såklart annorlunda eftersom asia-session är aktiv JPY-session, Tokyo open driver pris så mean reversion störs av lokal volatility discovery. Detta matchar även 
+varför AUDUSD och NZDUSD failar, vilket är bra för forskningen eftersom det visar att strategin har specifik marknadslogik och inte universell curve-fit. CADCHF är inte 
+starkt men inte heller dött och EURAUD har i praktiken ingen edge. EURSEK är en extrem outlier med troligtvis för bra resultat för att vara sann. De mest sannolika 
+förklaringarna är att kostnadsmodellen är för snäll eller dålig data kvalité, det kan vara syntetisk prissättning, inaktuella barer med missvisande eller saknande 
+information. Först kör vi ett hårdare stress test med hårdare kostander, spread = 1.5 och slippage = 0.75:
+Market: EURSEK
+Trades: 1026
+Total PnL (points): 3.6434
+Gross Profit: 6.1617
+Gross Loss: -2.5184
+Profit Factor: 2.4467
+Winrate: 0.8060
+Avg Win: 0.0075
+Avg Loss: -0.0127
+Expectancy (avg/trade): 0.0036
+Max Drawdown (points): 0.1282
+Max Losing Streak (trades): 3
+Sharpe (trade-level): 7.8363
+När en strategi behåller PF ~2.45, låg DD och överlever aggressiva kostnader så är det sannolikt inte bara spread-mispricing eller datafel. Det betyder inte automatiskt att 
+edge är “real”, men den klarade precis det viktigaste sanity-testet. Däremot är det inte ens värt att forsätta testa EURSEK eftersom FTMO inte erbjuder den marknaden att
+handla. EURSEK är forskningsmässigt intressant och hade vi haft tillgång till den marknaden i framtida fall av andra brokers är det definitivt värt att fortsätta studera
+men just nu är det onödigt arbete. Fas 4 har redan visat det viktigaste, strategin kan utnyttja europeisk equilibrium och EURSEK bekräftar det ytterligare. Bra kvant research 
+handlar inte om “hur många marknader kan vi få att fungera?” Det handlar om “var fungerar edge konsekvent — och varför?”. Och det har vi svarat på
