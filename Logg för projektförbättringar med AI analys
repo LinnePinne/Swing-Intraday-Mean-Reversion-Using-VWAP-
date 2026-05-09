@@ -521,4 +521,42 @@ När en strategi behåller PF ~2.45, låg DD och överlever aggressiva kostnader
 edge är “real”, men den klarade precis det viktigaste sanity-testet. Däremot är det inte ens värt att forsätta testa EURSEK eftersom FTMO inte erbjuder den marknaden att
 handla. EURSEK är forskningsmässigt intressant och hade vi haft tillgång till den marknaden i framtida fall av andra brokers är det definitivt värt att fortsätta studera
 men just nu är det onödigt arbete. Fas 4 har redan visat det viktigaste, strategin kan utnyttja europeisk equilibrium och EURSEK bekräftar det ytterligare. Bra kvant research 
-handlar inte om “hur många marknader kan vi få att fungera?” Det handlar om “var fungerar edge konsekvent — och varför?”. Och det har vi svarat på
+handlar inte om “hur många marknader kan vi få att fungera?” Det handlar om “var fungerar edge konsekvent — och varför?”. Och det har vi svarat på, därför går vi in på fas 5
+nu. Denna fas kommer innehålle monte carlo, live realism och hårdare stress test som nämnt förut men det kommer även göras regim segmentation. Vi vet redan att 2021 och 2025
+är svaga, men det är viktigt att förstå varför. Är det trendregim, volregim, dollar cykel eller centralbanksregim? Fas 5 upplägget läggs upp såhär:
+FAS 5A — Monte Carlo
+Varför:
+snabbt
+väldigt informativt
+avslöjar fragility direkt
+
+FAS 5B — Execution stress
+slippage spikes
+delayed entry
+missed fills
+
+FAS 5C — Regime analysis
+djup förståelse av när edge fungerar
+
+Monte Carlo på stitched walk-forward daily returns, vi kör både IID-shuffle (independent and identically distributedIID-shuffle) och block resampling med block size på 20. 
+10000 simuleringar med test för både equal och anchoired erc.
+====================================================================================================
+PHASE 5A — MONTE CARLO / RETURN ORDER ROBUSTNESS
+====================================================================================================
+Simulations: 10000, block_size: 20
+
+Scheme: equal | daily returns: 3270 | historical total return: 0.112755
+
+Scheme: anchored_erc | daily returns: 3270 | historical total return: 0.113792
+
+MONTE CARLO SUMMARY
+      scheme method  n_daily_returns  sims  cagr_p05  cagr_p50  sharpe_p05  sharpe_p50  max_dd_p01  max_dd_p05  max_dd_p50  end_mult_p05  end_mult_p50  max_consecutive_negative_days_p95
+       equal    iid             3270 10000  0.004801  0.008272    0.609245    1.103777   -0.029868   -0.023240   -0.013531      1.064124      1.112824                                6.0
+       equal  block             3270 10000  0.004712  0.008192    0.600172    1.097504   -0.029691   -0.023277   -0.013558      1.062895      1.111675                                5.0
+anchored_erc    iid             3270 10000  0.004953  0.008355    0.654466    1.146137   -0.028023   -0.021985   -0.012773      1.066212      1.114004                                6.0
+anchored_erc  block             3270 10000  0.004858  0.008265    0.642558    1.136547   -0.028545   -0.022366   -0.013099      1.064910      1.112713                                5.0
+IID och block boostrap ger nästan samma resultat vilket är positivt, det innebät att edge inte är extremt sekevensberoende, drivs inte av några få lucky streaks och att edge verkar
+relativt jämnt distribuerad över tiden. Historisk equity är inte för bra för att vara sann eftersom monte carlo median total return hamnar i samma område som det historiska. 
+Worst Case drawdown ser också bra ut, bara 1% av simuleringarna får en värre dd än -3%. Anchored ERC är genueint bättre med konsekvent bättre sharpe, dd och CAGR distribution. 
+Skillnaden är inte dramatiskt men fortfarande märkvärd. Monte Carlo ser bra ut och strategin passerar detta test så nu är det dags för fas 5B. Den egentliga fråga som ska besvaras
+här är “är execution-friktionen större än edge i verkligheten?” Vi testar detta först med random slippage spikes där 5% av trades får 2-4x slippage
