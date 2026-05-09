@@ -593,3 +593,8 @@ slippage_spikes_5pct_x4        equal      -0.000401        -0.000406            
       combined_moderate        equal      -0.006498        -0.005146            -0.002617        -1.154025            -0.477000            -477
           combined_hard anchored_erc      -0.008767        -0.009059            -0.004373        -1.299755            -0.513379            -684
           combined_hard        equal      -0.008739        -0.009318            -0.004476        -1.329716            -0.513966            -684
+Slippage spikes är nästan irrelevant, sharpe tappar bara runt 0.05 och mean tappar cirka 0.0004. Missed trades 10% är också okej, sharpe tappar runt 0.25 och 8/9 år är fortfarande
+positiva. Den stora svagheten är delayed_entry_1bar där madian sharpe faller från cirka 1.48 till cirka 0.43. Det betyder att strategin är timing-känslig. Strategi behöver fyllas 
+nästa timmes open efter signalen. Om execution blir en hel timme sen försämras strategin kraftigt menm combined moderate/hard överlever fortfarande väl nog att mean return 
+fortfarande är positiv och drawdown exploderar inte. Det är bra så execution robustness får ett pass med reservation. Frågan som återstår då är om vi faktiskt kan exekvera på nästa 
+1H open eller åtminstone väldigt nära vilket vi vet att vi kan av erfarenhet med den infrastruktur som boten har nu
