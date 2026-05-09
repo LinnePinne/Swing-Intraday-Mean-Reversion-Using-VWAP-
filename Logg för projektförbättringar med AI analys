@@ -559,4 +559,37 @@ IID och block boostrap ger nästan samma resultat vilket är positivt, det inneb
 relativt jämnt distribuerad över tiden. Historisk equity är inte för bra för att vara sann eftersom monte carlo median total return hamnar i samma område som det historiska. 
 Worst Case drawdown ser också bra ut, bara 1% av simuleringarna får en värre dd än -3%. Anchored ERC är genueint bättre med konsekvent bättre sharpe, dd och CAGR distribution. 
 Skillnaden är inte dramatiskt men fortfarande märkvärd. Monte Carlo ser bra ut och strategin passerar detta test så nu är det dags för fas 5B. Den egentliga fråga som ska besvaras
-här är “är execution-friktionen större än edge i verkligheten?” Vi testar detta först med random slippage spikes där 5% av trades får 2-4x slippage
+här är “är execution-friktionen större än edge i verkligheten?”. Vi testar med random slippage spikes där 5% av trades får 2-4x slippage, med 1-bar delayed entries och med missed 
+trades vilket visar om edge drivs av få avgörande trades.
+====================================================================================================
+PHASE 5B EXECUTION STRESS SUMMARY
+====================================================================================================
+               scenario       scheme  positive_years  mean_return  median_return  worst_year_return  median_sharpe  worst_year_dd_pct  total_trades  miss_trade_prob  entry_delay_bars  slip_spike_prob  slip_spike_mult
+               baseline anchored_erc               8     0.012101       0.012523          -0.009416       1.472878          -1.495685          5045             0.00                 0             0.00              1.0
+               baseline        equal               8     0.011994       0.012673          -0.009519       1.500874          -1.529588          5045             0.00                 0             0.00              1.0
+slippage_spikes_5pct_x4 anchored_erc               8     0.011705       0.012122          -0.009843       1.427477          -1.534609          5045             0.00                 0             0.05              4.0
+slippage_spikes_5pct_x4        equal               8     0.011593       0.012267          -0.009959       1.454413          -1.569561          5045             0.00                 0             0.05              4.0
+     delayed_entry_1bar anchored_erc               8     0.007136       0.009681          -0.011656       0.444307          -1.969920          5045             0.00                 1             0.00              1.0
+     delayed_entry_1bar        equal               8     0.007091       0.009954          -0.011729       0.422725          -1.887198          5045             0.00                 1             0.00              1.0
+    missed_trades_10pct anchored_erc               8     0.009609       0.010549          -0.010078       1.232139          -1.478101          4612             0.10                 0             0.00              1.0
+    missed_trades_10pct        equal               8     0.009510       0.010817          -0.010106       1.224828          -1.499375          4612             0.10                 0             0.00              1.0
+      combined_moderate anchored_erc               7     0.005575       0.007100          -0.011738       0.373585          -1.968539          4568             0.10                 1             0.05              4.0
+      combined_moderate        equal               7     0.005496       0.007527          -0.012136       0.346849          -2.006588          4568             0.10                 1             0.05              4.0
+          combined_hard anchored_erc               6     0.003334       0.003464          -0.013790       0.173123          -2.009064          4361             0.15                 1             0.10              5.0
+          combined_hard        equal               6     0.003254       0.003356          -0.013994       0.171158          -2.043554          4361             0.15                 1             0.10              5.0
+====================================================================================================
+PHASE 5B DAMAGE VS BASELINE
+====================================================================================================
+               scenario       scheme  d_mean_return  d_median_return  d_worst_year_return  d_median_sharpe  d_worst_year_dd_pct  d_total_trades
+               baseline anchored_erc       0.000000         0.000000             0.000000         0.000000             0.000000               0
+               baseline        equal       0.000000         0.000000             0.000000         0.000000             0.000000               0
+slippage_spikes_5pct_x4 anchored_erc      -0.000397        -0.000401            -0.000427        -0.045401            -0.038924               0
+slippage_spikes_5pct_x4        equal      -0.000401        -0.000406            -0.000440        -0.046461            -0.039973               0
+     delayed_entry_1bar anchored_erc      -0.004965        -0.002842            -0.002239        -1.028571            -0.474235               0
+     delayed_entry_1bar        equal      -0.004903        -0.002720            -0.002210        -1.078149            -0.357610               0
+    missed_trades_10pct anchored_erc      -0.002492        -0.001974            -0.000661        -0.240740             0.017584            -433
+    missed_trades_10pct        equal      -0.002484        -0.001856            -0.000587        -0.276045             0.030213            -433
+      combined_moderate anchored_erc      -0.006527        -0.005423            -0.002322        -1.099293            -0.472854            -477
+      combined_moderate        equal      -0.006498        -0.005146            -0.002617        -1.154025            -0.477000            -477
+          combined_hard anchored_erc      -0.008767        -0.009059            -0.004373        -1.299755            -0.513379            -684
+          combined_hard        equal      -0.008739        -0.009318            -0.004476        -1.329716            -0.513966            -684
