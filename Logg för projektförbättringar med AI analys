@@ -597,4 +597,42 @@ Slippage spikes är nästan irrelevant, sharpe tappar bara runt 0.05 och mean ta
 positiva. Den stora svagheten är delayed_entry_1bar där madian sharpe faller från cirka 1.48 till cirka 0.43. Det betyder att strategin är timing-känslig. Strategi behöver fyllas 
 nästa timmes open efter signalen. Om execution blir en hel timme sen försämras strategin kraftigt menm combined moderate/hard överlever fortfarande väl nog att mean return 
 fortfarande är positiv och drawdown exploderar inte. Det är bra så execution robustness får ett pass med reservation. Frågan som återstår då är om vi faktiskt kan exekvera på nästa 
-1H open eller åtminstone väldigt nära vilket vi vet att vi kan av erfarenhet med den infrastruktur som boten har nu
+1H open eller åtminstone väldigt nära vilket vi vet att vi kan av erfarenhet med den infrastruktur som boten har nu. Dessutom gjorde detta delayed entries testet 100% av alla trades 
+till entry vid nästa bar vilket är väldigt orealistiskt. Vi gör ett mer realistiskt test där 30% av alla entries blir på nästa bar:
+====================================================================================================
+PHASE 5B EXECUTION STRESS SUMMARY
+====================================================================================================
+                scenario       scheme  positive_years  mean_return  median_return  worst_year_return  median_sharpe  worst_year_dd_pct  total_trades  miss_trade_prob  entry_delay_bars  slip_spike_prob  slip_spike_mult
+                baseline anchored_erc               8     0.012101       0.012523          -0.009416       1.472878          -1.495685          5045             0.00                 0             0.00              1.0
+                baseline        equal               8     0.011994       0.012673          -0.009519       1.500874          -1.529588          5045             0.00                 0             0.00              1.0
+ slippage_spikes_5pct_x4 anchored_erc               8     0.011723       0.012190          -0.009860       1.434535          -1.538192          5045             0.00                 0             0.05              4.0
+ slippage_spikes_5pct_x4        equal               8     0.011611       0.012336          -0.009966       1.461681          -1.572474          5045             0.00                 0             0.05              4.0
+      delayed_entry_1bar anchored_erc               8     0.007136       0.009681          -0.011656       0.444307          -1.969920          5045             0.00                 1             0.00              1.0
+      delayed_entry_1bar        equal               8     0.007091       0.009954          -0.011729       0.422725          -1.887198          5045             0.00                 1             0.00              1.0
+delayed_entry_30pct_1bar anchored_erc               8     0.010944       0.011870          -0.008991       1.011071          -1.635546          5045             0.00                 1             0.00              1.0
+delayed_entry_30pct_1bar        equal               8     0.010836       0.011987          -0.009174       1.013654          -1.677063          5045             0.00                 1             0.00              1.0
+     missed_trades_10pct anchored_erc               8     0.010786       0.012097          -0.008656       1.468225          -1.379355          4598             0.10                 0             0.00              1.0
+     missed_trades_10pct        equal               8     0.010782       0.012222          -0.008534       1.496796          -1.391626          4598             0.10                 0             0.00              1.0
+       combined_moderate anchored_erc               8     0.010277       0.011858          -0.010567       0.883588          -1.990939          4614             0.10                 1             0.05              4.0
+       combined_moderate        equal               8     0.010081       0.011967          -0.010931       0.933087          -2.135463          4614             0.10                 1             0.05              4.0
+           combined_hard anchored_erc               7     0.006020       0.008469          -0.010578       0.599603          -1.639469          4282             0.15                 1             0.10              5.0
+           combined_hard        equal               7     0.005750       0.007816          -0.010784       0.563178          -1.675246          4282             0.15                 1             0.10              5.0
+====================================================================================================
+PHASE 5B DAMAGE VS BASELINE
+====================================================================================================
+                scenario       scheme  d_mean_return  d_median_return  d_worst_year_return  d_median_sharpe  d_worst_year_dd_pct  d_total_trades
+                baseline anchored_erc       0.000000         0.000000             0.000000         0.000000             0.000000               0
+                baseline        equal       0.000000         0.000000             0.000000         0.000000             0.000000               0
+ slippage_spikes_5pct_x4 anchored_erc      -0.000379        -0.000333            -0.000443        -0.038343            -0.042506               0
+ slippage_spikes_5pct_x4        equal      -0.000383        -0.000338            -0.000447        -0.039192            -0.042887               0
+      delayed_entry_1bar anchored_erc      -0.004965        -0.002842            -0.002239        -1.028571            -0.474235               0
+      delayed_entry_1bar        equal      -0.004903        -0.002720            -0.002210        -1.078149            -0.357610               0
+delayed_entry_30pct_1bar anchored_erc      -0.001158        -0.000652             0.000426        -0.461807            -0.139861               0
+delayed_entry_30pct_1bar        equal      -0.001157        -0.000687             0.000344        -0.487220            -0.147476               0
+     missed_trades_10pct anchored_erc      -0.001316        -0.000426             0.000760        -0.004653             0.116331            -447
+     missed_trades_10pct        equal      -0.001211        -0.000451             0.000985        -0.004077             0.137962            -447
+       combined_moderate anchored_erc      -0.001825        -0.000665            -0.001151        -0.589290            -0.495254            -431
+       combined_moderate        equal      -0.001913        -0.000706            -0.001412        -0.567787            -0.605875            -431
+           combined_hard anchored_erc      -0.006081        -0.004053            -0.001161        -0.873275            -0.143783            -763
+           combined_hard        equal      -0.006244        -0.004857            -0.001265        -0.937695            -0.145658            -763
+Detta ser bra mer realistiskt ut och resultaten är bra. Dags för fas 5C - regim analys
