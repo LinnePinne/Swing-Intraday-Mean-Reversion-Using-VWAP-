@@ -635,4 +635,25 @@ delayed_entry_30pct_1bar        equal      -0.001157        -0.000687           
        combined_moderate        equal      -0.001913        -0.000706            -0.001412        -0.567787            -0.605875            -431
            combined_hard anchored_erc      -0.006081        -0.004053            -0.001161        -0.873275            -0.143783            -763
            combined_hard        equal      -0.006244        -0.004857            -0.001265        -0.937695            -0.145658            -763
-Detta ser bra mer realistiskt ut och resultaten är bra. Dags för fas 5C - regim analys
+Detta ser bra mer realistiskt ut och resultaten är bra. Dags för fas 5C - regim analys. Vi vet redan att 2021 och 2025 är svag, nu vill vi identifiera vilka marknadsregimer som 
+driver det. Bästa sättet är att segmentera prestanda efter trendregim, volregim, FX mean-reversion miljö, risk-on/risk-off, dollar trend och intradags volatilitet. Vi lägger upp 
+det på detta sätt:
+1. Trend regime
+Använd 200D moving average slope på DXY eller EURUSD
+Segment:
+Trending up
+Trending down
+Flat
+2. Volatility regime
+Använd ATR(20) eller realized volatility
+Segment:
+Low vol
+Medium vol
+High vol
+3. FX compression / expansion regime
+Väldigt relevant för mean reversion.
+Mät rolling std of returns. Vi vill veta om strategin fungerar bäst i compression? sämst i expansion?
+4. Session volatility
+Kolla: Asia-session ATR, NY-session ATR dagen innan
+Detta kan vara väldigt viktigt för overnight MR.
+5. Macro overlays
