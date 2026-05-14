@@ -657,3 +657,88 @@ Mät rolling std of returns. Vi vill veta om strategin fungerar bäst i compress
 Kolla: Asia-session ATR, NY-session ATR dagen innan
 Detta kan vara väldigt viktigt för overnight MR.
 5. Macro overlays
+====================================================================================================
+PHASE 5C — REGIME ANALYSIS
+====================================================================================================
+Reference market for regimes: EURUSD
+
+====================================================================================================
+REGIME RETURN SUMMARY — SINGLE REGIMES
+====================================================================================================
+      scheme trend_regime  days  total_return  mean_daily_return  ann_vol   sharpe  max_dd_pct  positive_day_rate vol_regime compression_regime
+       equal   trend_down   901      0.031245           0.000034 0.009905 0.873758   -1.378859           0.509434        NaN                NaN
+       equal   trend_flat  1037      0.043525           0.000041 0.007415 1.400035   -0.811876           0.485053        NaN                NaN
+       equal     trend_up   866      0.034034           0.000039 0.006720 1.452669   -0.681855           0.498845        NaN                NaN
+       equal      unknown   466      0.000000           0.000000 0.000000      NaN    0.000000           0.000000        NaN                NaN
+       equal          NaN   645      0.053608           0.000081 0.010962 1.866671   -0.862832           0.516279   high_vol                NaN
+       equal          NaN  1095      0.034920           0.000031 0.005823 1.359525   -0.579562           0.494977    low_vol                NaN
+       equal          NaN  1064      0.020502           0.000019 0.008081 0.598828   -0.964898           0.487782    mid_vol                NaN
+       equal          NaN   466      0.000000           0.000000 0.000000      NaN    0.000000           0.000000    unknown                NaN
+       equal          NaN   894      0.018717           0.000021 0.006501 0.807302   -1.127232           0.473154        NaN        compression
+       equal          NaN   925      0.048364           0.000051 0.009436 1.368305   -1.586615           0.496216        NaN          expansion
+       equal          NaN   985      0.041919           0.000042 0.008076 1.304870   -0.910008           0.519797        NaN             normal
+       equal          NaN   466      0.000000           0.000000 0.000000      NaN    0.000000           0.000000        NaN            unknown
+anchored_erc   trend_down   901      0.032758           0.000036 0.009687 0.935542   -1.389917           0.508324        NaN                NaN
+anchored_erc   trend_flat  1037      0.042842           0.000041 0.007180 1.423450   -0.773308           0.484089        NaN                NaN
+anchored_erc     trend_up   866      0.034157           0.000039 0.006459 1.516336   -0.665980           0.494226        NaN                NaN
+anchored_erc      unknown   466      0.000000           0.000000 0.000000      NaN    0.000000           0.000000        NaN                NaN
+anchored_erc          NaN   645      0.053781           0.000081 0.010580 1.939789   -0.858846           0.514729   high_vol                NaN
+anchored_erc          NaN  1095      0.034888           0.000031 0.005684 1.391422   -0.563846           0.494977    low_vol                NaN
+anchored_erc          NaN  1064      0.021317           0.000020 0.007886 0.637394   -0.880514           0.483083    mid_vol                NaN
+anchored_erc          NaN   466      0.000000           0.000000 0.000000      NaN    0.000000           0.000000    unknown                NaN
+anchored_erc          NaN   894      0.019385           0.000022 0.006230 0.871856   -1.035216           0.470917        NaN        compression
+anchored_erc          NaN   925      0.048272           0.000051 0.009364 1.376200   -1.609538           0.494054        NaN          expansion
+anchored_erc          NaN   985      0.042298           0.000042 0.007688 1.382493   -0.844666           0.517766        NaN             normal
+anchored_erc          NaN   466      0.000000           0.000000 0.000000      NaN    0.000000           0.000000        NaN            unknown
+
+====================================================================================================
+REGIME RETURN SUMMARY — TREND x VOL
+====================================================================================================
+      scheme trend_regime vol_regime  days  total_return  mean_daily_return  ann_vol    sharpe  max_dd_pct  positive_day_rate
+       equal   trend_down   high_vol   327      0.025786           0.000078 0.011541  1.705851   -0.805304           0.529052
+       equal   trend_down    low_vol   289      0.008626           0.000030 0.006582  1.141172   -0.430356           0.529412
+       equal   trend_down    mid_vol   285     -0.003276          -0.000011 0.010629 -0.267655   -0.913795           0.466667
+       equal   trend_flat   high_vol   229      0.015894           0.000069 0.011309  1.540132   -0.841404           0.493450
+       equal   trend_flat    low_vol   503      0.015814           0.000031 0.005445  1.446329   -0.360663           0.489066
+       equal   trend_flat    mid_vol   305      0.011208           0.000037 0.006503  1.419328   -0.726965           0.472131
+       equal     trend_up   high_vol    89      0.011053           0.000124 0.007359  4.233689   -0.176267           0.528090
+       equal     trend_up    low_vol   303      0.010095           0.000033 0.005676  1.474621   -0.369480           0.471947
+       equal     trend_up    mid_vol   474      0.012508           0.000026 0.007180  0.924046   -0.760518           0.510549
+       equal      unknown    unknown   466      0.000000           0.000000 0.000000       NaN    0.000000           0.000000
+anchored_erc   trend_down   high_vol   327      0.027147           0.000082 0.011270  1.837208   -0.829151           0.525994
+anchored_erc   trend_down    low_vol   289      0.008745           0.000030 0.006485  1.173945   -0.435943           0.536332
+anchored_erc   trend_down    mid_vol   285     -0.003253          -0.000011 0.010379 -0.272361   -0.907818           0.459649
+anchored_erc   trend_flat   high_vol   229      0.015229           0.000066 0.010754  1.552101   -0.829366           0.493450
+anchored_erc   trend_flat    low_vol   503      0.015425           0.000030 0.005325  1.442919   -0.364382           0.487078
+anchored_erc   trend_flat    mid_vol   305      0.011595           0.000038 0.006478  1.473671   -0.713498           0.472131
+anchored_erc     trend_up   high_vol    89      0.010541           0.000118 0.006969  4.263947   -0.174027           0.528090
+anchored_erc     trend_up    low_vol   303      0.010332           0.000034 0.005457  1.569198   -0.343063           0.468647
+anchored_erc     trend_up    mid_vol   474      0.012905           0.000027 0.006922  0.988264   -0.730032           0.504219
+anchored_erc      unknown    unknown   466      0.000000           0.000000 0.000000       NaN    0.000000           0.000000
+
+====================================================================================================
+TRADE ATTRIBUTION BY REGIME — TREND
+====================================================================================================
+trend_regime  trades  total_pnl  gross_profit  gross_loss  profit_factor  winrate  expectancy  max_dd_price_units  max_losing_streak  sharpe_trade
+  trend_down    1728   0.041540      0.876507   -0.834967       1.049750 0.695602    0.000024           -0.079118                  6      0.596896
+  trend_flat    1801   0.116064      0.813163   -0.697099       1.166496 0.684064    0.000064           -0.050610                  6      1.993252
+    trend_up    1516   0.090929      0.692119   -0.601190       1.151248 0.693272    0.000060           -0.042968                  4      1.810971
+
+====================================================================================================
+TRADE ATTRIBUTION BY REGIME — VOL
+====================================================================================================
+vol_regime  trades  total_pnl  gross_profit  gross_loss  profit_factor  winrate  expectancy  max_dd_price_units  max_losing_streak  sharpe_trade
+  high_vol    1163   0.187866      0.761716   -0.573850       1.327378 0.711092    0.000162           -0.037481                  5      2.917945
+   low_vol    1976   0.056648      0.735583   -0.678935       1.083437 0.678138    0.000029           -0.036202                  6      1.168336
+   mid_vol    1906   0.004019      0.884490   -0.880471       1.004565 0.691501    0.000002           -0.100262                  6      0.061711
+
+Strategin fungerar bäst i hög vol med trend_up eller trend_flat och fungerar sämst i mid_vol med trend_down. Mid_vol ger nästan ingen edge alls. Trade attribution visar 1.33 profit factor och 2.92 sharpe
+på trade-level för high vol, 1.08 PF och 1.17 sharpe för low vol. Mid vol har 1.00 PF och 0.06 sharpe. Strategin är inte låg volatilitets mean reversion benägen utan fungerar snarare bäst när det finns
+tillräckliggt med föregående rörelse och priset kan översträcka över VWAP men att marknaden inte är i dålig trend-down/mid-vol regim. Det matchar logiken, vi behöver först expansion från equilibrium och 
+sedan mean reversion. Kollar vi på trend har trend flat 1.17 PF och 1.99 sharpe, trend up 1.15 PF och 1.81 sharpe, trend down 1.05 PF och 0.60 sharpe. Trend down är klart svagast men inte totalt värdelöst.
+Viktigaste röda flaggan är trend_down tillsammans med mid_vol, den har negativ sharpe på -0.27, det är alltså en regim som bör flaggas som riskzon. Vi ska inte ändra strategin ännu utan vi dokumenterar 
+detta som en viktig observation. Nästa steg är att testa om ett enkelt regime filter faktsikt förbättrar walk-forward resultat utan att överfitta.
+Test A: exkludera bara trend_down + mid_vol
+Test B: minska exposure 50% i trend_down + mid_vol
+Test C: ingen trade-filter, bara risk overlay senare i helhetsportföljen
+Eftersom filtrering lätt blir curve fitting är C prefererat.
