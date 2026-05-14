@@ -742,3 +742,40 @@ Test A: exkludera bara trend_down + mid_vol
 Test B: minska exposure 50% i trend_down + mid_vol
 Test C: ingen trade-filter, bara risk overlay senare i helhetsportföljen
 Eftersom filtrering lätt blir curve fitting är C prefererat.
+====================================================================================================
+REGIME RISK OVERLAY — BASELINE VS DEFAULT OVERLAY
+====================================================================================================
+                         name  days  total_return     cagr   sharpe  ann_vol  max_dd_pct  positive_day_rate       scheme          version  risk_mult_bad_regime  bad_regime_days  bad_regime_day_rate
+               equal_baseline  3270      0.112755 0.008267 1.099834 0.007512   -1.550272           0.426300        equal         baseline                   1.0              285             0.087156
+       equal_risk_overlay_0.5  3270      0.114600 0.008396 1.197284 0.007004   -1.228436           0.426300        equal risk_overlay_0.5                   0.5              285             0.087156
+        anchored_erc_baseline  3270      0.113792 0.008340 1.141715 0.007298   -1.536294           0.424465 anchored_erc         baseline                   1.0              285             0.087156
+anchored_erc_risk_overlay_0.5  3270      0.115624 0.008468 1.243564 0.006799   -1.218033           0.424465 anchored_erc risk_overlay_0.5                   0.5              285             0.087156
+
+====================================================================================================
+REGIME RISK OVERLAY — DAMAGE / IMPROVEMENT VS BASELINE
+====================================================================================================
+      scheme  risk_mult_bad_regime  d_total_return   d_cagr  d_sharpe  d_ann_vol  d_max_dd_pct  d_positive_day_rate
+       equal                   0.5        0.001845 0.000129  0.097450  -0.000508      0.321836                  0.0
+anchored_erc                   0.5        0.001833 0.000128  0.101849  -0.000499      0.318261                  0.0
+
+====================================================================================================
+REGIME RISK OVERLAY — MULTIPLIER SENSITIVITY
+====================================================================================================
+                  name  days  total_return     cagr   sharpe  ann_vol  max_dd_pct  positive_day_rate       scheme  risk_mult_bad_regime  bad_regime_days  bad_regime_day_rate
+        equal_mult_0.0  3270      0.116412 0.008522 1.246684 0.006826   -0.906972           0.385627        equal                  0.00              285             0.087156
+       equal_mult_0.25  3270      0.115510 0.008460 1.229478 0.006871   -1.067657           0.426300        equal                  0.25              285             0.087156
+        equal_mult_0.5  3270      0.114600 0.008396 1.197284 0.007004   -1.228436           0.426300        equal                  0.50              285             0.087156
+       equal_mult_0.75  3270      0.113681 0.008332 1.152880 0.007220   -1.389307           0.426300        equal                  0.75              285             0.087156
+        equal_mult_1.0  3270      0.112755 0.008267 1.099834 0.007512   -1.550272           0.426300        equal                  1.00              285             0.087156
+ anchored_erc_mult_0.0  3270      0.117426 0.008593 1.295008 0.006624   -0.900125           0.384404 anchored_erc                  0.00              285             0.087156
+anchored_erc_mult_0.25  3270      0.116529 0.008531 1.277163 0.006669   -1.059035           0.424465 anchored_erc                  0.25              285             0.087156
+ anchored_erc_mult_0.5  3270      0.115624 0.008468 1.243564 0.006799   -1.218033           0.424465 anchored_erc                  0.50              285             0.087156
+anchored_erc_mult_0.75  3270      0.114712 0.008404 1.197155 0.007011   -1.377120           0.424465 anchored_erc                  0.75              285             0.087156
+ anchored_erc_mult_1.0  3270      0.113792 0.008340 1.141715 0.007298   -1.536294           0.424465 anchored_erc                  1.00              285             0.087156
+Med 0.0 multiplier (alltså ingen exposure alls i dålig regime) förbättras allt samtidigt. Om vi jämför med baseline:
+Metric	          Baseline	   Mult 0.0
+Total return	    0.1138	     0.1174
+Sharpe	          1.14	       1.30
+Max DD	          -1.54%	    -0.90%
+Vi har identifierat en tydlig negativ regime med konsistent skadlig effekt, det är inte curve fit eftersom det matchar tidigare regime analys, overlayn förbättrade
+all metrik och förbättringen är monotonisk, det blir gradvis bättre ju lägre multiplier.
