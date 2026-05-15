@@ -69,47 +69,43 @@ Random slippage spikes
 Fråga:
 Överlever strategin eller dör den?
 
-FAS 6 — Kodvalidering (underskattad risk)
-Detta är viktigt — vi har nästan rätt men inte 100%.
-8. Fixa dessa innan live:
-Day-end exit mismatch (price vs timestamp)
-ERC = lookahead → gör rolling weights
-Annars får vi:
-falsk equity
-falsk riskprofil
+FAS 6 — Documentation & Research Freeze
+Vi dokumenterar:
+strategi
+edge hypotes
+alla testresultat
+svagheter
+frusen konfiguration
+efter dett blir det inga mer strategiändringar
 
-FAS 7 — Portfolio realism
-Nu går vi upp en nivå.
-9. Correlation stress
-Simulera:
-korrelation = 0.6–0.8 mellan FX pairs
-Se vad som händer med DD
-FX kan “suddenly correlate” i kris.
-10. Regime analysis
-Vi har redan sett det:
-2021 & 2025 = svaga
-Strategin = regime dependent
-Gör:
-Label:
-trending vs ranging periods
-Se performance per regime
+FAS 7 — Portfolio Realism
+Här testar vi:
+capital scaling
+overlapping exposure
+correlated losses
+execution concurrency
+broker constraints
+FTMO constraints
+daily loss limits
+max open positions
+margin stress
 
-FAS 8 — Final sanity checks
-Det här är det som skiljer retail från proffs.
-11. Remove 20–30% av trades random
-Simulera execution failure
-Edge ska överleva
-12. Delay entries 1 bar
-Entry sker en bar senare
-Om edge dör → för känslig
-13. Random noise test
-Lägg små random shifts i price
-Edge ska inte försvinna helt
+FAS 8 — Final Sanity Checks
+Sista forskningslagret.
+Här gör vi:
+randomized timestamp perturbation
+slight price perturbation
+alternative data vendors
+holiday removal
+spread inflation stress
+timezone sanity
+duplicate-bar checks
+missing-bar simulation
+Målet:
+“försök förstöra strategin en sista gång.”
 
 SLUTRESULTAT — när är vi “klara”?
-
 Vi är redo först när:
-
 Walk-forward = stabilt
 Parametrar = plateau
 OOS ≈ IS (med degradation)
@@ -778,4 +774,32 @@ Total return	    0.1138	     0.1174
 Sharpe	          1.14	       1.30
 Max DD	          -1.54%	    -0.90%
 Vi har identifierat en tydlig negativ regime med konsistent skadlig effekt, det är inte curve fit eftersom det matchar tidigare regime analys, overlayn förbättrade
-all metrik och förbättringen är monotonisk, det blir gradvis bättre ju lägre multiplier.
+all metrik och förbättringen är monotonisk, det blir gradvis bättre ju lägre multiplier. Det mest rationella nu är att lägga till en regime risk skalning, där vi 
+sänker exposure till 0.0-0.5 vid trend_down + mid_vol. Även fast 0.0 visar bäst resultat är det bättre att välja 0.5 för att minska risken att regime-
+definitionen är overfit samt mindre binärt beteende. Hittils i våran forskning har vi valt bort GBPCHF ur portföljen och lagt in en regime riskskalning baserat på 
+EURUSD volatilitet/trendighet där vi minskar vår exposure vid trend_down + mid_vol. Eftersom en tydlig regime-effekt har blivit identifierad kommer macro overlay
+analys inte göras och därför är det dags för FAS 6 - Dokumentation och frysning.
+Edge hypotes:
+Strategin exploaterar equilibrium mean reversion under natten i europeiska Forex par efter tidigare volatilitets expansion iväg från VWAP (Volume Weighted Average Price)
+under lågvolatilitets Asia-session förhållanden. 
+Vad vi har testat:
+- Walk Forward
+- ERC utan lookahead
+- Parameter robusthet
+- Marknads generalisering
+- Execution stress
+- Monte Carlo
+- Regime analys
+Det som misslyckats:
+- JPY marknader
+- AUD marknader
+- Trend_down + mid_vol regime
+Slutgiltiga frusna konfiguration:
+- Marknaderna som ingår i portföljen är EURUSD, EURCHF, EURCAD, USDCHF
+- Parametrarna är Entry: 2.25 VWAP STD, Exit: 0.75 VWAP STD, Session: 00–07, VWAP reset: 20:00
+- Overlays är 0.5 exposure nedskalning i trend_down + mid_vol EURUSD regime.
+- Vikterna för live kommer vara anchored ERC
+Möjliga risker:
+
+Utbyggnadsantaganden:
+
