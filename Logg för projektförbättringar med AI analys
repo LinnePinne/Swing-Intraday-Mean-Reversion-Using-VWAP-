@@ -779,27 +779,246 @@ sänker exposure till 0.0-0.5 vid trend_down + mid_vol. Även fast 0.0 visar bä
 definitionen är overfit samt mindre binärt beteende. Hittils i våran forskning har vi valt bort GBPCHF ur portföljen och lagt in en regime riskskalning baserat på 
 EURUSD volatilitet/trendighet där vi minskar vår exposure vid trend_down + mid_vol. Eftersom en tydlig regime-effekt har blivit identifierad kommer macro overlay
 analys inte göras och därför är det dags för FAS 6 - Dokumentation och frysning.
-Edge hypotes:
-Strategin exploaterar equilibrium mean reversion under natten i europeiska Forex par efter tidigare volatilitets expansion iväg från VWAP (Volume Weighted Average Price)
-under lågvolatilitets Asia-session förhållanden. 
-Vad vi har testat:
-- Walk Forward
-- ERC utan lookahead
-- Parameter robusthet
-- Marknads generalisering
-- Execution stress
-- Monte Carlo
-- Regime analys
-Det som misslyckats:
-- JPY marknader
-- AUD marknader
-- Trend_down + mid_vol regime
-Slutgiltiga frusna konfiguration:
-- Marknaderna som ingår i portföljen är EURUSD, EURCHF, EURCAD, USDCHF
-- Parametrarna är Entry: 2.25 VWAP STD, Exit: 0.75 VWAP STD, Session: 00–07, VWAP reset: 20:00
-- Overlays är 0.5 exposure nedskalning i trend_down + mid_vol EURUSD regime.
-- Vikterna för live kommer vara anchored ERC
-Möjliga risker:
 
-Utbyggnadsantaganden:
+Detta dokument sammanfattar utvecklingen, valideringen och den slutgiltiga forskningsprocessen bakom vår systematiska mean reversion-strategi för valutamarknaden. 
+Strategin är utvecklad med målet att skapa en robust, portföljbaserad och institutionellt hållbar handelsmodell anpassad för verklig implementation i prop trading-miljö.
+Arbetet har genomförts med tydligt fokus på objektivitet, robusthet, walk-forward-validering, riskkontroll och minimering av överoptimering. Strategin är nu 
+forskningsmässigt fryst och samtliga huvudsakliga robusthetstester har genomförts innan övergång till live-relaterade faser. Strategins grundidé bygger på hypotesen 
+att valutamarknaden periodvis rör sig för långt bort från sitt kortsiktiga jämviktspris, definierat genom VWAP (Volume Weighted Average Price) och därefter tenderar 
+att återgå mot denna jämvikt. Fokus ligger på intraday/overnight mean reversion, europeiska valutapar och översträckta rörelser efter volatilitetsexpansion. 
+Grundtesen är att kraftiga avvikelser från VWAP skapar temporära obalanser. Särskilt under låg likviditet eller efter volatil expansion vilket ökar sannolikheten för
+mean reversion under efterföljande timmar. Strategin är helt systematisk och innehåller inga diskretionära beslut.
 
+Slutgiltig strategi-konfiguration
+Efter omfattande robustness-testning frystes strategin med följande parametrar:
+Entry-standardavvikelse: 2.25
+Exit-standardavvikelse: 0.75
+Dessa parametrar valdes inte för att maximera historisk avkastning, utan eftersom de befann sig i ett stabilt parameterområde med tydligt plateau-beteende. Strategins 
+edge visade sig vara robust över flera närliggande parameterkombinationer vilket reducerade risken för överoptimering. Strategin körs på H1-data och använder 
+session-reset VWAP som intraday-jämviktsankare.
+
+Marknadsurval
+Under forskningsprocessen testades ett större antal valutapar för att avgöra om edge:n var generell eller marknadsspecifik. Efter walk-forward-validering och robustness-
+analyser valdes följande marknader för den slutgiltiga portföljen:
+EURUSD
+EURCHF
+EURCAD
+GBPCHF
+Flera andra marknader exkluderades eftersom de visade negativ expectancy, strukturellt svag performance eller avsaknad av stabil edge. Detta gällde bland annat:
+USDCHF
+EURJPY
+CHFJPY
+EURAUD
+CADCHF
+EURSEK visade mycket stark statistik men exkluderades eftersom marknaden inte stöds av den tänkta FTMO-miljön och därför inte är operativt relevant.
+Resultatet av marknadsvalideringen visade tydligt att strategins edge inte är universell, utan främst fungerar i vissa europeiska FX-miljöer.
+
+Portföljkonstruktion
+Två huvudsakliga portföljmodeller testades, equal weight och samt anchored ERC (Equal Risk Contribution). Anchored ERC visade konsekvent:
+något bättre Sharpe,
+lägre drawdown,
+bättre stabilitet under Monte Carlo,
+samt bättre robustness under execution stress.
+Viktigt är att ERC-modellen konstruerades helt utan lookahead bias. Samtliga vikter beräknades enbart på historisk information tillgänglig vid respektive walk-
+forward-period.
+Den slutgiltiga forskningsmodellen använder därför anchored ERC som primär portföljkonstruktion.
+
+Walk-forward-validering
+Strategin testades genom fullständig år-för-år walk-forward-simulering där parametrar hölls fasta, framtidsdata aldrig användes och portföljen kontinuerligt 
+utvärderades out-of-sample. Efter slutgiltigt marknadsurval uppvisade strategin 8 positiva år av 9, stabil expectancy samt relativt låg drawdown i relation 
+till avkastningen. Walk-forward-processen utgjorde den centrala grunden för att verifiera att edge:n inte var beroende av en enskild historisk period.
+
+Parameter robustness
+Ett omfattande parametergrid-test genomfördes för att avgöra om strategins resultat var beroende av mycket specifika parameterkombinationer. Testerna visade 
+tydligt plateau-beteende:
+flera närliggande parametrar gav liknande resultat,
+edge:n kollapsade inte vid små parameterförändringar,
+och inga extrema ”spikes” observerades.
+Detta var en viktig indikation på att strategin sannolikt inte lider av klassisk parameter-overfitting.
+
+Monte Carlo-validering
+Strategin genomgick därefter Monte Carlo-testning genom IID-shuffle och samt block-bootstrap. Syftet var att analysera sekvensberoende, equity path robustness
+och drawdown-risk under alternativa trade-ordningar. Resultaten visade att historisk performance inte var en extrem outlier, Monte Carlo-distributionerna låg nära 
+den verkliga equity-kurvan och att block-bootstrap gav mycket liknande resultat som IID-shuffle. Detta indikerar att strategin inte drivs av ett fåtal lyckosamma 
+perioder eller av ovanlig trade-sekvens.
+
+Execution stress-testning
+För att simulera verklig implementation testades strategin under flera execution-relaterade stresscenarier slippage spikes, missed trades, delayed entries och 
+kombinerade execution-stressmiljöer. Slippage visade relativt liten påverkan på strategins edge. Missed trades försämrade resultaten måttligt men strategin behöll 
+positiv expectancy. Den största känsligheten observerades vid delayed entries. En extrem modell där samtliga trades försenades en hel H1-bar försämrade performance 
+kraftigt. Däremot visade mer realistiska scenarier, där cirka 30% av entries försenades, betydligt bättre robusthet. Slutsatsen blev att strategin kräver god 
+execution-kvalitet men inte orealistiskt perfekta fills.
+
+Regime-analys
+I nästa forskningsfas analyserades strategins beteende under olika marknadsregimer. Tre huvudsakliga regime-dimensioner testades, trendregim, volatilitet, och 
+compression/expansion-miljöer. Analysen visade att strategin fungerar bäst i trend_up, trend_flat, samt high_vol-regimer. Den tydligt svagaste miljön identifierades 
+som trend_down + mid_vol. I denna regim försämrades expectancy och Sharpe markant. Detta var ett viktigt fynd eftersom det gav en tydlig förklaring till varför 
+vissa historiska perioder underpresterade.
+
+Regime-baserad riskoverlay
+Efter identifieringen av den svaga regim-miljön testades en regime-aware riskoverlay där exponeringen reducerades under trend_down + mid_vol. Istället för att filtrera 
+bort trades helt reducerades positionsexponeringen gradvis. Resultatet var mycket starkt:
+Sharpe förbättrades,
+drawdown reducerades,
+volatiliteten minskade,
+samtidigt som totalavkastningen ökade.
+Förbättringen var dessutom monotonisk över olika riskmultipliers, vilket är ett viktigt tecken på att overlayn sannolikt fångar en verklig strukturell svaghet snarare 
+än historiskt brus. Trots att full exkludering av den negativa regimen gav bäst historiskt resultat bedömdes en mildare overlay vara mer robust och mindre överfitad för 
+framtida live-användning.
+
+Bedömning av överoptimering och bias
+Under forskningsprocessen genomfördes flera tester specifikt med syfte att identifiera:
+lookahead bias,
+parameter-overfitting,
+regime-overfitting,
+samt sekvensberoende.
+Efter genomförda robustness-tester finns inga tydliga indikationer på framtidsläckage, isolerade parameter-spikes eller beroende av enskilda historiska perioder. Kvarvarande 
+risker bedöms istället främst vara:
+förändrade marknadsstrukturer,
+försämrad execution-kvalitet,
+samt framtida regimskiften.
+Nuvarande forskningsstatus
+Strategin betraktas nu som forskningsmässigt fryst. Det innebär att inga fler parameterändringar planeras, inga ytterligare marknader ska adderas och inga nya filters ska 
+utvecklas innan nästa valideringsfaser genomförts. Fokus framåt ligger istället på portföljrealism, operational robustness, och live-relaterad implementation.
+
+Nästa steg
+De återstående planerade forskningsfaserna är:
+Fas 7 — Portfolio realism
+Här kommer fokus ligga på:
+korrelerade drawdowns,
+capital scaling,
+FTMO-regler,
+margin-stress,
+samt realistisk portföljexponering.
+Fas 8 — Final sanity checks
+Denna fas kommer inkludera:
+timestamp perturbation,
+spread inflation,
+missing-bar-simulering,
+timezone-verifiering,
+samt ytterligare försök att stressa och bryta strategin.
+Fas 9 — Live readiness
+Först därefter planeras:
+shadow execution,
+live-vs-theoretical tracking,
+execution logging,
+samt full live readiness-process.
+
+Slutlig forskningsbedömning
+Efter genomförda robustness-faser bedöms strategin uppvisa flera egenskaper som är förenliga med en legitim systematisk alpha-källa:
+robust parameterstruktur,
+stabil walk-forward-performance,
+god Monte Carlo-stabilitet,
+acceptabel execution robustness,
+samt tydlig och logisk regime-struktur.
+Strategin verkar inte vara beroende av:
+extrema historiska anomalier,
+orealistiska antaganden,
+eller aggressiv överoptimering.
+Det återstående arbetet handlar nu främst om:
+realistisk portföljimplementation,
+operational robustness,
+och verifiering under verkliga marknadsförhållanden.
+
+Nu är det dags för fas 7, som läggs upp såhär:
+
+FAS 7A — Overlapping Exposure
+Mest viktigt först. Vi måste förstå:
+- hur många positioner som är öppna samtidigt
+- hur korrelerade de är
+- hur mycket total FX-risk ni egentligen har
+Exempel:
+EURUSD long
+EURCAD long
+EURCHF long
+är i praktiken massiv EUR-exponering. Det här är kritiskt.
+
+FAS 7B — Correlated Loss Clusters
+Vi vill veta när flera marknader förlorar samtidigt och hur stor cluster-risk vi har
+Exempel:
+- centralbankveckor
+- trendregimer
+- USD-chocksessioner
+
+FAS 7C — FTMO Constraint Simulation
+Simulera:
+- daily drawdown limits
+- max overall DD
+- leverage constraints
+- concurrent position limits
+“skulle strategin överleva som verklig FTMO-portfölj?”
+
+FAS 7D — Capital Scaling
+Testa:
+- linear scaling
+- volatility targeting
+- regime-aware scaling
+- ERC + overlay together
+
+FAS 7E — Stress Correlation
+Vi måste simulera:
+- spread spikes samtidigt
+- correlated slippage
+- correlated losses
+Detta är mycket realistiskt.
+
+====================================================================================================
+PHASE 7A — PORTFOLIO EXPOSURE & CONCENTRATION ANALYSIS
+====================================================================================================
+Markets: ['EURUSD', 'EURCHF', 'EURCAD', 'USDCHF']
+Years: [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+Trades analyzed: 5045
+Currencies: ['CAD', 'CHF', 'EUR', 'USD']
+Cluster threshold abs currency exposure: 0.75
+
+====================================================================================================
+PHASE 7A — CONCURRENT POSITION / PORTFOLIO HEAT SUMMARY
+====================================================================================================
+      scheme  hours  mean_open_positions  median_open_positions  p95_open_positions  max_open_positions  mean_active_markets  p95_active_markets  max_active_markets  mean_portfolio_heat  p95_portfolio_heat  max_portfolio_heat  mean_max_single_ccy_exposure  p95_max_single_ccy_exposure  max_single_ccy_exposure
+       equal  78851             0.238856                    0.0                 2.0                   4             0.238856                 2.0                   4             0.110988            1.000000            1.500000                      0.052339                     0.500000                 0.750000
+anchored_erc  78851             0.238856                    0.0                 2.0                   4             0.238856                 2.0                   4             0.110499            0.930202            1.557112                      0.052414                     0.463234                 0.778556
+
+====================================================================================================
+PHASE 7A — CURRENCY CONCENTRATION
+====================================================================================================
+      scheme currency  mean_abs_exposure  median_abs_exposure  p95_abs_exposure  p99_abs_exposure  max_abs_exposure  pct_hours_nonzero
+       equal      CAD           0.014470                  0.0          0.250000          0.250000          0.250000           0.057881
+       equal      CHF           0.025910                  0.0          0.250000          0.500000          0.500000           0.089840
+       equal      EUR           0.038658                  0.0          0.250000          0.500000          0.750000           0.122649
+       equal      USD           0.031949                  0.0          0.250000          0.500000          0.500000           0.100443
+anchored_erc      CAD           0.014397                  0.0          0.246360          0.251265          0.252769           0.057881
+anchored_erc      CHF           0.026580                  0.0          0.225486          0.510976          0.517854           0.094672
+anchored_erc      EUR           0.039919                  0.0          0.286136          0.530005          0.778556           0.131907
+anchored_erc      USD           0.029602                  0.0          0.239030          0.463362          0.467435           0.101191
+
+====================================================================================================
+PHASE 7A — EXPOSURE CLUSTER SUMMARY
+====================================================================================================
+      scheme currency  cluster_rows  unique_cluster_hours  cluster_hour_rate  max_abs_currency_exposure  mean_open_positions_in_cluster  mean_portfolio_heat_in_cluster
+       equal      EUR           311                   311           0.003944                   0.750000                        3.366559                        1.500000
+anchored_erc      EUR           311                   311           0.003944                   0.778556                        3.366559                        1.552509
+
+====================================================================================================
+PHASE 7A — WORST CORRELATED LOSS DAYS
+====================================================================================================
+scheme       date  closed_trades  losing_trades  loss_cluster_ratio  weighted_daily_pnl_pips              markets_closed
+ equal 2021-11-26              3              3            1.000000                 -73.4800        EURCAD,EURCHF,USDCHF
+ equal 2025-04-03              2              2            1.000000                 -61.0275               EURUSD,USDCHF
+ equal 2022-09-09              5              3            0.600000                 -53.0125 EURCAD,EURCHF,EURUSD,USDCHF
+ equal 2017-02-07              3              2            0.666667                 -40.5075        EURCHF,EURUSD,USDCHF
+ equal 2021-11-30              2              1            0.500000                 -33.5800               EURCAD,EURCHF
+ equal 2025-08-27              4              3            0.750000                 -32.4325 EURCAD,EURCHF,EURUSD,USDCHF
+ equal 2020-08-28              6              4            0.666667                 -31.5125 EURCAD,EURCHF,EURUSD,USDCHF
+ equal 2023-12-28              3              3            1.000000                 -30.5300        EURCHF,EURUSD,USDCHF
+ equal 2021-02-09              3              3            1.000000                 -29.2025        EURCAD,EURUSD,USDCHF
+ equal 2017-01-17              4              2            0.500000                 -28.9075 EURCAD,EURCHF,EURUSD,USDCHF
+ equal 2018-02-20              4              3            0.750000                 -28.7525        EURCAD,EURUSD,USDCHF
+ equal 2022-09-29              4              3            0.750000                 -27.6575 EURCAD,EURCHF,EURUSD,USDCHF
+ equal 2019-02-28              3              3            1.000000                 -26.5800        EURCAD,EURCHF,USDCHF
+ equal 2021-03-12              3              2            0.666667                 -26.5775               EURUSD,USDCHF
+ equal 2025-04-16              2              2            1.000000                 -26.5000               EURCAD,EURUSD
+ equal 2017-08-02              3              2            0.666667                 -26.3325        EURCAD,EURCHF,USDCHF
+ equal 2025-02-13              3              3            1.000000                 -26.2025        EURCAD,EURUSD,USDCHF
+ equal 2021-11-04              5              4            0.800000                 -26.0325 EURCAD,EURCHF,EURUSD,USDCHF
+ equal 2022-02-04              3              3            1.000000                 -25.8025        EURCAD,EURCHF,EURUSD
+ equal 2022-11-01              4              2            0.500000                 -25.4025        EURCAD,EURUSD,USDCHF
