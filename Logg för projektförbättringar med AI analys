@@ -1022,3 +1022,4 @@ scheme       date  closed_trades  losing_trades  loss_cluster_ratio  weighted_da
  equal 2021-11-04              5              4            0.800000                 -26.0325 EURCAD,EURCHF,EURUSD,USDCHF
  equal 2022-02-04              3              3            1.000000                 -25.8025        EURCAD,EURCHF,EURUSD
  equal 2022-11-01              4              2            0.500000                 -25.4025        EURCAD,EURUSD,USDCHF
+
