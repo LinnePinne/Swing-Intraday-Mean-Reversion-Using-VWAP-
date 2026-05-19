@@ -1022,4 +1022,7 @@ scheme       date  closed_trades  losing_trades  loss_cluster_ratio  weighted_da
  equal 2021-11-04              5              4            0.800000                 -26.0325 EURCAD,EURCHF,EURUSD,USDCHF
  equal 2022-02-04              3              3            1.000000                 -25.8025        EURCAD,EURCHF,EURUSD
  equal 2022-11-01              4              2            0.500000                 -25.4025        EURCAD,EURUSD,USDCHF
-
+Samtidiga positioner är låga, mean_open_positions ligger på 0.26, max ligger på 4 och 95e percentilen ligger på 2. Det innebär att strategin inte är konstant 
+in market och att den är selektiv, cluster-risk är begränsad. Euro är tydlig dominant precis som väntat med max exposure på 0.75-0.78 vilket inte är okontrollerat
+samtidigt som cluster_hour_rate är ungefär 0.39%, så EUR-clusters existerar men är ovanliga vilket är bra. Det vikitgaste över denna data är att portföljen har
+verkllig diversifiering trots gemensamma valutor, trots detta är Euro koncentration den största strukturella risken. Nästa steg är Fas 7B
