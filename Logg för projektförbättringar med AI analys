@@ -948,19 +948,53 @@ Simulera:
 - concurrent position limits
 “skulle strategin överleva som verklig FTMO-portfölj?”
 
-FAS 7D — Capital Scaling
-Testa:
-- linear scaling
-- volatility targeting
-- regime-aware scaling
-- ERC + overlay together
+FAS 7D — EXECUTION & LIQUIDITY REALISM
+Varför? För vi handlar:
+overnight
+Asia session
+låg likviditet
+mean reversion
+tight edge
+hög trade frequency
+Det betyder att execution realism kan påverka edge ganska mycket.
+Här verifierar vi:
+fill realism
+spread expansion
+slippage clustering
+weekend gaps
+rollover effects
+delayed fills
+latency sensitivity
+spread regime asymmetry
+Vi har redan gjort grundläggande cost stress, men 7D är djupare.
+Exempel:
+spread doubles under high vol
+slippage correlated across FX pairs
+clustered bad fills
+execution degradation during macro days
 
-FAS 7E — Stress Correlation
-Vi måste simulera:
-- spread spikes samtidigt
-- correlated slippage
-- correlated losses
-Detta är mycket realistiskt.
+FAS 7E — CAPITAL SCALING & RISK OF RUIN
+Vi har ännu inte verifierat:
+optimal leverage
+safe leverage
+FTMO-safe leverage
+Kelly fraction stability
+ruin probability
+daily DD breach probability
+scaling sensitivity
+Just nu vet vi bara:
+“Strategin fungerar.”
+Men vi vet inte:
+“Hur aggressivt kan vi köra den?”
+Och DET är egentligen den viktigaste live-frågan. Speciellt eftersom:
+Vi ska kombinera flera strategier
+FTMO constraints
+Vi kommer ha portfolio interactions
+
+7E blir därför:
+leverage engineering
+capital allocation engineering
+survival engineering
 
 ====================================================================================================
 PHASE 7A — PORTFOLIO EXPOSURE & CONCENTRATION ANALYSIS
@@ -1026,3 +1060,137 @@ Samtidiga positioner är låga, mean_open_positions ligger på 0.26, max ligger 
 in market och att den är selektiv, cluster-risk är begränsad. Euro är tydlig dominant precis som väntat med max exposure på 0.75-0.78 vilket inte är okontrollerat
 samtidigt som cluster_hour_rate är ungefär 0.39%, så EUR-clusters existerar men är ovanliga vilket är bra. Det vikitgaste över denna data är att portföljen har
 verkllig diversifiering trots gemensamma valutor, trots detta är Euro koncentration den största strukturella risken. Nästa steg är Fas 7B
+====================================================================================================
+PHASE 7B — CORRELATED STRESS SIMULATION
+====================================================================================================
+Purpose: portfolio-level event stress on clustered FX risk, without changing strategy rules.
+
+Scheme: equal | daily trade-close rows: 2061 | baseline pnl pips: 2485.3300
+
+Scheme: anchored_erc | daily trade-close rows: 2061 | baseline pnl pips: 2485.3300
+
+====================================================================================================
+PHASE 7B — CORRELATED STRESS SUMMARY
+====================================================================================================
+      scheme                              scenario  n_events  total_pnl_pips  d_total_pnl_pips  daily_sharpe_like  d_daily_sharpe_like  max_dd_pips  d_max_dd_pips  worst_day_pnl_pips  positive_day_rate
+       equal                              baseline         0     2485.330000          0.000000           0.719597             0.000000 -1106.880000       0.000000         -293.920000           0.655992
+       equal     correlated_slippage_10_worst_days        10     2415.330000        -70.000000           0.693813            -0.025784 -1122.880000     -16.000000         -299.920000           0.655992
+       equal        spread_expansion_10_worst_days        10     2345.330000       -140.000000           0.668231            -0.051365 -1138.880000     -32.000000         -305.920000           0.655992
+       equal loss_cluster_multiplier_10_worst_days        10     1656.945000       -828.385000           0.426236            -0.293361 -1402.650000    -295.770000         -440.880000           0.655992
+       equal       central_bank_shock_6_worst_days         6     2013.290000       -472.040000           0.541072            -0.178524 -1263.940000    -157.060000         -393.400000           0.655992
+       equal         combined_hard_12_cluster_days        12      997.125000      -1488.205000           0.237418            -0.482179 -1583.650000    -476.770000         -477.880000           0.655992
+       equal                  random_event_days_25        25     2130.635000       -354.695000           0.616765            -0.102832 -1147.232500     -40.352500         -293.920000           0.652111
+anchored_erc                              baseline         0     2485.330000          0.000000           0.719597             0.000000 -1106.880000       0.000000         -293.920000           0.655992
+anchored_erc     correlated_slippage_10_worst_days        10     2415.330000        -70.000000           0.693813            -0.025784 -1122.880000     -16.000000         -299.920000           0.655992
+anchored_erc        spread_expansion_10_worst_days        10     2345.330000       -140.000000           0.668231            -0.051365 -1138.880000     -32.000000         -305.920000           0.655992
+anchored_erc loss_cluster_multiplier_10_worst_days        10     1656.945000       -828.385000           0.426236            -0.293361 -1402.650000    -295.770000         -440.880000           0.655992
+anchored_erc       central_bank_shock_6_worst_days         6     2012.064568       -473.265432           0.540654            -0.178943 -1265.816318    -158.936318         -393.880361           0.655992
+anchored_erc         combined_hard_12_cluster_days        12      995.064697      -1490.265303           0.236866            -0.482731 -1585.441283    -478.561283         -478.480451           0.655992
+anchored_erc                  random_event_days_25        25     2120.341852       -364.988148           0.610297            -0.109300 -1130.846237     -23.966237         -293.920000           0.653566
+
+====================================================================================================
+PHASE 7B — WORST STRESSED DAYS
+====================================================================================================
+      scheme                              scenario       date  weighted_pnl_pips  stressed_pnl_pips  closed_trades  losing_trades  loss_cluster_ratio  max_portfolio_heat
+anchored_erc         combined_hard_12_cluster_days 2021-11-26            -293.92        -478.480451              3              3                 1.0            1.024018
+       equal         combined_hard_12_cluster_days 2021-11-26            -293.92        -477.880000              3              3                 1.0            1.000000
+       equal loss_cluster_multiplier_10_worst_days 2021-11-26            -293.92        -440.880000              3              3                 1.0            1.000000
+anchored_erc loss_cluster_multiplier_10_worst_days 2021-11-26            -293.92        -440.880000              3              3                 1.0            1.024018
+       equal         combined_hard_12_cluster_days 2025-04-03            -244.11        -399.165000              2              2                 1.0            1.000000
+anchored_erc         combined_hard_12_cluster_days 2025-04-03            -244.11        -397.333076              2              2                 1.0            0.926723
+anchored_erc       central_bank_shock_6_worst_days 2021-11-26            -293.92        -393.880361              3              3                 1.0            1.024018
+       equal       central_bank_shock_6_worst_days 2021-11-26            -293.92        -393.400000              3              3                 1.0            1.000000
+anchored_erc         combined_hard_12_cluster_days 2022-09-09            -212.05        -376.800716              5              3                 0.6            1.549029
+       equal         combined_hard_12_cluster_days 2022-09-09            -212.05        -375.575000              5              3                 0.6            1.500000
+       equal loss_cluster_multiplier_10_worst_days 2025-04-03            -244.11        -366.165000              2              2                 1.0            1.000000
+anchored_erc loss_cluster_multiplier_10_worst_days 2025-04-03            -244.11        -366.165000              2              2                 1.0            0.926723
+       equal       central_bank_shock_6_worst_days 2025-04-03            -244.11        -329.137500              2              2                 1.0            1.000000
+anchored_erc       central_bank_shock_6_worst_days 2025-04-03            -244.11        -327.671961              2              2                 1.0            0.926723
+       equal loss_cluster_multiplier_10_worst_days 2022-09-09            -212.05        -318.075000              5              3                 0.6            1.500000
+anchored_erc loss_cluster_multiplier_10_worst_days 2022-09-09            -212.05        -318.075000              5              3                 0.6            1.549029
+anchored_erc       central_bank_shock_6_worst_days 2022-09-09            -212.05        -306.043073              5              3                 0.6            1.549029
+       equal        spread_expansion_10_worst_days 2021-11-26            -293.92        -305.920000              3              3                 1.0            1.000000
+anchored_erc        spread_expansion_10_worst_days 2021-11-26            -293.92        -305.920000              3              3                 1.0            1.024018
+       equal       central_bank_shock_6_worst_days 2022-09-09            -212.05        -305.062500              5              3                 0.6            1.500000
+anchored_erc     correlated_slippage_10_worst_days 2021-11-26            -293.92        -299.920000              3              3                 1.0            1.024018
+       equal     correlated_slippage_10_worst_days 2021-11-26            -293.92        -299.920000              3              3                 1.0            1.000000
+anchored_erc                              baseline 2021-11-26            -293.92        -293.920000              3              3                 1.0            1.024018
+       equal                              baseline 2021-11-26            -293.92        -293.920000              3              3                 1.0            1.000000
+       equal                  random_event_days_25 2021-11-26            -293.92        -293.920000              3              3                 1.0            1.000000
+Skadan som slippage gör är nästan irrelevant, 70 pips totalt över historiken är ingenting, edgen är alltså inte fill känslig och utförandet/execution är inte kritiskt vilket
+innebär att vi itne behöver HFT liknande precision. Spread expansion ser också bra ut, men vid stressad correlation börjar strategin falla, specifikt lossloss_cluster_multiplier, 
+combined_hard och central_bank_shock. I combined_hard_12_cluster_days kastade vi in spread stress, slippage stress, cluster loss stress och macroshock samtidigt på portföljen.
+Trots det är sharpe fortfarande positivt vilket är ganska imponerande. De värsta dagarna är logiska, 2021-11-26, 2025-04-03 och 2022-09-09 har flera samtidiga EUR/CHF/USD-positioner,
+hög concentration och loss clustering. Det här är precis den typ av dagar vi måste överleva live och strategin verkar överleva dem. Nu är det mer tydligt att strategins största risk
+inte är spreads, slippage eller latency utanlängre korrelerad trend continuation för flera forex par samtidigt, dvs att mean reversion naturen försvinner helt under längre period.
+Detta är den klassiska risken för mean reversion portföljen och är helt realistiskt, det är inte ett fel vi måste lösa utan en del av strategins natur som vi kan kompensera för
+genom större diversifikation med andra strategier. Vi kommer skippa fas 7C eftersom FTMO simulation inte är nödvändigt för en strategi när vi kommer köra flera stycken samtidigt 
+live, därför blir det Fas 7D - EXECUTION & LIQUIDITY REALISM nu.
+====================================================================================================
+PHASE 7D — EXECUTION & LIQUIDITY REALISM
+====================================================================================================
+Purpose: deeper execution/liquidity stress for overnight FX, without changing strategy rules.
+
+Scheme: equal | daily trade-close rows: 2061 | baseline pnl pips: 2485.3300
+  high_vol_days: 475 | rollover_crosses: 6 | weekend_crosses: 3
+
+Scheme: anchored_erc | daily trade-close rows: 2061 | baseline pnl pips: 2485.3300
+  high_vol_days: 475 | rollover_crosses: 6 | weekend_crosses: 3
+
+====================================================================================================
+PHASE 7D — EXECUTION & LIQUIDITY SUMMARY
+====================================================================================================
+      scheme                                scenario  days  total_pnl_pips  d_total_pnl_pips  daily_sharpe_like  d_daily_sharpe_like  max_dd_pips  d_max_dd_pips  worst_day_pnl_pips  positive_day_rate  high_vol_days  rollover_crosses  weekend_crosses
+       equal                                baseline  2061     2485.330000          0.000000           0.719597             0.000000 -1106.880000       0.000000            -293.920           0.655992            475                 6                3
+       equal                 spread_x2_high_vol_days  2061     1613.080000       -872.250000           0.467780            -0.251817 -1133.350000     -26.470000            -293.920           0.648229            475                 6                3
+       equal                        rollover_penalty  2061     2482.330000         -3.000000           0.718765            -0.000832 -1106.880000       0.000000            -293.920           0.655992            475                 6                3
+       equal                      weekend_gap_stress  2061     2467.330000        -18.000000           0.714631            -0.004966 -1106.880000       0.000000            -293.920           0.655992            475                 6                3
+       equal             clustered_bad_fills_20_days  2061     2047.330000       -438.000000           0.577053            -0.142543 -1245.100000    -138.220000            -293.920           0.655992            475                 6                3
+       equal              latency_30pct_adverse_fill  2061      215.080000      -2270.250000           0.062286            -0.657311 -1558.050000    -451.170000            -295.270           0.633188            475                 6                3
+       equal asymmetric_bad_liquidity_on_losing_days  2061       39.571000      -2445.759000           0.010565            -0.709031 -1700.874000    -593.994000            -325.562           0.655992            475                 6                3
+       equal         random_liquidity_events_30_days  2061     2139.580000       -345.750000           0.619103            -0.100493 -1167.630000     -60.750000            -293.920           0.650655            475                 6                3
+       equal                 combined_liquidity_hard  2061    -3907.679000      -6393.009000          -1.017636            -1.737232 -4060.658000   -2953.778000            -326.912           0.621058            475                 6                3
+anchored_erc                                baseline  2061     2485.330000          0.000000           0.719597             0.000000 -1106.880000       0.000000            -293.920           0.655992            475                 6                3
+anchored_erc                 spread_x2_high_vol_days  2061     1613.080000       -872.250000           0.467780            -0.251817 -1133.350000     -26.470000            -293.920           0.648229            475                 6                3
+anchored_erc                        rollover_penalty  2061     2482.330000         -3.000000           0.718765            -0.000832 -1106.880000       0.000000            -293.920           0.655992            475                 6                3
+anchored_erc                      weekend_gap_stress  2061     2467.330000        -18.000000           0.714631            -0.004966 -1106.880000       0.000000            -293.920           0.655992            475                 6                3
+anchored_erc             clustered_bad_fills_20_days  2061     2044.073713       -441.256287           0.575901            -0.143696 -1244.145606    -137.265606            -293.920           0.655992            475                 6                3
+anchored_erc              latency_30pct_adverse_fill  2061      215.080000      -2270.250000           0.062286            -0.657311 -1558.050000    -451.170000            -295.270           0.633188            475                 6                3
+anchored_erc asymmetric_bad_liquidity_on_losing_days  2061       39.571000      -2445.759000           0.010565            -0.709031 -1700.874000    -593.994000            -325.562           0.655992            475                 6                3
+anchored_erc         random_liquidity_events_30_days  2061     2213.655936       -271.674064           0.638667            -0.080930 -1159.613960     -52.733960            -293.920           0.652111            475                 6                3
+anchored_erc                 combined_liquidity_hard  2061    -3836.859351      -6322.189351          -0.996279            -1.715875 -3989.838351   -2882.958351            -326.912           0.622513            475                 6                3
+
+====================================================================================================
+PHASE 7D — WORST LIQUIDITY STRESSED DAYS
+====================================================================================================
+      scheme                                scenario       date  weighted_pnl_pips  stress_total_pips  stressed_pnl_pips  closed_trades  losing_trades  loss_cluster_ratio  max_portfolio_heat vol_regime trend_regime  rollover_crosses  weekend_crosses  stress_high_vol_spread_cost  stress_rollover_cost  stress_weekend_gap_cost  stress_clustered_bad_fill_cost  stress_latency_cost  stress_asym_liquidity_cost  stress_random_liquidity_cost
+anchored_erc                 combined_liquidity_hard 2021-11-26            -293.92            -32.992           -326.912              3              3                 1.0            1.024018    mid_vol   trend_down                 0                0                          0.0                  -0.0                     -0.0                             0.0                -1.35                     -31.642                           0.0
+       equal                 combined_liquidity_hard 2021-11-26            -293.92            -32.992           -326.912              3              3                 1.0            1.000000    mid_vol   trend_down                 0                0                          0.0                  -0.0                     -0.0                             0.0                -1.35                     -31.642                           0.0
+       equal asymmetric_bad_liquidity_on_losing_days 2021-11-26            -293.92            -31.642           -325.562              3              3                 1.0            1.000000    mid_vol   trend_down                 0                0                          0.0                   0.0                      0.0                             0.0                 0.00                     -31.642                           0.0
+anchored_erc asymmetric_bad_liquidity_on_losing_days 2021-11-26            -293.92            -31.642           -325.562              3              3                 1.0            1.024018    mid_vol   trend_down                 0                0                          0.0                   0.0                      0.0                             0.0                 0.00                     -31.642                           0.0
+       equal              latency_30pct_adverse_fill 2021-11-26            -293.92             -1.350           -295.270              3              3                 1.0            1.000000    mid_vol   trend_down                 0                0                          0.0                   0.0                      0.0                             0.0                -1.35                       0.000                           0.0
+anchored_erc              latency_30pct_adverse_fill 2021-11-26            -293.92             -1.350           -295.270              3              3                 1.0            1.024018    mid_vol   trend_down                 0                0                          0.0                   0.0                      0.0                             0.0                -1.35                       0.000                           0.0
+anchored_erc                 spread_x2_high_vol_days 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.024018    mid_vol   trend_down                 0                0                          0.0                   0.0                      0.0                             0.0                 0.00                       0.000                           0.0
+anchored_erc                        rollover_penalty 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.024018    mid_vol   trend_down                 0                0                          0.0                  -0.0                      0.0                             0.0                 0.00                       0.000                           0.0
+       equal                 spread_x2_high_vol_days 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.000000    mid_vol   trend_down                 0                0                          0.0                   0.0                      0.0                             0.0                 0.00                       0.000                           0.0
+       equal             clustered_bad_fills_20_days 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.000000    mid_vol   trend_down                 0                0                          0.0                   0.0                      0.0                             0.0                 0.00                       0.000                           0.0
+       equal                      weekend_gap_stress 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.000000    mid_vol   trend_down                 0                0                          0.0                   0.0                     -0.0                             0.0                 0.00                       0.000                           0.0
+anchored_erc         random_liquidity_events_30_days 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.024018    mid_vol   trend_down                 0                0                          0.0                   0.0                      0.0                             0.0                 0.00                       0.000                           0.0
+       equal                        rollover_penalty 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.000000    mid_vol   trend_down                 0                0                          0.0                  -0.0                      0.0                             0.0                 0.00                       0.000                           0.0
+anchored_erc                                baseline 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.024018    mid_vol   trend_down                 0                0                          NaN                   NaN                      NaN                             NaN                  NaN                         NaN                           NaN
+anchored_erc             clustered_bad_fills_20_days 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.024018    mid_vol   trend_down                 0                0                          0.0                   0.0                      0.0                             0.0                 0.00                       0.000                           0.0
+anchored_erc                      weekend_gap_stress 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.024018    mid_vol   trend_down                 0                0                          0.0                   0.0                     -0.0                             0.0                 0.00                       0.000                           0.0
+       equal         random_liquidity_events_30_days 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.000000    mid_vol   trend_down                 0                0                          0.0                   0.0                      0.0                             0.0                 0.00                       0.000                           0.0
+       equal                                baseline 2021-11-26            -293.92              0.000           -293.920              3              3                 1.0            1.000000    mid_vol   trend_down                 0                0                          NaN                   NaN                      NaN                             NaN                  NaN                         NaN                           NaN
+       equal                 combined_liquidity_hard 2025-04-03            -244.11            -28.311           -272.421              2              2                 1.0            1.000000   high_vol   trend_flat                 0                0                         -1.5                  -0.0                     -0.0                             0.0                -0.90                     -25.911                           0.0
+anchored_erc                 combined_liquidity_hard 2025-04-03            -244.11            -28.311           -272.421              2              2                 1.0            0.926723   high_vol   trend_flat                 0                0                         -1.5                  -0.0                     -0.0                             0.0                -0.90                     -25.911                           0.0
+       equal asymmetric_bad_liquidity_on_losing_days 2025-04-03            -244.11            -25.911           -270.021              2              2                 1.0            1.000000   high_vol   trend_flat                 0                0                          0.0                   0.0                      0.0                             0.0                 0.00                     -25.911                           0.0
+anchored_erc asymmetric_bad_liquidity_on_losing_days 2025-04-03            -244.11            -25.911           -270.021              2              2                 1.0            0.926723   high_vol   trend_flat                 0                0                          0.0                   0.0                      0.0                             0.0                 0.00                     -25.911                           0.0
+anchored_erc                 spread_x2_high_vol_days 2025-04-03            -244.11             -1.500           -245.610              2              2                 1.0            0.926723   high_vol   trend_flat                 0                0                         -1.5                   0.0                      0.0                             0.0                 0.00                       0.000                           0.0
+       equal                 spread_x2_high_vol_days 2025-04-03            -244.11             -1.500           -245.610              2              2                 1.0            1.000000   high_vol   trend_flat                 0                0                         -1.5                   0.0                      0.0                             0.0                 0.00                       0.000                           0.0
+anchored_erc              latency_30pct_adverse_fill 2025-04-03            -244.11             -0.900           -245.010              2              2                 1.0            0.926723   high_vol   trend_flat                 0                0                          0.0                   0.0                      0.0                             0.0                -0.90                       0.000                           0.0
+       equal              latency_30pct_adverse_fill 2025-04-03            -244.11             -0.900           -245.010              2              2                 1.0            1.000000   high_vol   trend_flat                 0                0                          0.0                   0.0                      0.0                             0.0                -0.90                       0.000                           0.0
+anchored_erc                      weekend_gap_stress 2025-04-03            -244.11              0.000           -244.110              2              2                 1.0            0.926723   high_vol   trend_flat                 0                0                          0.0                   0.0                     -0.0                             0.0                 0.00                       0.000                           0.0
+anchored_erc             clustered_bad_fills_20_days 2025-04-03            -244.11              0.000           -244.110              2              2                 1.0            0.926723   high_vol   trend_flat                 0                0                          0.0                   0.0                      0.0                             0.0                 0.00                       0.000                           0.0
+anchored_erc                                baseline 2025-04-03            -244.11              0.000           -244.110              2              2                 1.0            0.926723   high_vol   trend_flat                 0                0                          NaN                   NaN                      NaN                             NaN                  NaN                         NaN                           NaN
+       equal                        rollover_penalty 2025-04-03            -244.11              0.000           -244.110              2              2                 1.0            1.000000   high_vol   trend_flat                 0                0                          0.0                  -0.0                      0.0                             0.0                 0.00                       0.000                           0.0
