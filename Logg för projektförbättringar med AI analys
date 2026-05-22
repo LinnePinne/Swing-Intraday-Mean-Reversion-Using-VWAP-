@@ -1202,3 +1202,193 @@ en enorm förlust. Strategin är väldigt beroende av entry timing men med en br
 utan visar bara vart bristerna ligger. Samma sak med asymmetric_bad_liquidity_on_losing_days som går ner till 39 pips som också säger oss att vi behöver bra execution. Det 
 viktigaste från denna analysen är alltså att vi behöver VPS nära broker, stabil execution, bra fills, undvika nyhetskaos, bra latency, robust broker infrastruktur. Vilket
 vi redan har i våran körande bot. Dags för Fas 7E - CAPITAL SCALING & RISK OF RUIN
+====================================================================================================
+PHASE 7E — CAPITAL SCALING & RISK OF RUIN
+====================================================================================================
+Purpose: find safe scaling ranges for the FX module before master-portfolio integration.
+Note: units are weighted pips / internal risk units, not final FTMO account-%.
+
+====================================================================================================
+PHASE 7E — BASELINE RISK BUDGETS
+====================================================================================================
+      scheme base_scenario  baseline_total_pnl_units  baseline_max_dd_units_abs  baseline_worst_day_units_abs  dd_budget_1.0x_units  dd_budget_1.25x_units  dd_budget_1.5x_units  dd_budget_2.0x_units  dd_budget_2.5x_units  dd_budget_3.0x_units  daily_loss_budget_1.0x_units  daily_loss_budget_1.25x_units  daily_loss_budget_1.5x_units  daily_loss_budget_2.0x_units  daily_loss_budget_2.5x_units  daily_loss_budget_3.0x_units
+       equal      baseline                   2485.33                    1106.88                        293.92               1106.88                 1383.6               1660.32               2213.76                2767.2               3320.64                        293.92                          367.4                        440.88                        587.84                         734.8                        881.76
+anchored_erc      baseline                   2485.33                    1106.88                        293.92               1106.88                 1383.6               1660.32               2213.76                2767.2               3320.64                        293.92                          367.4                        440.88                        587.84                         734.8                        881.76
+
+====================================================================================================
+PHASE 7E — HISTORICAL SCALING SUMMARY
+====================================================================================================
+      scheme  scale  days  total_pnl_units  daily_sharpe_like  max_dd_units  worst_day_units  max_dd_as_multiple_of_baseline  worst_day_as_multiple_of_baseline  longest_losing_streak_days
+       equal   0.25  2061         621.3325           0.719597       -276.72           -73.48                            0.25                               0.25                           7
+       equal   0.50  2061        1242.6650           0.719597       -553.44          -146.96                            0.50                               0.50                           7
+       equal   0.75  2061        1863.9975           0.719597       -830.16          -220.44                            0.75                               0.75                           7
+       equal   1.00  2061        2485.3300           0.719597      -1106.88          -293.92                            1.00                               1.00                           7
+       equal   1.25  2061        3106.6625           0.719597      -1383.60          -367.40                            1.25                               1.25                           7
+       equal   1.50  2061        3727.9950           0.719597      -1660.32          -440.88                            1.50                               1.50                           7
+       equal   2.00  2061        4970.6600           0.719597      -2213.76          -587.84                            2.00                               2.00                           7
+       equal   2.50  2061        6213.3250           0.719597      -2767.20          -734.80                            2.50                               2.50                           7
+       equal   3.00  2061        7455.9900           0.719597      -3320.64          -881.76                            3.00                               3.00                           7
+anchored_erc   0.25  2061         621.3325           0.719597       -276.72           -73.48                            0.25                               0.25                           7
+anchored_erc   0.50  2061        1242.6650           0.719597       -553.44          -146.96                            0.50                               0.50                           7
+anchored_erc   0.75  2061        1863.9975           0.719597       -830.16          -220.44                            0.75                               0.75                           7
+anchored_erc   1.00  2061        2485.3300           0.719597      -1106.88          -293.92                            1.00                               1.00                           7
+anchored_erc   1.25  2061        3106.6625           0.719597      -1383.60          -367.40                            1.25                               1.25                           7
+anchored_erc   1.50  2061        3727.9950           0.719597      -1660.32          -440.88                            1.50                               1.50                           7
+anchored_erc   2.00  2061        4970.6600           0.719597      -2213.76          -587.84                            2.00                               2.00                           7
+anchored_erc   2.50  2061        6213.3250           0.719597      -2767.20          -734.80                            2.50                               2.50                           7
+anchored_erc   3.00  2061        7455.9900           0.719597      -3320.64          -881.76                            3.00                               3.00                           7
+
+====================================================================================================
+PHASE 7E — MONTE CARLO RISK OF RUIN SUMMARY
+====================================================================================================
+      scheme  scale  sims  total_pnl_p05  total_pnl_p50  sharpe_p05  sharpe_p50   max_dd_p01   max_dd_p05  max_dd_p50  worst_day_p01  worst_day_p05  prob_total_pnl_negative  prob_breach_dd_1106.88_units  prob_breach_dd_1383.60_units  prob_breach_dd_1660.32_units  prob_breach_daily_loss_293.92_units  prob_breach_daily_loss_367.40_units  prob_breach_daily_loss_440.88_units
+       equal   0.25 10000      89.744750      620.86125    0.099249    0.722797  -532.603325  -401.665000  -212.06750         -73.48         -73.48                   0.0283                        0.0000                        0.0000                        0.0000                               0.0000                               0.0000                               0.0000
+       equal   0.50 10000     179.489500     1241.72250    0.099249    0.722797 -1065.206650  -803.330000  -424.13500        -146.96        -146.96                   0.0283                        0.0079                        0.0017                        0.0001                               0.0000                               0.0000                               0.0000
+       equal   0.75 10000     269.234250     1862.58375    0.099249    0.722797 -1597.809975 -1204.995000  -636.20250        -220.44        -220.44                   0.0283                        0.0764                        0.0229                        0.0079                               0.0000                               0.0000                               0.0000
+       equal   1.00 10000     358.979000     2483.44500    0.099249    0.722797 -2130.413300 -1606.660000  -848.27000        -293.92        -293.92                   0.0283                        0.2374                        0.1043                        0.0421                               0.6373                               0.0000                               0.0000
+       equal   1.25 10000     448.723750     3104.30625    0.099249    0.722797 -2663.016625 -2008.325000 -1060.33750        -367.40        -367.40                   0.0283                        0.4524                        0.2374                        0.1223                               0.8725                               0.6373                               0.0000
+       equal   1.50 10000     538.468500     3725.16750    0.099249    0.722797 -3195.619950 -2409.990000 -1272.40500        -440.88        -440.88                   0.0283                        0.6517                        0.4079                        0.2374                               0.9573                               0.6373                               0.6373
+       equal   2.00 10000     717.958000     4966.89000    0.099249    0.722797 -4260.826600 -3213.320000 -1696.54000        -587.84        -587.84                   0.0283                        0.8999                        0.7174                        0.5237                               0.9846                               0.9573                               0.8725
+       equal   2.50 10000     897.447500     6208.61250    0.099249    0.722797 -5326.033250 -4016.650000 -2120.67500        -734.80        -734.80                   0.0283                        0.9733                        0.8999                        0.7542                               0.9995                               0.9846                               0.9573
+       equal   3.00 10000    1076.937000     7450.33500    0.099249    0.722797 -6391.239900 -4819.980000 -2544.81000        -881.76        -881.76                   0.0283                        0.9951                        0.9654                        0.8999                               1.0000                               0.9979                               0.9846
+anchored_erc   0.25 10000      92.091125      617.06625    0.103218    0.718298  -532.858750  -401.494625  -211.59625         -73.48         -73.48                   0.0278                        0.0000                        0.0000                        0.0000                               0.0000                               0.0000                               0.0000
+anchored_erc   0.50 10000     184.182250     1234.13250    0.103218    0.718298 -1065.717500  -802.989250  -423.19250        -146.96        -146.96                   0.0278                        0.0077                        0.0018                        0.0006                               0.0000                               0.0000                               0.0000
+anchored_erc   0.75 10000     276.273375     1851.19875    0.103218    0.718298 -1598.576250 -1204.483875  -634.78875        -220.44        -220.44                   0.0278                        0.0768                        0.0228                        0.0077                               0.0000                               0.0000                               0.0000
+anchored_erc   1.00 10000     368.364500     2468.26500    0.103218    0.718298 -2131.435000 -1605.978500  -846.38500        -293.92        -293.92                   0.0278                        0.2352                        0.1035                        0.0428                               0.6445                               0.0000                               0.0000
+anchored_erc   1.25 10000     460.455625     3085.33125    0.103218    0.718298 -2664.293750 -2007.473125 -1057.98125        -367.40        -367.40                   0.0278                        0.4489                        0.2352                        0.1229                               0.8693                               0.6445                               0.0000
+anchored_erc   1.50 10000     552.546750     3702.39750    0.103218    0.718298 -3197.152500 -2408.967750 -1269.57750        -440.88        -440.88                   0.0278                        0.6549                        0.4049                        0.2352                               0.9536                               0.6445                               0.6445
+anchored_erc   2.00 10000     736.729000     4936.53000    0.103218    0.718298 -4262.870000 -3211.957000 -1692.77000        -587.84        -587.84                   0.0278                        0.8999                        0.7197                        0.5226                               0.9831                               0.9536                               0.8693
+anchored_erc   2.50 10000     920.911250     6170.66250    0.103218    0.718298 -5328.587500 -4014.946250 -2115.96250        -734.80        -734.80                   0.0278                        0.9748                        0.8999                        0.7590                               0.9996                               0.9831                               0.9536
+anchored_erc   3.00 10000    1105.093500     7404.79500    0.103218    0.718298 -6394.305000 -4817.935500 -2539.15500        -881.76        -881.76                   0.0278                        0.9943                        0.9675                        0.8999                               1.0000                               0.9987                               0.9831
+
+====================================================================================================
+PHASE 7E — SAFE SCALE TABLE
+====================================================================================================
+      scheme       breach_probability_col  max_scale_prob_le_5pct  max_scale_prob_le_1pct
+       equal prob_breach_dd_1106.88_units                    0.50                    0.50
+       equal prob_breach_dd_1383.60_units                    0.75                    0.50
+       equal prob_breach_dd_1660.32_units                    1.00                    0.75
+       equal prob_breach_dd_2213.76_units                    1.25                    1.00
+       equal prob_breach_dd_2767.20_units                    1.50                    1.25
+       equal prob_breach_dd_3320.64_units                    2.00                    1.50
+anchored_erc prob_breach_dd_1106.88_units                    0.50                    0.50
+anchored_erc prob_breach_dd_1383.60_units                    0.75                    0.50
+anchored_erc prob_breach_dd_1660.32_units                    1.00                    0.75
+anchored_erc prob_breach_dd_2213.76_units                    1.25                    1.00
+anchored_erc prob_breach_dd_2767.20_units                    1.50                    1.25
+anchored_erc prob_breach_dd_3320.64_units                    2.00                    1.50
+Vid 0.5x skalning är strategin stabil med låg risk of ruin där prob_breach_dd ≈ <1% för de flesta dd-budgetar. Så fort skalningen går upp till 1.0x och 
+högre verkar det vara för aggressivt. Den mest professionela slutsatsen av denna data är att strategin är bäst lämpad som låg till medium risk portfölj
+komponent. Vi vet ni att den konservativa rangen ligger runt 0.25x-0.50x, balanserad range 0.50x-0.75x och allt över 1.0x blir för aggressivt. Denna 
+analys är viktig och intressant men det är inte här vi bestämmer slutgiltig exposure, det gör vi i master portföljen där allt förändras med tillagda
+marknader och strategier som kommer förändra optimalt leverage, ERC, heat och DD-budget. Nu går vi in i Fas 8 som vi lägger upp på detta vis:
+FAS 8A — Hidden Bias Audit
+Sista kontroll av:
+lookahead bias
+timestamp leakage
+execution leakage
+session leakage
+future volatility leakage
+indicator alignment
+walk-forward integrity
+Detta är viktigt även om vi redan varit försiktiga.
+
+FAS 8B — Stability Decay Analysis
+Kontrollera om edge försämras över tid
+rolling Sharpe
+rolling expectancy
+rolling PF
+rolling DD
+rolling winrate
+Vi vill se:
+gradual decay → OK
+inte:
+structural collapse
+
+FAS 8C — Randomization / Falsification
+Väldigt viktigt.
+Vi ska verifiera att edge inte kommer från slumpmässig struktur.
+Exempel:
+random entries
+shifted entries
+inverted entries
+random exits
+shuffled timestamps
+Om strategin fortfarande är bättre än random är det bra.
+
+FAS 8D — Sensitivity Asymmetry
+Vi har gjort robustness grids.
+Men här testar vi:
+asymmetrisk sensitivity, om strategin är hypersensitiv åt en riktning
+Exempel:
+entry +0.1 vs -0.1
+exit +0.1 vs -0.1
+Vi vill se smoothness.
+
+FAS 8E — Data Integrity / Survivorship Audit
+Sista kontroll av:
+missing bars
+duplicated bars
+timezone issues
+DST issues
+broker-specific artifacts
+abnormal spread periods
+
+====================================================================================================
+PHASE 8A — HIDDEN BIAS AUDIT
+====================================================================================================
+Purpose: detect lookahead, timing leakage, alignment bugs, and data integrity problems.
+No strategy logic is changed in this phase.
+
+====================================================================================================
+PHASE 8A — AUDIT SUMMARY
+====================================================================================================
+         audit_section status  pass  warn  fail
+        data_integrity   WARN     0     4     0
+   indicator_lookahead   PASS     4     0     0
+       trade_alignment   PASS     4     0     0
+walk_forward_integrity   PASS     3     0     0
+  static_code_patterns   WARN     1     2     0
+
+====================================================================================================
+PHASE 8A — DATA INTEGRITY AUDIT
+====================================================================================================
+market status  rows  duplicates  monotonic_index  nan_ohlc_rows  bad_ohlc_rows  missing_hours  missing_hour_rate
+EURUSD   WARN 93083           0             True              0              0          29652           0.241594
+EURCHF   WARN 93050           0             True              0              0          29685           0.241863
+EURCAD   WARN 92963           0             True              0              0          29772           0.242571
+USDCHF   WARN 93075           0             True              0              0          29660           0.241659
+
+====================================================================================================
+PHASE 8A — INDICATOR LOOKAHEAD AUDIT
+====================================================================================================
+market status  samples  max_vwap_abs_diff  max_std_abs_diff  fails                                                                  details
+EURUSD   PASS       40                0.0               0.0      0 Truncated recomputation must match full-history value at same timestamp.
+EURCHF   PASS       40                0.0               0.0      0 Truncated recomputation must match full-history value at same timestamp.
+EURCAD   PASS       40                0.0               0.0      0 Truncated recomputation must match full-history value at same timestamp.
+USDCHF   PASS       40                0.0               0.0      0 Truncated recomputation must match full-history value at same timestamp.
+
+====================================================================================================
+PHASE 8A — TRADE ALIGNMENT / EXECUTION AUDIT
+====================================================================================================
+market status  trades  entry_missing_from_data  exit_missing_from_data  non_positive_hold_trades  same_market_overlaps  entry_out_of_session  entry_price_mismatch  exit_price_mismatch
+EURUSD   PASS    2325                        0                       0                         0                     0                     0                     0                    0
+EURCHF   PASS    1784                        0                       0                         0                     0                     0                     0                    0
+EURCAD   PASS    1894                        0                       0                         0                     0                     0                     0                    0
+USDCHF   PASS    2095                        0                       0                         0                     0                     0                     0                    0
+
+====================================================================================================
+PHASE 8A — WALK-FORWARD INTEGRITY AUDIT
+====================================================================================================
+                                   check status  n_fail  n_warn  value                                              details
+       walk_forward_year_scheme_coverage   PASS       0       0   18.0                        Missing year/scheme pairs: []
+              anchored_erc_weights_valid   PASS       0       0    1.0 bad_sum_rows=0, negative_weights=0, missing_years=[]
+walk_forward_equity_curve_year_alignment   PASS       0       0   18.0      Equity curves without their key year present: 0
+
+====================================================================================================
+PHASE 8A — STATIC CODE PATTERN AUDIT
+====================================================================================================
+                          check status  n_fail  n_warn  value                                                                              details
+           negative_shift_usage   WARN       0       1      1                                                      Pattern count for '.shift(-': 1
+         centered_rolling_usage   WARN       0       1      1                                                   Pattern count for 'center=True': 1
+full_sample_erc_warning_present   PASS       0       0      2 Pattern count for 'FULL-SAMPLE ERC WEIGHTS — DIAGNOSTIC ONLY, CONTAINS LOOKAHEAD': 2
