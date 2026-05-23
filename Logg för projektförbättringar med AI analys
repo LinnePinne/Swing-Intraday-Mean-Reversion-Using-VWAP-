@@ -1392,3 +1392,66 @@ PHASE 8A — STATIC CODE PATTERN AUDIT
            negative_shift_usage   WARN       0       1      1                                                      Pattern count for '.shift(-': 1
          centered_rolling_usage   WARN       0       1      1                                                   Pattern count for 'center=True': 1
 full_sample_erc_warning_present   PASS       0       0      2 Pattern count for 'FULL-SAMPLE ERC WEIGHTS — DIAGNOSTIC ONLY, CONTAINS LOOKAHEAD': 2
+Vi fick:
+indicator_lookahead = PASS
+trade_alignment = PASS
+walk_forward_integrity = PASS
+Det betyder att strategin med hög sannolikhet:
+inte lider av klassisk lookahead bias
+inte använder framtidsdata
+inte har alignment leakage
+inte har walk-forward contamination
+
+Indicator Lookahead Audit visade max_vwap_abs_diff = 0 och max_std_abs_diff = 0. Det här är extremt bra. Vi gjorde truncation recomputation och 
+historical recomputation och fick exakt samma värden. Det är en mycket stark verifiering av att det inte finns future contamination, att det är
+korrekt rolling logic och korrekt VWAP/std-konstruktion. Trade Alignment Audit är också väldigt stark, vi fick:
+entry_missing_from_data = 0
+exit_missing_from_data = 0
+non_positive_hold_trades = 0
+same_market_overlaps = 0
+entry_price_mismatch = 0
+exit_price_mismatch = 0
+Det här betyder:
+inga impossible fills
+inga negativa hold-times
+inga alignment bugs
+inga overlapping market leaks
+inga phantom trades
+Det är väldigt bra.
+
+Walk-forward integrity är PASS, vi verifierade:
+year coverage
+anchored ERC integrity
+equity curve alignment
+Och:
+bad_sum_rows = 0
+negative_weights = 0
+Det betyder att ERC-logiken verkar korrekt, inga hidden weighting bugs, inga walk-forward leakage-problem.
+
+Det enda som är värt att undersöka är de två varningarna vi fick:
+.shift(-
+center=True
+Det här betyder inte automatiskt bias. Men vi måste manuellt verifiera exakt var de används.
+
+
+1. .shift(-
+Kan vara lookahead eller bara plotting/debugging/export, vi måste hitta raden och verifiera syftet. Om den används i signal, entry 
+eller regime logic är det ett problem. Om den istället används i diagnostics, future labeling, plotting är det okej.
+
+2. center=True
+Centered rolling windows är klassisk leakage-risk. Men ibland används de bara i smoothing/plots, därför måste vi verifiera: att centered 
+windows inte används i live signal generation.
+
+Data Integrity WARN är sannolikt ofarligt
+missing_hour_rate ≈ 24%
+Det här är ganska normalt i FX-data:
+weekends
+holidays
+session gaps
+broker maintenance
+Eftersom:
+timestamps är monotonic
+inga duplicates
+inga NaNs
+inga OHLC-errors
+så ser det här sannolikt okej ut.
