@@ -1510,4 +1510,100 @@ STATIC PATTERN CONTEXT: center=True
    5228:     context_lines=5,
    5229: )
 Bra, ingen av dom används i signal-logikm VWAP/std, entry/exit, regime labels, walk-forward eller ERC.
+====================================================================================================
+PHASE 8B — STABILITY DECAY ANALYSIS
+====================================================================================================
+Purpose: detect gradual edge decay, rolling degradation, and unstable recent performance.
+No strategy rules are changed in this phase.
 
+====================================================================================================
+PHASE 8B — YEARLY PORTFOLIO RETURN SUMMARY
+====================================================================================================
+      scheme  year  days  total_return  mean_daily  ann_vol    sharpe  max_dd_pct  positive_day_rate
+       equal  2017   362      0.011948    0.000033 0.007492  1.107378   -0.966481           0.414365
+       equal  2018   364      0.016721    0.000046 0.006354  1.810058   -0.508367           0.450549
+       equal  2019   364      0.012673    0.000035 0.005820  1.500874   -0.362770           0.417582
+       equal  2020   365      0.019025    0.000052 0.006933  1.880137   -0.811876           0.449315
+       equal  2021   362     -0.009519   -0.000026 0.008562 -0.773375   -1.516203           0.411602
+       equal  2022   362      0.029566    0.000081 0.010160  2.001677   -0.729530           0.461326
+       equal  2023   362      0.016199    0.000044 0.006782  1.652895   -0.681855           0.458564
+       equal  2024   365      0.007180    0.000020 0.004932  1.003949   -0.476790           0.386301
+       equal  2025   364      0.004150    0.000012 0.009079  0.320360   -0.639355           0.387363
+anchored_erc  2017   362      0.011431    0.000032 0.007182  1.105293   -0.876005           0.408840
+anchored_erc  2018   364      0.016327    0.000045 0.006156  1.824461   -0.508901           0.447802
+anchored_erc  2019   364      0.012523    0.000034 0.005861  1.472878   -0.395043           0.420330
+anchored_erc  2020   365      0.020431    0.000056 0.006780  2.062884   -0.773308           0.443836
+anchored_erc  2021   362     -0.009416   -0.000026 0.008371 -0.782559   -1.482541           0.414365
+anchored_erc  2022   362      0.030792    0.000084 0.009937  2.129662   -0.676235           0.455801
+anchored_erc  2023   362      0.015652    0.000043 0.006593  1.643045   -0.665980           0.455801
+anchored_erc  2024   365      0.006758    0.000019 0.004853  0.960641   -0.474643           0.386301
+anchored_erc  2025   364      0.004417    0.000012 0.008565  0.360496   -0.604271           0.387363
+
+====================================================================================================
+PHASE 8B — PERIOD DECAY SUMMARY
+====================================================================================================
+      scheme           period                     years   days  total_return  mean_daily  ann_vol    sharpe  max_dd_pct  positive_day_rate
+       equal  early_2017_2019            2017,2018,2019 1090.0      0.041909    0.000038 0.006585  1.444644   -0.966481           0.427523
+       equal    mid_2020_2022            2020,2021,2022 1089.0      0.039167    0.000035 0.008670  1.029795   -1.550272           0.440771
+       equal   late_2023_2025            2023,2024,2025 1091.0      0.027743    0.000025 0.007131  0.889918   -0.811361           0.410632
+anchored_erc  early_2017_2019            2017,2018,2019 1090.0      0.040817    0.000037 0.006418  1.444371   -0.876005           0.425688
+anchored_erc    mid_2020_2022            2020,2021,2022 1089.0      0.041947    0.000038 0.008482  1.125334   -1.536294           0.438017
+anchored_erc   late_2023_2025            2023,2024,2025 1091.0      0.027032    0.000025 0.006836  0.904624   -0.820606           0.409716
+anchored_erc late_minus_early 2023-2025 minus 2017-2019    NaN     -0.013785   -0.000012 0.000418 -0.539746    0.055399          -0.015972
+       equal late_minus_early 2023-2025 minus 2017-2019    NaN     -0.014166   -0.000013 0.000546 -0.554726    0.155120          -0.016890
+
+====================================================================================================
+PHASE 8B — ROLLING RETURN SUMMARY
+====================================================================================================
+      scheme  window_days  n_windows  median_rolling_sharpe  p05_rolling_sharpe  min_rolling_sharpe  pct_windows_sharpe_negative  median_rolling_return  p05_rolling_return  worst_rolling_dd_pct  recent_median_sharpe  recent_pct_sharpe_negative  last_rolling_sharpe  last_rolling_return  last_rolling_dd_pct
+anchored_erc          126       3145               1.367053           -1.353255           -2.214567                     0.194913               0.004258           -0.005567             -1.386137              0.825477                    0.260312            -0.408637            -0.000919            -0.384148
+anchored_erc          252       3019               1.379586           -0.464424           -1.417682                     0.137463               0.008397           -0.003954             -1.389917              1.003298                    0.094409             0.806361             0.004940            -0.604271
+anchored_erc          504       2767               1.268713           -0.173387           -0.542471                     0.073003               0.017683           -0.002845             -1.536294              1.079433                    0.000000             0.671836             0.010226            -0.604271
+       equal          126       3145               1.330684           -1.322268           -2.188693                     0.193959               0.004437           -0.005635             -1.378859              0.831110                    0.269478            -0.561792            -0.001326            -0.404599
+       equal          252       3019               1.334610           -0.435978           -1.422561                     0.137132               0.008484           -0.004024             -1.378859              1.034373                    0.085243             0.773651             0.004973            -0.636410
+       equal          504       2767               1.258686           -0.213110           -0.556141                     0.074449               0.017764           -0.003474             -1.550272              1.083002                    0.000000             0.631417             0.010166            -0.639355
+
+====================================================================================================
+PHASE 8B — MARKET TRADE-LEVEL DECAY SUMMARY
+====================================================================================================
+market  years  positive_years  positive_year_rate  median_profit_factor  median_expectancy_pips  worst_year_pnl_pips  recent_positive_year_rate  recent_median_expectancy_pips  late_minus_early_expectancy_pips  rolling_windows  min_rolling_pf  median_rolling_pf  pct_rolling_expectancy_negative  last_rolling_expectancy_pips  last_rolling_pf
+EURCAD     14              12            0.857143              1.214881                1.206569              -574.10                   1.000000                       1.224138                          0.172525             1645        0.614283           1.155385                         0.288754                       1.08360         1.248829
+EURCHF     14               9            0.642857              1.204166                0.321538              -104.52                   0.000000                      -0.851143                         -1.098009             1535        0.723798           1.476530                         0.114658                      -0.57692         0.840515
+EURUSD     14              12            0.857143              1.249010                0.974258               -79.90                   0.666667                       0.700562                          0.295895             2076        0.854297           1.283290                         0.069364                       0.89320         1.197558
+USDCHF     14               8            0.571429              1.020970                0.108572              -119.60                   0.000000                      -0.482778                         -1.096832             1846        0.668795           1.090340                         0.374865                      -0.63992         0.864513
+
+====================================================================================================
+PHASE 8B — DECAY FLAGS
+====================================================================================================
+    scope              name                              check status    value                                                         details
+portfolio      anchored_erc         recent_negative_year_count   PASS 0.000000                         Negative years in [2023, 2024, 2025]: 0
+portfolio             equal         recent_negative_year_count   PASS 0.000000                         Negative years in [2023, 2024, 2025]: 0
+portfolio anchored_erc_126d recent_pct_rolling_sharpe_negative   PASS 0.260312    Warn if >30% of recent rolling windows have negative Sharpe.
+portfolio anchored_erc_252d recent_pct_rolling_sharpe_negative   PASS 0.094409    Warn if >30% of recent rolling windows have negative Sharpe.
+portfolio anchored_erc_504d recent_pct_rolling_sharpe_negative   PASS 0.000000    Warn if >30% of recent rolling windows have negative Sharpe.
+portfolio        equal_126d recent_pct_rolling_sharpe_negative   PASS 0.269478    Warn if >30% of recent rolling windows have negative Sharpe.
+portfolio        equal_252d recent_pct_rolling_sharpe_negative   PASS 0.085243    Warn if >30% of recent rolling windows have negative Sharpe.
+portfolio        equal_504d recent_pct_rolling_sharpe_negative   PASS 0.000000    Warn if >30% of recent rolling windows have negative Sharpe.
+   market            EURCAD          recent_positive_year_rate   PASS 1.000000                        Warn if recent positive-year rate < 50%.
+   market            EURCAD    pct_rolling_expectancy_negative   PASS 0.288754 Warn if >35% of rolling trade windows have negative expectancy.
+   market            EURCHF          recent_positive_year_rate   WARN 0.000000                        Warn if recent positive-year rate < 50%.
+   market            EURCHF    pct_rolling_expectancy_negative   PASS 0.114658 Warn if >35% of rolling trade windows have negative expectancy.
+   market            EURUSD          recent_positive_year_rate   PASS 0.666667                        Warn if recent positive-year rate < 50%.
+   market            EURUSD    pct_rolling_expectancy_negative   PASS 0.069364 Warn if >35% of rolling trade windows have negative expectancy.
+   market            USDCHF          recent_positive_year_rate   WARN 0.000000                        Warn if recent positive-year rate < 50%.
+   market            USDCHF    pct_rolling_expectancy_negative   WARN 0.374865 Warn if >35% of rolling trade windows have negative expectancy.
+Edgen har en tydlig decay med tiden vilktet inte är dåligt så länge den inte dör. Early_2017_2019 låg sharpe runt 1.44 och late_2023_2025 hade 
+runt 0.89. Det är en degradation men inte en kollaps och det är fortfarande positivt i den senaste perioden vilket är viktigt. Rolling 504d är 
+stabil, procentuell negativ sharpe är 0% där, detta betyder att det inte finns några långsiktiga kollaps regimer och att edgen överlever över
+större tidsfönster. 126 dagars rolling är däremot ibland negativt vilekt är förväntat på lägre tidsfönster, dessutom är 26% helt rimligt. Det
+hade varit problematiskt ifall det låg över 50%. EURCHF har recent_positive_year_rate = 0 så senaste åren har varit svaga men rolling
+expectancy negative = 11% är ganska lågt så edgen är svagare men inte helt död, vi bör därför hålla ett extra öga på EURCHF. Ännu svagare är
+USDCHF som också har recent_positive_year_rate = 0 men ännu högre rolling negative expectancy = 37%. Våra CHF marknader bör hållas i 
+watchlisten. EURCAD har recent positive years = 100% med stark rolling profit factor och sharpe, detta är alltså det som drivit portföljen mest
+de senaste åren. EURUSD ser också bra ut, med recent positive years = 67% och nästan lika bra PF och sharpe som EURCAD. Slutsatsen här är att 
+vi har en mild alpha decay som kan bero på att marknaden blir effektivare, spread förbättras, intraday ineffektiviteter komrimeras och marknads-
+deltagare reagerar snabbare. Men det viktiga är att edgen fortfarande håller. Det är även en proffessionel slutsats att välja bort USDCHF nu,
+vi hade tidigare robustness-problem och nu har vi hittat svag expectany och sharpe senaste åren vilket räcker för att vi ska välja bort den.
+EURCHF kan vi behålla men vi måste hålla koll på dess prestation och möjligtvis sätta lägre vikt. EURCAD och EURUSD är alltså kärnorna. Som 
+helhet ser vi degradation men inte kollaps, vilket är exakt det man vill se efter nästan ett decennium out of sample. Nu blir det FAS 8C — 
+Randomization / Falsification
