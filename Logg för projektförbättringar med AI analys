@@ -1607,3 +1607,71 @@ vi hade tidigare robustness-problem och nu har vi hittat svag expectany och shar
 EURCHF kan vi behålla men vi måste hålla koll på dess prestation och möjligtvis sätta lägre vikt. EURCAD och EURUSD är alltså kärnorna. Som 
 helhet ser vi degradation men inte kollaps, vilket är exakt det man vill se efter nästan ett decennium out of sample. Nu blir det FAS 8C — 
 Randomization / Falsification
+====================================================================================================
+PHASE 8C — RANDOMIZATION / FALSIFICATION TESTS
+====================================================================================================
+Purpose: prove the observed edge is not explained by random timing, inverted direction, or fragile exits.
+No strategy optimization is performed in this phase.
+====================================================================================================
+PHASE 8C — FALSIFICATION SUMMARY
+====================================================================================================
+                        scenario       scheme  years  positive_years  mean_year_return  median_year_return  worst_year_return  total_trades  days  total_return  mean_daily  ann_vol    sharpe  max_dd_pct  positive_day_rate
+                        baseline        equal      9               8          0.011994            0.012673          -0.009519          5045  3270      0.112755    0.000033 0.007512  1.099834   -1.550272           0.426300
+                        baseline anchored_erc      9               8          0.012101            0.012523          -0.009416          5045  3270      0.113792    0.000033 0.007298  1.141715   -1.536294           0.424465
+random_entries_matched_frequency        equal      9               2         -0.004335           -0.006150          -0.012952          4594  3270     -0.038505   -0.000012 0.004716 -0.639229   -4.044223           0.358104
+random_entries_matched_frequency anchored_erc      9               2         -0.004313           -0.005589          -0.012647          4594  3270     -0.038309   -0.000012 0.004668 -0.642498   -4.023501           0.357187
+                inverted_signals        equal      9               1         -0.010953           -0.010116          -0.022606          5359  3270     -0.094520   -0.000030 0.003592 -2.128516   -9.539413           0.257798
+                inverted_signals anchored_erc      9               1         -0.010887           -0.010299          -0.023012          5359  3270     -0.093977   -0.000030 0.003482 -2.182430   -9.489539           0.257798
+         shifted_entry_plus_1bar        equal      9               8          0.007091            0.009954          -0.011729          5045  3270      0.065241    0.000020 0.016258  0.307708   -2.813168           0.419266
+         shifted_entry_plus_1bar anchored_erc      9               8          0.007136            0.009681          -0.011656          5045  3270      0.065662    0.000020 0.015918  0.315846   -2.904262           0.417125
+         shifted_entry_plus_2bar        equal      9               7          0.003757            0.003500          -0.013312          5045  3270      0.033959    0.000011 0.024515  0.117235   -3.087844           0.423242
+         shifted_entry_plus_2bar anchored_erc      9               7          0.003971            0.003372          -0.012859          5045  3270      0.035962    0.000012 0.023822  0.126202   -3.131237           0.420489
+       random_exit_delay_0_3bars        equal      9               7          0.010369            0.007671          -0.005446          4753  3270      0.096639    0.000028 0.008857  0.807121   -1.405704           0.375841
+       random_exit_delay_0_3bars anchored_erc      9               7          0.010636            0.007709          -0.005889          4753  3270      0.099202    0.000029 0.008621  0.849802   -1.412504           0.377982
+       random_exit_delay_0_6bars        equal      9               7          0.011372            0.013079          -0.008581          4661  3270      0.106241    0.000031 0.009698  0.807158   -1.583816           0.368807
+       random_exit_delay_0_6bars anchored_erc      9               7          0.011622            0.012411          -0.007771          4661  3270      0.108673    0.000032 0.009427  0.848042   -1.518162           0.371254
+
+====================================================================================================
+PHASE 8C — DAMAGE VS BASELINE
+====================================================================================================
+      scheme                         scenario  d_total_return  d_sharpe  d_max_dd_pct  d_positive_years  d_total_trades
+       equal                         baseline        0.000000  0.000000      0.000000                 0               0
+       equal random_entries_matched_frequency       -0.151260 -1.739063     -2.493951                -6            -451
+       equal                 inverted_signals       -0.207274 -3.228351     -7.989142                -7             314
+       equal          shifted_entry_plus_1bar       -0.047514 -0.792126     -1.262896                 0               0
+       equal          shifted_entry_plus_2bar       -0.078795 -0.982600     -1.537572                -1               0
+       equal        random_exit_delay_0_3bars       -0.016116 -0.292714      0.144567                -1            -292
+       equal        random_exit_delay_0_6bars       -0.006514 -0.292676     -0.033544                -1            -384
+anchored_erc                         baseline        0.000000  0.000000      0.000000                 0               0
+anchored_erc random_entries_matched_frequency       -0.152100 -1.784213     -2.487207                -6            -451
+anchored_erc                 inverted_signals       -0.207769 -3.324145     -7.953245                -7             314
+anchored_erc          shifted_entry_plus_1bar       -0.048130 -0.825869     -1.367967                 0               0
+anchored_erc          shifted_entry_plus_2bar       -0.077830 -1.015514     -1.594943                -1               0
+anchored_erc        random_exit_delay_0_3bars       -0.014590 -0.291914      0.123790                -1            -292
+anchored_erc        random_exit_delay_0_6bars       -0.005119 -0.293673      0.018132                -1            -384
+
+====================================================================================================
+PHASE 8C — PASS / WARN FLAGS
+====================================================================================================
+      scheme                                   check                         scenario status     value                                                           details
+       equal random_entries_much_worse_than_baseline random_entries_matched_frequency   PASS -0.639229 Random-entry control should be materially worse than true signal.
+       equal         inverted_signals_not_profitable                 inverted_signals   PASS -2.128516           Inverted signal should not retain strong positive edge.
+       equal                  shifted_entry_degrades          shifted_entry_plus_1bar   PASS -0.792126             Delayed entries should degrade short-horizon MR edge.
+       equal                  shifted_entry_degrades          shifted_entry_plus_2bar   PASS -0.982600             Delayed entries should degrade short-horizon MR edge.
+       equal  random_exit_delay_not_magically_better        random_exit_delay_0_3bars   PASS  0.807121  Random exit perturbation should not create a much better system.
+       equal  random_exit_delay_not_magically_better        random_exit_delay_0_6bars   PASS  0.807158  Random exit perturbation should not create a much better system.
+anchored_erc random_entries_much_worse_than_baseline random_entries_matched_frequency   PASS -0.642498 Random-entry control should be materially worse than true signal.
+anchored_erc         inverted_signals_not_profitable                 inverted_signals   PASS -2.182430           Inverted signal should not retain strong positive edge.
+anchored_erc                  shifted_entry_degrades          shifted_entry_plus_1bar   PASS -0.825869             Delayed entries should degrade short-horizon MR edge.
+anchored_erc                  shifted_entry_degrades          shifted_entry_plus_2bar   PASS -1.015514             Delayed entries should degrade short-horizon MR edge.
+anchored_erc  random_exit_delay_not_magically_better        random_exit_delay_0_3bars   PASS  0.849802  Random exit perturbation should not create a much better system.
+anchored_erc  random_exit_delay_not_magically_better        random_exit_delay_0_6bars   PASS  0.848042  Random exit perturbation should not create a much better system.
+Edge är sannolik verklig, vi försökte förstöra strategin genom att randomisera entries, invertera signaler, förskjuta timing och slumpa exits.
+Och original signalen dominerar tydligt vilket är ett bra tecken för riktig alpha. Random entries kollapsar helt och hållet, sharpe hamnar på
+-0.64 och endast 2 år är positiva i kontrast till baseline som har sharpe runt 1.1 och 8 positiva år. Detta betyder att edgen kommer från
+signalen och inte holding structure, exits, volatility drift eller random exposure. Inverted signals blir ännu värre, sharpe på -2.1 och endast
+1 positivt år, detta är ännu en god signal på riktig edge. Shifted entries förvärras också rejält vilket vi redan vet från tidigare tester. Det
+intressant här är att både +1 och +2 bar entries inte är alls lika dåliga som random entries, vi vet redan att entry timing är viktigt men
+denna data visar att delayed entries fortfarande innehåller information. Random exits är inte alls lika katastrofalt, här hamnar sharpe på 0.80
+och 7 år är positiva. Entries är alltså mycket viktigare än exits. Alla dessa testar har hittils visat att strategin inte beter sig som curve
+fit noise utan att det finns en faktiskt mean reversion ineffektivitet. Fas 8D - Sensitivity Asymmetry nu
