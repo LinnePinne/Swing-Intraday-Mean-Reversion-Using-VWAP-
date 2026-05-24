@@ -1455,3 +1455,59 @@ inga duplicates
 inga NaNs
 inga OHLC-errors
 så ser det här sannolikt okej ut.
+Vi kör en debug på .shift( och center=true för att se på vad det används:
+====================================================================================================
+STATIC PATTERN CONTEXT: .shift(-
+====================================================================================================
+
+--- match at line 5066 ---
+   5061:     except Exception as e:
+   5062:         _phase8a_add(rows, "static_code_pattern_audit", "WARN", f"Could not read source file: {e}", n_warn=1)
+   5063:         return pd.DataFrame(rows)
+   5064: 
+   5065:     patterns = {
+>> 5066:         "negative_shift_usage": ".shift(-",
+   5067:         "centered_rolling_usage": "center=True",
+   5068:         "full_sample_erc_warning_present": "FULL-SAMPLE ERC WEIGHTS — DIAGNOSTIC ONLY, CONTAINS LOOKAHEAD",
+   5069:     }
+   5070:     for name, pat in patterns.items():
+   5071:         count = text.count(pat)
+
+--- match at line 5227 ---
+   5222:                     marker = ">>" if j == i else "  "
+   5223:                     print(f"{marker} {j + 1}: {lines[j]}")
+   5224: 
+   5225: print_static_pattern_context(
+   5226:     file_path=__file__,
+>> 5227:     patterns=[".shift(-", "center=True"],
+   5228:     context_lines=5,
+   5229: )
+
+====================================================================================================
+STATIC PATTERN CONTEXT: center=True
+====================================================================================================
+
+--- match at line 5067 ---
+   5062:         _phase8a_add(rows, "static_code_pattern_audit", "WARN", f"Could not read source file: {e}", n_warn=1)
+   5063:         return pd.DataFrame(rows)
+   5064: 
+   5065:     patterns = {
+   5066:         "negative_shift_usage": ".shift(-",
+>> 5067:         "centered_rolling_usage": "center=True",
+   5068:         "full_sample_erc_warning_present": "FULL-SAMPLE ERC WEIGHTS — DIAGNOSTIC ONLY, CONTAINS LOOKAHEAD",
+   5069:     }
+   5070:     for name, pat in patterns.items():
+   5071:         count = text.count(pat)
+   5072:         if name == "full_sample_erc_warning_present":
+
+--- match at line 5227 ---
+   5222:                     marker = ">>" if j == i else "  "
+   5223:                     print(f"{marker} {j + 1}: {lines[j]}")
+   5224: 
+   5225: print_static_pattern_context(
+   5226:     file_path=__file__,
+>> 5227:     patterns=[".shift(-", "center=True"],
+   5228:     context_lines=5,
+   5229: )
+Bra, ingen av dom används i signal-logikm VWAP/std, entry/exit, regime labels, walk-forward eller ERC.
+
