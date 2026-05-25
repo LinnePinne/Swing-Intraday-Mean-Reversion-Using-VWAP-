@@ -1675,3 +1675,518 @@ intressant här är att både +1 och +2 bar entries inte är alls lika dåliga s
 denna data visar att delayed entries fortfarande innehåller information. Random exits är inte alls lika katastrofalt, här hamnar sharpe på 0.80
 och 7 år är positiva. Entries är alltså mycket viktigare än exits. Alla dessa testar har hittils visat att strategin inte beter sig som curve
 fit noise utan att det finns en faktiskt mean reversion ineffektivitet. Fas 8D - Sensitivity Asymmetry nu
+====================================================================================================
+PHASE 8D — SENSITIVITY ASYMMETRY ANALYSIS
+====================================================================================================
+Purpose: test whether locked parameters sit inside a smooth plateau rather than a knife-edge peak.
+No optimization or parameter selection is performed in this phase.
+
+====================================================================================================
+PHASE 8D — ENTRY SENSITIVITY SWEEP
+====================================================================================================
+      scheme  entry_std  exit_std  positive_years  mean_year_return  median_year_return  worst_year_return  median_sharpe  worst_year_dd_pct  total_trades
+anchored_erc       2.10      0.75               8          0.011342            0.013612          -0.011136       1.429751          -1.780199          5939
+anchored_erc       2.15      0.75               8          0.011467            0.014208          -0.012631       1.401515          -1.865634          5638
+anchored_erc       2.20      0.75               7          0.012741            0.016332          -0.011099       1.708341          -1.658925          5326
+anchored_erc       2.25      0.75               8          0.012101            0.012523          -0.009416       1.472878          -1.495685          5045
+anchored_erc       2.30      0.75               8          0.012552            0.015905          -0.009805       1.786738          -1.530999          4742
+anchored_erc       2.35      0.75               7          0.012193            0.014508          -0.009161       1.768786          -1.450603          4475
+anchored_erc       2.40      0.75               8          0.011763            0.012485          -0.008182       1.665473          -1.358600          4177
+       equal       2.10      0.75               8          0.011181            0.013874          -0.011320       1.399030          -1.820811          5939
+       equal       2.15      0.75               8          0.011278            0.014422          -0.013011       1.379052          -1.923591          5638
+       equal       2.20      0.75               7          0.012670            0.016574          -0.011284       1.712299          -1.699367          5326
+       equal       2.25      0.75               8          0.011994            0.012673          -0.009519       1.500874          -1.529588          5045
+       equal       2.30      0.75               8          0.012434            0.016260          -0.009830       1.785744          -1.556753          4742
+       equal       2.35      0.75               7          0.012068            0.014820          -0.009222       1.652721          -1.473097          4475
+       equal       2.40      0.75               7          0.011688            0.012668          -0.008335       1.655458          -1.388118          4177
+
+====================================================================================================
+PHASE 8D — EXIT SENSITIVITY SWEEP
+====================================================================================================
+      scheme  entry_std  exit_std  positive_years  mean_year_return  median_year_return  worst_year_return  median_sharpe  worst_year_dd_pct  total_trades
+anchored_erc       2.25      0.60               8          0.011787            0.011052          -0.008582       1.260020          -1.488809          5018
+anchored_erc       2.25      0.65               8          0.011952            0.011904          -0.009501       1.378204          -1.561823          5026
+anchored_erc       2.25      0.70               8          0.011752            0.012506          -0.009113       1.452395          -1.492765          5035
+anchored_erc       2.25      0.75               8          0.012101            0.012523          -0.009416       1.472878          -1.495685          5045
+anchored_erc       2.25      0.80               8          0.011282            0.012791          -0.009729       1.456686          -1.574645          5056
+anchored_erc       2.25      0.85               8          0.011863            0.012097          -0.006013       1.341510          -1.280758          5065
+anchored_erc       2.25      0.90               8          0.011827            0.012643          -0.006603       1.376560          -1.339260          5079
+       equal       2.25      0.60               8          0.011641            0.010855          -0.008885       1.240514          -1.537359          5018
+       equal       2.25      0.65               8          0.011801            0.012517          -0.009792       1.392847          -1.605392          5026
+       equal       2.25      0.70               8          0.011571            0.012666          -0.009373       1.480274          -1.542013          5035
+       equal       2.25      0.75               8          0.011994            0.012673          -0.009519       1.500874          -1.529588          5045
+       equal       2.25      0.80               8          0.011176            0.013096          -0.009844       1.463508          -1.606865          5056
+       equal       2.25      0.85               8          0.011787            0.012627          -0.006116       1.379909          -1.311169          5065
+       equal       2.25      0.90               8          0.011758            0.013260          -0.006730       1.399724          -1.372447          5079
+
+====================================================================================================
+PHASE 8D — LOCAL GRID SUMMARY
+====================================================================================================
+      scheme  entry_std  exit_std  positive_years  mean_year_return  median_year_return  worst_year_return  median_sharpe  worst_year_dd_pct  total_trades
+anchored_erc       2.15      0.65               8          0.011565            0.015644          -0.012082       1.454347          -1.874558          5615
+anchored_erc       2.15      0.70               8          0.011295            0.015210          -0.012288       1.434956          -1.861858          5624
+anchored_erc       2.15      0.75               8          0.011467            0.014208          -0.012631       1.401515          -1.865634          5638
+anchored_erc       2.15      0.80               7          0.010565            0.012365          -0.013138       1.219218          -1.972092          5652
+anchored_erc       2.15      0.85               7          0.011158            0.012968          -0.008762       1.295707          -1.552372          5664
+anchored_erc       2.20      0.65               8          0.012637            0.016662          -0.010947       1.787903          -1.703679          5304
+anchored_erc       2.20      0.70               8          0.012509            0.016890          -0.010796       1.686450          -1.655534          5313
+anchored_erc       2.20      0.75               7          0.012741            0.016332          -0.011099       1.708341          -1.658925          5326
+anchored_erc       2.20      0.80               7          0.011773            0.014719          -0.011442       1.528332          -1.744275          5338
+anchored_erc       2.20      0.85               7          0.012384            0.014710          -0.006924       1.596464          -1.397619          5349
+anchored_erc       2.25      0.65               8          0.011952            0.011904          -0.009501       1.378204          -1.561823          5026
+anchored_erc       2.25      0.70               8          0.011752            0.012506          -0.009113       1.452395          -1.492765          5035
+anchored_erc       2.25      0.75               8          0.012101            0.012523          -0.009416       1.472878          -1.495685          5045
+anchored_erc       2.25      0.80               8          0.011282            0.012791          -0.009729       1.456686          -1.574645          5056
+anchored_erc       2.25      0.85               8          0.011863            0.012097          -0.006013       1.341510          -1.280758          5065
+anchored_erc       2.30      0.65               8          0.012482            0.016954          -0.009745       1.796079          -1.570577          4727
+anchored_erc       2.30      0.70               8          0.012216            0.016177          -0.009887       1.675094          -1.566388          4734
+anchored_erc       2.30      0.75               8          0.012552            0.015905          -0.009805       1.786738          -1.530999          4742
+anchored_erc       2.30      0.80               7          0.012015            0.014378          -0.009578       1.701628          -1.556287          4752
+anchored_erc       2.30      0.85               7          0.012613            0.015163          -0.005668       1.915017          -1.252962          4760
+anchored_erc       2.35      0.65               8          0.012167            0.015577          -0.009136       1.734958          -1.507807          4463
+anchored_erc       2.35      0.70               8          0.011757            0.014721          -0.009244       1.586092          -1.485596          4468
+anchored_erc       2.35      0.75               7          0.012193            0.014508          -0.009161       1.768786          -1.450603          4475
+anchored_erc       2.35      0.80               7          0.011711            0.013571          -0.009385       1.709230          -1.482621          4484
+anchored_erc       2.35      0.85               7          0.012143            0.013914          -0.006536       1.796227          -1.227006          4492
+       equal       2.15      0.65               8          0.011334            0.015718          -0.012630       1.326066          -1.950396          5615
+       equal       2.15      0.70               8          0.011043            0.014921          -0.012829       1.369196          -1.935079          5624
+       equal       2.15      0.75               8          0.011278            0.014422          -0.013011       1.379052          -1.923591          5638
+       equal       2.15      0.80               7          0.010367            0.012502          -0.013521       1.192999          -2.028058          5652
+       equal       2.15      0.85               7          0.011006            0.013276          -0.009099       1.282035          -1.600147          5664
+       equal       2.20      0.65               8          0.012513            0.016830          -0.011315       1.671511          -1.764026          5304
+       equal       2.20      0.70               8          0.012372            0.017081          -0.011138       1.644893          -1.711771          5313
+       equal       2.20      0.75               7          0.012670            0.016574          -0.011284       1.712299          -1.699367          5326
+       equal       2.20      0.80               7          0.011691            0.015171          -0.011642       1.529280          -1.782820          5338
+       equal       2.20      0.85               7          0.012346            0.014990          -0.007065       1.609358          -1.433727          5349
+       equal       2.25      0.65               8          0.011801            0.012517          -0.009792       1.392847          -1.605392          5026
+       equal       2.25      0.70               8          0.011571            0.012666          -0.009373       1.480274          -1.542013          5035
+       equal       2.25      0.75               8          0.011994            0.012673          -0.009519       1.500874          -1.529588          5045
+       equal       2.25      0.80               8          0.011176            0.013096          -0.009844       1.463508          -1.606865          5056
+       equal       2.25      0.85               8          0.011787            0.012627          -0.006116       1.379909          -1.311169          5065
+       equal       2.30      0.65               8          0.012336            0.016419          -0.009904       1.734886          -1.608896          4727
+       equal       2.30      0.70               8          0.012050            0.016024          -0.010021       1.617591          -1.602600          4734
+       equal       2.30      0.75               8          0.012434            0.016260          -0.009830       1.785744          -1.556753          4742
+       equal       2.30      0.80               7          0.011902            0.014897          -0.009609       1.708629          -1.579742          4752
+       equal       2.30      0.85               7          0.012528            0.015522          -0.005674       1.959226          -1.274214          4760
+       equal       2.35      0.65               8          0.012035            0.014693          -0.009331       1.663881          -1.545446          4463
+       equal       2.35      0.70               8          0.011591            0.014432          -0.009413       1.532033          -1.518556          4468
+       equal       2.35      0.75               7          0.012068            0.014820          -0.009222       1.652721          -1.473097          4475
+       equal       2.35      0.80               7          0.011583            0.013922          -0.009471       1.701098          -1.507690          4484
+       equal       2.35      0.85               7          0.012039            0.014366          -0.006605       1.885053          -1.247945          4492
+
+====================================================================================================
+PHASE 8D — DAMAGE VS LOCKED PARAMETERS
+====================================================================================================
+      scheme  entry_std  exit_std                              tags  d_mean_year_return  d_median_year_return  d_worst_year_return  d_median_sharpe  d_worst_year_dd_pct  d_positive_years  d_total_trades
+anchored_erc       2.10      0.75                       entry_sweep           -0.000759              0.001089            -0.001720        -0.043128            -0.284514                 0             894
+anchored_erc       2.15      0.65                        local_grid           -0.000537              0.003121            -0.002666        -0.018531            -0.378873                 0             570
+anchored_erc       2.15      0.70                        local_grid           -0.000807              0.002687            -0.002871        -0.037923            -0.366172                 0             579
+anchored_erc       2.15      0.75            entry_sweep,local_grid           -0.000635              0.001685            -0.003215        -0.071363            -0.369949                 0             593
+anchored_erc       2.15      0.80                        local_grid           -0.001537             -0.000158            -0.003722        -0.253660            -0.476407                -1             607
+anchored_erc       2.15      0.85                        local_grid           -0.000944              0.000446             0.000655        -0.177171            -0.056687                -1             619
+anchored_erc       2.20      0.65                        local_grid            0.000535              0.004140            -0.001531         0.315025            -0.207994                 0             259
+anchored_erc       2.20      0.70                        local_grid            0.000407              0.004367            -0.001380         0.213572            -0.159849                 0             268
+anchored_erc       2.20      0.75            entry_sweep,local_grid            0.000639              0.003810            -0.001683         0.235463            -0.163240                -1             281
+anchored_erc       2.20      0.80                        local_grid           -0.000328              0.002196            -0.002025         0.055454            -0.248590                -1             293
+anchored_erc       2.20      0.85                        local_grid            0.000282              0.002187             0.002492         0.123585             0.098067                -1             304
+anchored_erc       2.25      0.60                        exit_sweep           -0.000315             -0.001471             0.000834        -0.212858             0.006876                 0             -27
+anchored_erc       2.25      0.65             exit_sweep,local_grid           -0.000150             -0.000619            -0.000085        -0.094674            -0.066138                 0             -19
+anchored_erc       2.25      0.70             exit_sweep,local_grid           -0.000350             -0.000016             0.000304        -0.020484             0.002920                 0             -10
+anchored_erc       2.25      0.75 entry_sweep,exit_sweep,local_grid            0.000000              0.000000             0.000000         0.000000             0.000000                 0               0
+anchored_erc       2.25      0.80             exit_sweep,local_grid           -0.000820              0.000268            -0.000312        -0.016192            -0.078960                 0              11
+anchored_erc       2.25      0.85             exit_sweep,local_grid           -0.000238             -0.000426             0.003403        -0.131368             0.214927                 0              20
+anchored_erc       2.25      0.90                        exit_sweep           -0.000275              0.000121             0.002814        -0.096319             0.156425                 0              34
+anchored_erc       2.30      0.65                        local_grid            0.000381              0.004431            -0.000329         0.323200            -0.074892                 0            -318
+anchored_erc       2.30      0.70                        local_grid            0.000115              0.003654            -0.000471         0.202215            -0.070703                 0            -311
+anchored_erc       2.30      0.75            entry_sweep,local_grid            0.000451              0.003382            -0.000389         0.313859            -0.035314                 0            -303
+anchored_erc       2.30      0.80                        local_grid           -0.000086              0.001855            -0.000161         0.228749            -0.060601                -1            -293
+anchored_erc       2.30      0.85                        local_grid            0.000511              0.002640             0.003749         0.442138             0.242723                -1            -285
+anchored_erc       2.35      0.65                        local_grid            0.000066              0.003055             0.000280         0.262080            -0.012121                 0            -582
+anchored_erc       2.35      0.70                        local_grid           -0.000344              0.002198             0.000173         0.113214             0.010089                 0            -577
+anchored_erc       2.35      0.75            entry_sweep,local_grid            0.000091              0.001986             0.000255         0.295908             0.045083                -1            -570
+anchored_erc       2.35      0.80                        local_grid           -0.000390              0.001049             0.000032         0.236352             0.013065                -1            -561
+anchored_erc       2.35      0.85                        local_grid            0.000042              0.001391             0.002880         0.323349             0.268679                -1            -553
+anchored_erc       2.40      0.75                       entry_sweep           -0.000338             -0.000037             0.001235         0.192595             0.137085                 0            -868
+       equal       2.10      0.75                       entry_sweep           -0.000812              0.001201            -0.001801        -0.101844            -0.291223                 0             894
+       equal       2.15      0.65                        local_grid           -0.000660              0.003045            -0.003111        -0.174808            -0.420808                 0             570
+       equal       2.15      0.70                        local_grid           -0.000951              0.002248            -0.003311        -0.131678            -0.405491                 0             579
+       equal       2.15      0.75            entry_sweep,local_grid           -0.000716              0.001749            -0.003492        -0.121822            -0.394003                 0             593
+       equal       2.15      0.80                        local_grid           -0.001627             -0.000172            -0.004002        -0.307875            -0.498470                -1             607
+       equal       2.15      0.85                        local_grid           -0.000988              0.000603             0.000420        -0.218838            -0.070560                -1             619
+       equal       2.20      0.65                        local_grid            0.000520              0.004156            -0.001796         0.170638            -0.234438                 0             259
+       equal       2.20      0.70                        local_grid            0.000378              0.004408            -0.001619         0.144020            -0.182183                 0             268
+       equal       2.20      0.75            entry_sweep,local_grid            0.000676              0.003900            -0.001765         0.211425            -0.169779                -1             281
+       equal       2.20      0.80                        local_grid           -0.000303              0.002498            -0.002123         0.028406            -0.253233                -1             293
+       equal       2.20      0.85                        local_grid            0.000353              0.002317             0.002454         0.108485             0.095860                -1             304
+       equal       2.25      0.60                        exit_sweep           -0.000352             -0.001819             0.000633        -0.260360            -0.007771                 0             -27
+       equal       2.25      0.65             exit_sweep,local_grid           -0.000193             -0.000157            -0.000273        -0.108027            -0.075805                 0             -19
+       equal       2.25      0.70             exit_sweep,local_grid           -0.000422             -0.000008             0.000146        -0.020599            -0.012425                 0             -10
+       equal       2.25      0.75 entry_sweep,exit_sweep,local_grid            0.000000              0.000000             0.000000         0.000000             0.000000                 0               0
+       equal       2.25      0.80             exit_sweep,local_grid           -0.000818              0.000423            -0.000325        -0.037365            -0.077278                 0              11
+       equal       2.25      0.85             exit_sweep,local_grid           -0.000206             -0.000047             0.003403        -0.120965             0.218418                 0              20
+       equal       2.25      0.90                        exit_sweep           -0.000236              0.000587             0.002789        -0.101150             0.157141                 0              34
+       equal       2.30      0.65                        local_grid            0.000342              0.003746            -0.000385         0.234012            -0.079308                 0            -318
+       equal       2.30      0.70                        local_grid            0.000056              0.003350            -0.000502         0.116717            -0.073013                 0            -311
+       equal       2.30      0.75            entry_sweep,local_grid            0.000441              0.003587            -0.000311         0.284871            -0.027166                 0            -303
+       equal       2.30      0.80                        local_grid           -0.000092              0.002224            -0.000090         0.207755            -0.050154                -1            -293
+       equal       2.30      0.85                        local_grid            0.000534              0.002849             0.003845         0.458352             0.255374                -1            -285
+       equal       2.35      0.65                        local_grid            0.000041              0.002020             0.000188         0.163007            -0.015858                 0            -582
+       equal       2.35      0.70                        local_grid           -0.000403              0.001759             0.000106         0.031160             0.011032                 0            -577
+       equal       2.35      0.75            entry_sweep,local_grid            0.000074              0.002146             0.000297         0.151847             0.056491                -1            -570
+       equal       2.35      0.80                        local_grid           -0.000410              0.001249             0.000048         0.200224             0.021898                -1            -561
+       equal       2.35      0.85                        local_grid            0.000045              0.001693             0.002914         0.384180             0.281642                -1            -553
+       equal       2.40      0.75                       entry_sweep           -0.000306             -0.000006             0.001183         0.154585             0.141469                -1            -868
+
+====================================================================================================
+PHASE 8D — CURVATURE / ASYMMETRY
+====================================================================================================
+      scheme       sweep parameter             metric  locked_value  locked_metric  lower_nearest_delta  upper_nearest_delta  asymmetry_upper_minus_lower  max_adjacent_abs_change  range_min_metric  range_max_metric
+anchored_erc entry_sweep entry_std   mean_year_return          2.25       0.012101             0.000639             0.000451                    -0.000189                 0.001274          0.011342          0.012741
+anchored_erc entry_sweep entry_std median_year_return          2.25       0.012523             0.003810             0.003382                    -0.000427                 0.003810          0.012485          0.016332
+anchored_erc entry_sweep entry_std  worst_year_return          2.25      -0.009416            -0.001683            -0.000389                     0.001294                 0.001683         -0.012631         -0.008182
+anchored_erc entry_sweep entry_std      median_sharpe          2.25       1.472878             0.235463             0.313859                     0.078397                 0.313859          1.401515          1.786738
+anchored_erc  exit_sweep  exit_std   mean_year_return          0.75       0.012101            -0.000350            -0.000820                    -0.000470                 0.000820          0.011282          0.012101
+anchored_erc  exit_sweep  exit_std median_year_return          0.75       0.012523            -0.000016             0.000268                     0.000284                 0.000851          0.011052          0.012791
+anchored_erc  exit_sweep  exit_std  worst_year_return          0.75      -0.009416             0.000304            -0.000312                    -0.000616                 0.003715         -0.009729         -0.006013
+anchored_erc  exit_sweep  exit_std      median_sharpe          0.75       1.472878            -0.020484            -0.016192                     0.004292                 0.118184          1.260020          1.472878
+       equal entry_sweep entry_std   mean_year_return          2.25       0.011994             0.000676             0.000441                    -0.000235                 0.001392          0.011181          0.012670
+       equal entry_sweep entry_std median_year_return          2.25       0.012673             0.003900             0.003587                    -0.000314                 0.003900          0.012668          0.016574
+       equal entry_sweep entry_std  worst_year_return          2.25      -0.009519            -0.001765            -0.000311                     0.001453                 0.001765         -0.013011         -0.008335
+       equal entry_sweep entry_std      median_sharpe          2.25       1.500874             0.211425             0.284871                     0.073446                 0.333247          1.379052          1.785744
+       equal  exit_sweep  exit_std   mean_year_return          0.75       0.011994            -0.000422            -0.000818                    -0.000395                 0.000818          0.011176          0.011994
+       equal  exit_sweep  exit_std median_year_return          0.75       0.012673            -0.000008             0.000423                     0.000430                 0.001662          0.010855          0.013260
+       equal  exit_sweep  exit_std  worst_year_return          0.75      -0.009519             0.000146            -0.000325                    -0.000471                 0.003728         -0.009844         -0.006116
+       equal  exit_sweep  exit_std      median_sharpe          0.75       1.500874            -0.020599            -0.037365                    -0.016766                 0.152333          1.240514          1.500874
+
+====================================================================================================
+PHASE 8D — LOCAL PLATEAU PASS RATE
+====================================================================================================
+      scheme  local_grid_combos  pct_positive_mean_return  pct_positive_years_close_to_locked  pct_median_sharpe_at_least_half_locked  pct_combined_plateau_pass  min_mean_year_return  median_mean_year_return  max_mean_year_return  min_median_sharpe  median_median_sharpe  max_median_sharpe  locked_mean_year_return  locked_median_sharpe
+anchored_erc                 25                       1.0                                 1.0                                     1.0                        1.0              0.010565                 0.012015              0.012741           1.219218              1.596464           1.915017                 0.012101              1.472878
+       equal                 25                       1.0                                 1.0                                     1.0                        1.0              0.010367                 0.011902              0.012670           1.192999              1.609358           1.959226                 0.011994              1.500874
+
+====================================================================================================
+PHASE 8D — PASS / WARN FLAGS
+====================================================================================================
+    scope                     name                                     check status    value                                                                              details
+   scheme             anchored_erc entry_sweep_nearby_values_remain_positive   PASS 1.401515                         Nearby ±0.10 values should remain positive and not collapse.
+   scheme             anchored_erc  exit_sweep_nearby_values_remain_positive   PASS 1.341510                         Nearby ±0.10 values should remain positive and not collapse.
+   scheme             anchored_erc         locked_not_extreme_sharpe_outlier   PASS 0.922588 Warn if locked Sharpe is >1.5x local-grid median, which could indicate peak fitting.
+   scheme                    equal entry_sweep_nearby_values_remain_positive   PASS 1.379052                         Nearby ±0.10 values should remain positive and not collapse.
+   scheme                    equal  exit_sweep_nearby_values_remain_positive   PASS 1.379909                         Nearby ±0.10 values should remain positive and not collapse.
+   scheme                    equal         locked_not_extreme_sharpe_outlier   PASS 0.932591 Warn if locked Sharpe is >1.5x local-grid median, which could indicate peak fitting.
+   scheme             anchored_erc              local_grid_plateau_pass_rate   PASS 1.000000                             At least 70% of local grid should remain broadly viable.
+   scheme                    equal              local_grid_plateau_pass_rate   PASS 1.000000                             At least 70% of local grid should remain broadly viable.
+curvature anchored_erc_entry_sweep         max_adjacent_median_sharpe_change   PASS 0.313859          Warn if median Sharpe changes too sharply between adjacent parameter steps.
+curvature  anchored_erc_exit_sweep         max_adjacent_median_sharpe_change   PASS 0.118184          Warn if median Sharpe changes too sharply between adjacent parameter steps.
+curvature        equal_entry_sweep         max_adjacent_median_sharpe_change   PASS 0.333247          Warn if median Sharpe changes too sharply between adjacent parameter steps.
+curvature         equal_exit_sweep         max_adjacent_median_sharpe_change   PASS 0.152333          Warn if median Sharpe changes too sharply between adjacent parameter steps.
+Edgen ligger över en tydlig plateau istället för en punkt, 100% av lokala paramteterkombinationer är robusta vilket är extremt ovanligt för en
+curve-fitad strategi. min_mean_year_return ≈ 0.0103 och max_mean_year_return ≈ 0.0127 så edgen är bred över griden. De låsta parametrarna är 
+inte mest optimum, detta vet vi sedan innan men det är också ett gott tecken mot överoptimering och att parametrarna är konservativa. Dessutom
+är sharpe kurvan smooth utan våldsamma förändringar. Nu kör vi sista i 8an, FAS 8E — Data Integrity / Survivorship Audit
+====================================================================================================
+PHASE 8E — DATA INTEGRITY / SURVIVORSHIP AUDIT
+====================================================================================================
+Purpose: detect data-quality, survivorship-style, timestamp, OHLC, gap, stale-bar and spread issues.
+No strategy rules are changed in this phase.
+
+====================================================================================================
+PHASE 8E — DATA COVERAGE SUMMARY
+====================================================================================================
+market status  rows      start                 end  duplicates  monotonic_index  expected_weekday_hours  missing_weekday_hours  weekday_coverage_rate  weekend_rows  years_covered
+EURUSD   FAIL 93083 2012-01-01 2025-12-31 22:00:00           0             True                   87671                    921               0.989495          6333             14
+EURCHF   FAIL 93050 2012-01-01 2025-12-31 22:00:00           0             True                   87671                    951               0.989153          6330             14
+EURCAD   FAIL 92963 2012-01-01 2025-12-31 22:00:00           0             True                   87671                    962               0.989027          6254             14
+USDCHF   FAIL 93075 2012-01-01 2025-12-31 22:00:00           0             True                   87671                    928               0.989415          6332             14
+
+====================================================================================================
+PHASE 8E — YEARLY COVERAGE SUMMARY
+====================================================================================================
+market  year  rows  weekday_coverage_rate  missing_weekday_hours  weekend_rows
+EURUSD  2012  8673               1.000000                      0          2409
+EURUSD  2013  8706               1.000000                      0          2442
+EURUSD  2014  7108               0.995370                     29           873
+EURUSD  2015  6243               0.987548                     78            57
+EURUSD  2016  6246               0.988346                     73            55
+EURUSD  2017  6224               0.988782                     70            54
+EURUSD  2018  6227               0.985313                     92            55
+EURUSD  2019  6226               0.984994                     94            56
+EURUSD  2020  6250               0.985051                     94            56
+EURUSD  2021  6240               0.987388                     79            55
+EURUSD  2022  6240               0.991186                     55            55
+EURUSD  2023  6225               0.988942                     69            54
+EURUSD  2024  6250               0.985051                     94            56
+EURUSD  2025  6225               0.984834                     95            56
+EURCHF  2012  8671               1.000000                      0          2407
+EURCHF  2013  8707               1.000000                      0          2443
+EURCHF  2014  7101               0.994413                     35           872
+EURCHF  2015  6227               0.985153                     93            56
+EURCHF  2016  6247               0.988506                     72            55
+EURCHF  2017  6223               0.988622                     71            54
+EURCHF  2018  6226               0.985153                     93            55
+EURCHF  2019  6226               0.984994                     94            56
+EURCHF  2020  6250               0.985051                     94            56
+EURCHF  2021  6240               0.987388                     79            55
+EURCHF  2022  6240               0.991186                     55            55
+EURCHF  2023  6218               0.987821                     76            54
+EURCHF  2024  6249               0.984892                     95            56
+EURCHF  2025  6225               0.984834                     95            56
+EURCAD  2012  8670               1.000000                      0          2406
+EURCAD  2013  8632               1.000000                      0          2368
+EURCAD  2014  7110               0.995690                     27           873
+EURCAD  2015  6243               0.987708                     77            56
+EURCAD  2016  6249               0.988825                     70            55
+EURCAD  2017  6223               0.988622                     71            54
+EURCAD  2018  6226               0.985153                     93            55
+EURCAD  2019  6226               0.984994                     94            56
+EURCAD  2020  6250               0.985051                     94            56
+EURCAD  2021  6240               0.987388                     79            55
+EURCAD  2022  6240               0.991186                     55            55
+EURCAD  2023  6219               0.988141                     74            53
+EURCAD  2024  6212               0.979008                    132            56
+EURCAD  2025  6223               0.984515                     97            56
+USDCHF  2012  8673               1.000000                      0          2409
+USDCHF  2013  8707               1.000000                      0          2443
+USDCHF  2014  7107               0.995370                     29           872
+USDCHF  2015  6241               0.987388                     79            56
+USDCHF  2016  6249               0.988825                     70            55
+USDCHF  2017  6223               0.988622                     71            54
+USDCHF  2018  6226               0.985153                     93            55
+USDCHF  2019  6228               0.985313                     92            56
+USDCHF  2020  6250               0.985051                     94            56
+USDCHF  2021  6240               0.987388                     79            55
+USDCHF  2022  6239               0.991026                     56            55
+USDCHF  2023  6218               0.987821                     76            54
+USDCHF  2024  6249               0.984892                     95            56
+USDCHF  2025  6225               0.984834                     95            56
+
+====================================================================================================
+PHASE 8E — GAP / MISSING BAR AUDIT
+====================================================================================================
+market status  rows  gaps_gt_1h  midweek_gaps_gt_1h  max_gap_hours  p95_gap_hours  median_gap_hours
+EURUSD   FAIL 93083         679                  22           73.0           49.0               1.0
+EURCHF   FAIL 93050         685                  27           73.0           49.0               1.0
+EURCAD   FAIL 92963         729                  66           73.0           49.0               1.0
+USDCHF   FAIL 93075         682                  25           73.0           49.0               1.0
+
+====================================================================================================
+PHASE 8E — OHLC ANOMALY AUDIT
+====================================================================================================
+market status  rows  nan_ohlc_rows  high_less_than_low_rows  high_below_open_close_rows  low_above_open_close_rows  nonpositive_ohlc_rows  median_range  q999_range  extreme_spike_rows_gt_20x_median
+EURUSD   WARN 93083              0                        0                           0                          0                      0       0.00114    0.011160                                 2
+EURCHF   WARN 93050              0                        0                           0                          0                      0       0.00074    0.007990                                18
+EURCAD   WARN 92963              0                        0                           0                          0                      0       0.00152    0.013813                                 2
+USDCHF   WARN 93075              0                        0                           0                          0                      0       0.00099    0.009708                                 9
+
+====================================================================================================
+PHASE 8E — STALE / FLAT BAR AUDIT
+====================================================================================================
+market status  rows  flat_ohlc_rows  flat_ohlc_rate  max_flat_ohlc_run  unchanged_close_rows  unchanged_close_rate  max_unchanged_close_run
+EURUSD   FAIL 93083            5523        0.059334                 48                  6050              0.064996                       48
+EURCHF   FAIL 93050            5583        0.060000                 48                  6676              0.071746                       49
+EURCAD   FAIL 92963            5476        0.058905                 48                  5777              0.062143                       49
+USDCHF   FAIL 93075            5537        0.059490                 48                  6166              0.066248                       49
+
+====================================================================================================
+PHASE 8E — SPREAD ANOMALY AUDIT
+====================================================================================================
+market status spread_col  rows                                                   details
+EURUSD   WARN    missing 93083 No spread column found; fixed cost model is used instead.
+EURCHF   WARN    missing 93050 No spread column found; fixed cost model is used instead.
+EURCAD   WARN    missing 92963 No spread column found; fixed cost model is used instead.
+USDCHF   WARN    missing 93075 No spread column found; fixed cost model is used instead.
+
+====================================================================================================
+PHASE 8E — DATA QUALITY FLAGS
+====================================================================================================
+ scope   name                 check status     value                                                                   details
+market EURUSD         coverage_rate   PASS  0.989495     Weekday coverage should be high; holidays/weekends are expected gaps.
+market EURUSD            duplicates   PASS         0                   Duplicate timestamps can distort indicators and trades.
+market EURCHF         coverage_rate   PASS  0.989153     Weekday coverage should be high; holidays/weekends are expected gaps.
+market EURCHF            duplicates   PASS         0                   Duplicate timestamps can distort indicators and trades.
+market EURCAD         coverage_rate   PASS  0.989027     Weekday coverage should be high; holidays/weekends are expected gaps.
+market EURCAD            duplicates   PASS         0                   Duplicate timestamps can distort indicators and trades.
+market USDCHF         coverage_rate   PASS  0.989415     Weekday coverage should be high; holidays/weekends are expected gaps.
+market USDCHF            duplicates   PASS         0                   Duplicate timestamps can distort indicators and trades.
+market EURUSD          midweek_gaps   WARN        22                       Midweek gaps are more suspicious than weekend gaps.
+market EURCHF          midweek_gaps   WARN        27                       Midweek gaps are more suspicious than weekend gaps.
+market EURCAD          midweek_gaps   WARN        66                       Midweek gaps are more suspicious than weekend gaps.
+market USDCHF          midweek_gaps   WARN        25                       Midweek gaps are more suspicious than weekend gaps.
+market EURUSD      ohlc_consistency   PASS       0.0                                  OHLC rows must be internally consistent.
+market EURUSD extreme_candle_spikes   WARN         2                   Large candles may be news or bad ticks; review if many.
+market EURCHF      ohlc_consistency   PASS       0.0                                  OHLC rows must be internally consistent.
+market EURCHF extreme_candle_spikes   WARN        18                   Large candles may be news or bad ticks; review if many.
+market EURCAD      ohlc_consistency   PASS       0.0                                  OHLC rows must be internally consistent.
+market EURCAD extreme_candle_spikes   WARN         2                   Large candles may be news or bad ticks; review if many.
+market USDCHF      ohlc_consistency   PASS       0.0                                  OHLC rows must be internally consistent.
+market USDCHF extreme_candle_spikes   WARN         9                   Large candles may be news or bad ticks; review if many.
+market EURUSD       stale_flat_bars   WARN        48                              Long flat OHLC runs can indicate stale data.
+market EURCHF       stale_flat_bars   WARN        48                              Long flat OHLC runs can indicate stale data.
+market EURCAD       stale_flat_bars   WARN        48                              Long flat OHLC runs can indicate stale data.
+market USDCHF       stale_flat_bars   WARN        48                              Long flat OHLC runs can indicate stale data.
+market EURUSD spread_data_available   WARN   missing Missing spread data is acceptable only if using conservative fixed costs.
+market EURCHF spread_data_available   WARN   missing Missing spread data is acceptable only if using conservative fixed costs.
+market EURCAD spread_data_available   WARN   missing Missing spread data is acceptable only if using conservative fixed costs.
+market USDCHF spread_data_available   WARN   missing Missing spread data is acceptable only if using conservative fixed costs.
+Perfekt OLHC kontinuerlighet, inga highs under lows eller open eller lows över open. Duplicates = 0 på alla marknader och coverage = 99%.
+Det som sticker ut är EURCAD midweek gaps = 66 medan de andra marknaderna har runt 25. Det beror sannolikt på broker outages, dåliga exports,
+saknad historik, ickelikvida holiday-fönster. Det viktiga är att strategin presterar bra trots detta och att inga gigantiska oregelbundenheter
+syns i datan och att inga regime break bör vara kopplade till det. Men det är viktigt att vi kollar över detta. För EURCAD måste vi lokalisera
+största midweek gaps och se om trades inträffar runt dem. Flat/stale bars är ganska långt på 48-49 bars men troligtvis är det helg eller 
+holiday carry, eftersom allt annat ser bra ut är det inte kritiskt. Om stale bars hade varit random, intraday eller mitt i hög aktivitet är 
+det ett problem. Extreme spikes för EURCHF löigger på 18 vilket inte är konstigt eftersom den innehåller SNB-perioden/CHF-volatilitet. Datan
+verkar legitim och användbar, vi måste bara kolla stale bars för EURCAD
+====================================================================================================
+STALE BAR RUNS — EURCAD
+====================================================================================================
+market               start                 end  bars  duration_hours  weekday_start  weekday_end
+EURCAD 2013-01-04 23:00:00 2013-01-06 22:00:00    48              48              4            6
+EURCAD 2013-01-11 23:00:00 2013-01-13 22:00:00    48              48              4            6
+EURCAD 2013-01-18 23:00:00 2013-01-20 22:00:00    48              48              4            6
+EURCAD 2014-02-07 23:00:00 2014-02-09 22:00:00    48              48              4            6
+EURCAD 2014-04-04 23:00:00 2014-04-06 22:00:00    48              48              4            6
+EURCAD 2014-04-18 23:00:00 2014-04-20 22:00:00    48              48              4            6
+EURCAD 2013-12-20 23:00:00 2013-12-22 22:00:00    48              48              4            6
+EURCAD 2013-12-06 23:00:00 2013-12-08 22:00:00    48              48              4            6
+EURCAD 2014-01-10 23:00:00 2014-01-12 22:00:00    48              48              4            6
+EURCAD 2014-04-11 23:00:00 2014-04-13 22:00:00    48              48              4            6
+EURCAD 2014-02-14 23:00:00 2014-02-16 22:00:00    48              48              4            6
+EURCAD 2013-09-13 23:00:00 2013-09-15 22:00:00    48              48              4            6
+EURCAD 2013-06-21 23:00:00 2013-06-23 22:00:00    48              48              4            6
+EURCAD 2013-07-05 23:00:00 2013-07-07 22:00:00    48              48              4            6
+EURCAD 2013-07-12 23:00:00 2013-07-14 22:00:00    48              48              4            6
+EURCAD 2013-07-19 23:00:00 2013-07-21 22:00:00    48              48              4            6
+EURCAD 2013-08-02 23:00:00 2013-08-04 22:00:00    48              48              4            6
+EURCAD 2013-07-26 23:00:00 2013-07-28 22:00:00    48              48              4            6
+EURCAD 2013-10-04 23:00:00 2013-10-06 22:00:00    48              48              4            6
+EURCAD 2013-09-20 23:00:00 2013-09-22 22:00:00    48              48              4            6
+EURCAD 2013-04-26 23:00:00 2013-04-28 22:00:00    48              48              4            6
+EURCAD 2013-06-07 23:00:00 2013-06-09 22:00:00    48              48              4            6
+EURCAD 2013-05-31 23:00:00 2013-06-02 22:00:00    48              48              4            6
+EURCAD 2013-05-24 23:00:00 2013-05-26 22:00:00    48              48              4            6
+EURCAD 2013-06-14 23:00:00 2013-06-16 22:00:00    48              48              4            6
+EURCAD 2013-04-12 23:00:00 2013-04-14 22:00:00    48              48              4            6
+EURCAD 2013-04-19 23:00:00 2013-04-21 22:00:00    48              48              4            6
+EURCAD 2013-03-01 23:00:00 2013-03-03 22:00:00    48              48              4            6
+EURCAD 2013-10-11 23:00:00 2013-10-13 22:00:00    48              48              4            6
+EURCAD 2013-11-08 23:00:00 2013-11-10 22:00:00    48              48              4            6
+EURCAD 2013-08-16 23:00:00 2013-08-18 22:00:00    47              47              4            6
+EURCAD 2013-04-06 00:00:00 2013-04-07 22:00:00    47              47              5            6
+EURCAD 2013-06-28 23:00:00 2013-06-30 22:00:00    47              47              4            6
+EURCAD 2013-08-10 00:00:00 2013-08-11 22:00:00    47              47              5            6
+EURCAD 2013-03-22 23:00:00 2013-03-24 21:00:00    47              47              4            6
+EURCAD 2013-02-15 23:00:00 2013-02-17 21:00:00    47              47              4            6
+EURCAD 2013-09-06 23:00:00 2013-09-08 22:00:00    47              47              4            6
+EURCAD 2013-08-30 23:00:00 2013-09-01 22:00:00    47              47              4            6
+EURCAD 2013-08-24 00:00:00 2013-08-25 22:00:00    47              47              5            6
+EURCAD 2013-12-13 23:00:00 2013-12-15 22:00:00    47              47              4            6
+EURCAD 2014-03-14 23:00:00 2014-03-16 21:00:00    47              47              4            6
+EURCAD 2014-01-17 23:00:00 2014-01-19 22:00:00    47              47              4            6
+EURCAD 2014-03-07 23:00:00 2014-03-09 21:00:00    47              47              4            6
+EURCAD 2014-01-24 23:00:00 2014-01-26 22:00:00    47              47              4            6
+EURCAD 2013-10-18 23:00:00 2013-10-20 22:00:00    47              47              4            6
+EURCAD 2013-10-25 23:00:00 2013-10-27 21:00:00    47              47              4            6
+EURCAD 2013-11-23 00:00:00 2013-11-24 22:00:00    47              47              5            6
+EURCAD 2013-12-28 00:00:00 2013-12-29 22:00:00    47              47              5            6
+EURCAD 2013-11-29 23:00:00 2013-12-01 22:00:00    47              47              4            6
+EURCAD 2013-11-16 00:00:00 2013-11-17 22:00:00    47              47              5            6
+EURCAD 2013-05-03 23:00:00 2013-05-05 22:00:00    47              47              4            6
+EURCAD 2013-03-15 23:00:00 2013-03-17 21:00:00    47              47              4            6
+EURCAD 2014-03-21 23:00:00 2014-03-23 21:00:00    47              47              4            6
+EURCAD 2014-02-21 23:00:00 2014-02-23 22:00:00    47              47              4            6
+EURCAD 2014-03-28 23:00:00 2014-03-30 22:00:00    47              47              4            6
+EURCAD 2014-04-25 23:00:00 2014-04-27 20:00:00    46              46              4            6
+EURCAD 2013-03-08 23:00:00 2013-03-10 21:00:00    46              46              4            6
+EURCAD 2013-09-28 00:00:00 2013-09-29 22:00:00    46              46              5            6
+EURCAD 2013-03-29 22:00:00 2013-03-31 20:00:00    46              46              4            6
+EURCAD 2012-01-06 23:00:00 2012-01-08 19:00:00    45              45              4            6
+EURCAD 2014-01-03 23:00:00 2014-01-05 22:00:00    45              45              4            6
+EURCAD 2012-05-05 01:00:00 2012-05-06 21:00:00    45              45              5            6
+EURCAD 2012-06-09 01:00:00 2012-06-10 21:00:00    45              45              5            6
+EURCAD 2012-05-12 01:00:00 2012-05-13 21:00:00    45              45              5            6
+EURCAD 2012-09-08 01:00:00 2012-09-09 21:00:00    45              45              5            6
+EURCAD 2012-11-23 23:00:00 2012-11-25 19:00:00    45              45              4            6
+EURCAD 2012-12-21 23:00:00 2012-12-23 19:00:00    45              45              4            6
+EURCAD 2014-05-02 23:00:00 2014-05-04 19:00:00    45              45              4            6
+EURCAD 2012-01-28 00:00:00 2012-01-29 19:00:00    44              44              5            6
+EURCAD 2012-09-22 01:00:00 2012-09-23 20:00:00    44              44              5            6
+EURCAD 2012-08-04 01:00:00 2012-08-05 20:00:00    44              44              5            6
+EURCAD 2012-07-28 01:00:00 2012-07-29 21:00:00    44              44              5            6
+EURCAD 2012-06-16 01:00:00 2012-06-17 20:00:00    44              44              5            6
+EURCAD 2012-05-19 01:00:00 2012-05-20 20:00:00    44              44              5            6
+EURCAD 2012-05-26 01:00:00 2012-05-27 20:00:00    44              44              5            6
+EURCAD 2012-07-07 01:00:00 2012-07-08 20:00:00    44              44              5            6
+EURCAD 2012-02-11 00:00:00 2012-02-12 19:00:00    44              44              5            6
+EURCAD 2012-01-21 00:00:00 2012-01-22 19:00:00    44              44              5            6
+EURCAD 2012-01-14 00:00:00 2012-01-15 19:00:00    44              44              5            6
+EURCAD 2012-06-23 01:00:00 2012-06-24 20:00:00    44              44              5            6
+EURCAD 2012-06-02 01:00:00 2012-06-03 20:00:00    44              44              5            6
+EURCAD 2012-02-25 00:00:00 2012-02-26 19:00:00    44              44              5            6
+EURCAD 2012-02-04 00:00:00 2012-02-05 19:00:00    44              44              5            6
+EURCAD 2012-07-21 01:00:00 2012-07-22 20:00:00    44              44              5            6
+EURCAD 2012-10-13 01:00:00 2012-10-14 20:00:00    44              44              5            6
+EURCAD 2012-09-01 01:00:00 2012-09-02 20:00:00    44              44              5            6
+EURCAD 2012-08-18 01:00:00 2012-08-19 20:00:00    44              44              5            6
+EURCAD 2012-08-25 01:00:00 2012-08-26 20:00:00    44              44              5            6
+EURCAD 2012-10-20 01:00:00 2012-10-21 20:00:00    44              44              5            6
+EURCAD 2012-12-08 00:00:00 2012-12-09 19:00:00    44              44              5            6
+EURCAD 2012-09-29 01:00:00 2012-09-30 20:00:00    44              44              5            6
+EURCAD 2012-10-06 01:00:00 2012-10-07 20:00:00    44              44              5            6
+EURCAD 2012-09-15 01:00:00 2012-09-16 20:00:00    44              44              5            6
+EURCAD 2013-11-01 23:00:00 2013-11-03 22:00:00    44              44              4            6
+EURCAD 2012-04-14 01:00:00 2012-04-15 19:00:00    43              43              5            6
+EURCAD 2012-11-17 00:00:00 2012-11-18 18:00:00    43              43              5            6
+EURCAD 2012-03-10 00:00:00 2012-03-11 18:00:00    43              43              5            6
+EURCAD 2012-03-31 01:00:00 2012-04-01 19:00:00    43              43              5            6
+EURCAD 2012-03-03 00:00:00 2012-03-04 18:00:00    43              43              5            6
+EURCAD 2012-03-17 00:00:00 2012-03-18 18:00:00    43              43              5            6
+EURCAD 2012-04-21 01:00:00 2012-04-22 19:00:00    43              43              5            6
+EURCAD 2012-04-28 01:00:00 2012-04-29 19:00:00    43              43              5            6
+EURCAD 2013-05-18 00:00:00 2013-05-19 18:00:00    43              43              5            6
+EURCAD 2012-11-03 00:00:00 2012-11-04 18:00:00    43              43              5            6
+EURCAD 2012-12-29 00:00:00 2012-12-30 18:00:00    43              43              5            6
+EURCAD 2012-11-10 00:00:00 2012-11-11 18:00:00    43              43              5            6
+EURCAD 2012-12-15 00:00:00 2012-12-16 18:00:00    42              42              5            6
+EURCAD 2013-05-10 23:00:00 2013-05-12 17:00:00    42              42              4            6
+EURCAD 2014-02-28 23:00:00 2014-03-02 22:00:00    42              42              4            6
+EURCAD 2012-02-18 00:00:00 2012-02-19 19:00:00    41              41              5            6
+EURCAD 2012-08-11 01:00:00 2012-08-12 18:00:00    41              41              5            6
+EURCAD 2012-10-27 01:00:00 2012-10-28 18:00:00    39              39              5            6
+EURCAD 2013-02-22 23:00:00 2013-02-24 13:00:00    39              39              4            6
+EURCAD 2014-01-31 23:00:00 2014-02-02 22:00:00    39              39              4            6
+EURCAD 2012-03-24 00:00:00 2012-03-25 12:00:00    36              36              5            6
+EURCAD 2013-01-25 23:00:00 2013-01-27 06:00:00    31              31              4            6
+EURCAD 2012-07-14 01:00:00 2012-07-15 08:00:00    30              30              5            6
+EURCAD 2013-12-31 23:00:00 2014-01-01 22:00:00    24              24              1            2
+EURCAD 2012-12-01 00:00:00 2012-12-01 20:00:00    21              21              5            5
+EURCAD 2013-01-01 02:00:00 2013-01-01 22:00:00    21              21              1            1
+EURCAD 2012-01-01 00:00:00 2012-01-01 19:00:00    20              20              6            6
+EURCAD 2012-04-07 01:00:00 2012-04-07 16:00:00    16              16              5            5
+EURCAD 2013-02-01 23:00:00 2013-02-03 22:00:00    16              16              4            6
+EURCAD 2013-12-25 09:00:00 2013-12-25 22:00:00    14              14              2            2
+Top stale periods:
+                 start                 end  bars  weekday_start
+0  2012-01-01 00:00:00 2012-01-01 19:00:00    20              6
+1  2012-01-06 23:00:00 2012-01-08 19:00:00    45              4
+2  2012-01-14 00:00:00 2012-01-15 19:00:00    44              5
+3  2012-01-21 00:00:00 2012-01-22 19:00:00    44              5
+4  2012-01-28 00:00:00 2012-01-29 19:00:00    44              5
+5  2012-02-04 00:00:00 2012-02-05 19:00:00    44              5
+6  2012-02-11 00:00:00 2012-02-12 19:00:00    44              5
+7  2012-02-18 00:00:00 2012-02-19 19:00:00    41              5
+8  2012-02-25 00:00:00 2012-02-26 19:00:00    44              5
+9  2012-03-03 00:00:00 2012-03-04 18:00:00    43              5
+10 2012-03-10 00:00:00 2012-03-11 18:00:00    43              5
+11 2012-03-17 00:00:00 2012-03-18 18:00:00    43              5
+12 2012-03-24 00:00:00 2012-03-25 12:00:00    36              5
+13 2012-03-31 01:00:00 2012-04-01 19:00:00    43              5
+14 2012-04-07 01:00:00 2012-04-07 16:00:00    16              5
+15 2012-04-14 01:00:00 2012-04-15 19:00:00    43              5
+16 2012-04-21 01:00:00 2012-04-22 19:00:00    43              5
+17 2012-04-28 01:00:00 2012-04-29 19:00:00    43              5
+18 2012-05-05 01:00:00 2012-05-06 21:00:00    45              5
+19 2012-05-12 01:00:00 2012-05-13 21:00:00    45              5
+Allt här är från fredagar till söndagar, DST-skifte, jul/nyår så det är inte ett problem. Det intressanta är att allt är från 2012-2014, alltså
+äldre forex data. Alla tester har passerats och strategin kan nu klassificeras som robust nog för att tas i bruk på riktigt. Vi valde bort 
+GBPCHF och bestämde oss för att hålla, fortsätt sammanfattning, fas 9 och live grejer kan vi vänta med, nu vill vi gå vidare
