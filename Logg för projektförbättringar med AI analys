@@ -803,9 +803,9 @@ analyser valdes följande marknader för den slutgiltiga portföljen:
 EURUSD
 EURCHF
 EURCAD
-GBPCHF
-Flera andra marknader exkluderades eftersom de visade negativ expectancy, strukturellt svag performance eller avsaknad av stabil edge. Detta gällde bland annat:
 USDCHF
+Flera andra marknader exkluderades eftersom de visade negativ expectancy, strukturellt svag performance eller avsaknad av stabil edge. Detta gällde bland annat:
+GBPCHF
 EURJPY
 CHFJPY
 EURAUD
