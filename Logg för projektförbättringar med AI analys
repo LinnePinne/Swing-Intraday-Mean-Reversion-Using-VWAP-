@@ -2189,4 +2189,8 @@ Top stale periods:
 19 2012-05-12 01:00:00 2012-05-13 21:00:00    45              5
 Allt här är från fredagar till söndagar, DST-skifte, jul/nyår så det är inte ett problem. Det intressanta är att allt är från 2012-2014, alltså
 äldre forex data. Alla tester har passerats och strategin kan nu klassificeras som robust nog för att tas i bruk på riktigt. Vi valde bort 
-GBPCHF och bestämde oss för att hålla, fortsätt sammanfattning, fas 9 och live grejer kan vi vänta med, nu vill vi gå vidare
+GBPCHF, låst parametrarna på entry_std = 2.25 och exit_std = 0.75. Vi upptäckte också att vissa marknadsregimer har betydligt sämre
+expectancy, därför byggde vi en dynamisk exposure skalning baserat på EURUSD volatilitet, där vi låste in 0.5 exposure i trend_down + mid_vol. 
+Vi vet även att entry timing, alltså snabb exekvering är viktigast för strategin i live. Fas 9 skippar vi, vi har redan tillräckligt snabb
+infrastruktur med nuvarande vps och livekod. Vi ändrar bara denna strategin så att den inte tradear GBPCHF och vi lägger till
+risk_mult_bad_regime = 0.5 för hela strategin när EURUSD är i trend_down + mid_vol. Sedan ska vi också ändra till rullande ERC vikter.   
